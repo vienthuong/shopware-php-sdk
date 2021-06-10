@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../test/vendor/vienthuong/kiot-viet-client/.idea/KiotVietClient.iml" filepath="$PROJECT_DIR$/../test/vendor/vienthuong/kiot-viet-client/.idea/KiotVietClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/shopware-sdk.iml" filepath="$PROJECT_DIR$/.idea/shopware-sdk.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,38 @@
+{
+    "name": "vin-sw/shopware-php-sdk",
+    "description": "A PHP SDK for Shopware 6 Platform",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "vin",
+            "email": "levienthuong@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^7.4",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "squizlabs/php_codesniffer": "3.*",
+        "symplify/easy-coding-standard": "9.3.20",
+        "symplify/config-transformer": "^9.3",
+        "phpstan/phpstan": "^0.12.89"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vin\\ShopwareSdk\\": "src"
+        }
+    },
+    "scripts": {
+        "ecs": "vendor/bin/ecs check src",
+        "check-style": "phpcs src",
+        "analyse": "vendor/bin/phpstan analyse src",
+        "fix-style": "phpcbf src",
+        "lint": "vendor/bin/ecs check src && phpcs src",
+        "lint-fix": "vendor/bin/ecs check src --fix && phpcbf src"
+    }
+}
