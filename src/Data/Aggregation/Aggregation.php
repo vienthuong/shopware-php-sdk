@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Data\Aggregation;
 
-use Vin\ShopwareSdk\Data\Filter\Filter;
 use Vin\ShopwareSdk\Data\ParseAware;
 
 abstract class Aggregation implements ParseAware

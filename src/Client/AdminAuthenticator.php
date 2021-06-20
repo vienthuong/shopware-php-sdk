@@ -1,0 +1,170 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Vin\ShopwareSdk\Client;
+
+use GuzzleHttp\Exception\BadResponseException;
+use Vin\ShopwareSdk\Client\GrantType\ClientCredentialsGrantType;
+use Vin\ShopwareSdk\Client\GrantType\GrantType;
+use Vin\ShopwareSdk\Client\GrantType\PasswordGrantType;
+use Vin\ShopwareSdk\Client\GrantType\RefreshTokenGrantType;
+use Vin\ShopwareSdk\Data\AccessToken;
+use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
+
+class AdminAuthenticator
+{
+    use CreateClientTrait;
+
+    public const OAUTH_TOKEN_ENDPOINT = '/api/oauth/token';
+
+    public static $headers = [
+        'Content-Type' => 'application/x-www-form-urlencoded'
+    ];
+
+    /**
+     * @var callable
+     */
+    private $tokenCallback;
+
+    private array $config;
+
+    private GrantType $grantType;
+
+    private string $endpoint;
+
+    public function __construct(GrantType $grantType, string $endpoint, array $config = [])
+    {
+        $this->config = array_merge([
+            'sec_before_refresh' => 30,
+            'max_attempt' => 1,
+            'sec_before_attempt' => 1,
+        ], $config);
+
+        $this->httpClient = $this->httpClient ?? $this->createHttpClient($this->config);
+        $this->grantType = $grantType;
+        $this->endpoint = $endpoint;
+    }
+
+    public function fetchAccessToken(): AccessToken
+    {
+        $formParams = $this->buildFormParams();
+
+        try {
+            $response = $this->httpClient->post($this->getFullUrl(self::OAUTH_TOKEN_ENDPOINT), [
+                'headers' => self::$headers,
+                'form_params' => $formParams
+            ])->getBody()->getContents();
+        } catch (BadResponseException $exception) {
+            throw new AuthorizationFailedException($exception->getResponse()->getBody()->getContents(), $exception->getCode(), $exception);
+        }
+
+        $tokenPayload = \json_decode($response, true) ?? [];
+
+        if ($this->isTokenExpired($tokenPayload['access_token'])) {
+            return $this->refreshToken();
+        }
+
+        return new AccessToken(
+            $tokenPayload['access_token'],
+            $tokenPayload['expires_in'],
+            $tokenPayload['token_type'],
+            $tokenPayload['refresh_token'] ?? null
+        );
+    }
+
+    public function setTokenCallback(callable $callback): void
+    {
+        $this->tokenCallback = $callback;
+    }
+
+    public function refreshToken(): AccessToken
+    {
+        $response = $this->fetchAccessToken();
+
+        $callback = $this->tokenCallback;
+
+        if ($callback && is_callable($callback)) {
+            $callback($response);
+        }
+
+        return $response;
+    }
+
+    public function isTokenExpired(string $accessToken) : bool
+    {
+        $payload = json_decode(base64_decode(explode('.', $accessToken)[1]), true);
+        $expiresAt = $payload['exp'];
+
+        return $expiresAt + $this->config['sec_before_refresh'] * 1000 < time();
+    }
+
+    private function buildFormParams(): array
+    {
+        $grantType = $this->grantType;
+
+        $formParams = [
+            'grant_type' => $grantType->grantType,
+            'client_id' => $grantType->clientId,
+        ];
+
+        switch (true) {
+            case $grantType instanceof ClientCredentialsGrantType: {
+                $formParams['client_secret'] = $grantType->clientSecret;
+                return $formParams;
+            }
+            case $grantType instanceof PasswordGrantType: {
+                $formParams['password'] = $grantType->password;
+                $formParams['username'] = $grantType->username;
+                $formParams['scopes'] = $grantType->scopes;
+                return $formParams;
+            }
+            case $grantType instanceof RefreshTokenGrantType: {
+                $formParams['refresh_token'] = $grantType->refreshToken;
+                return $formParams;
+            }
+            default:
+                throw new \InvalidArgumentException('Grant type ' . $grantType->grantType . ' is not supported', 400);
+        }
+    }
+
+    private function getFullUrl(string $path): string
+    {
+        return $this->endpoint . $path;
+    }
+
+    public function getTokenCallback(): callable
+    {
+        return $this->tokenCallback;
+    }
+
+    public function getConfig(): array
+    {
+        return $this->config;
+    }
+
+    public function setConfig(array $config): void
+    {
+        $this->config = $config;
+    }
+
+    public function getEndpoint(): string
+    {
+        return $this->endpoint;
+    }
+
+    public function setEndpoint(string $endpoint): void
+    {
+        $this->endpoint = $endpoint;
+    }
+
+    public function getGrantType(): GrantType
+    {
+        return $this->grantType;
+    }
+
+    public function setGrantType(GrantType $grantType): void
+    {
+        $this->grantType = $grantType;
+    }
+}

@@ -54,6 +54,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(NoUselessReturnFixer::class);
 
+    $services->set(\PhpCsFixer\Fixer\Import\NoUnusedImportsFixer::class);
+
     $services->set(DeclareStrictTypesFixer::class);
 
     $services->set(CompactNullableTypehintFixer::class);

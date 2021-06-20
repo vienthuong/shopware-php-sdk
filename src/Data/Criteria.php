@@ -16,49 +16,58 @@ use Vin\ShopwareSdk\Data\Filter\NotFilter;
 use Vin\ShopwareSdk\Data\Filter\PrefixFilter;
 use Vin\ShopwareSdk\Data\Filter\RangeFilter;
 use Vin\ShopwareSdk\Data\Filter\SuffixFilter;
+use Vin\ShopwareSdk\Data\ScoreQuery\ScoreQuery;
 
 class Criteria implements ParseAware
 {
-    public int $page;
+    private int $page;
 
-    public int $limit;
+    private int $limit;
 
-    public ?string $term;
+    /**
+     * Don't use term parameters together with query parameters.
+     */
+    private ?string $term = null;
 
     /**
      * @var Filter[]
      */
-    public array $filters = [];
+    private array $filters = [];
 
-    public array $ids = [];
+    private array $ids = [];
 
-    public array $queries = [];
+    /**
+     * @var ScoreQuery[]
+     */
+    private array $queries = [];
 
     /**
      * @var Association[]
      */
-    public array $associations = [];
+    private array $associations = [];
 
     /**
      * @var Filter[]
      */
-    public array $postFilter = [];
+    private array $postFilter = [];
 
     /**
      * @var FieldSorting[]
      */
-    public array $sortings = [];
+    private array $sortings = [];
 
     /**
      * @var FilterAggregation[]
      */
-    public array $aggregations = [];
+    private array $aggregations = [];
 
-    public array $grouping = [];
+    private array $grouping = [];
 
-    public array $groupFields = [];
+    private array $groupFields = [];
 
-    public int $totalCountMode = 1;
+    private int $totalCountMode = 1;
+
+    private array $includes = [];
 
     public function __construct(int $page = 1, int $limit = 25)
     {
@@ -66,29 +75,29 @@ class Criteria implements ParseAware
         $this->limit = $limit;
     }
 
-    public function addFilter(Filter $filter): self
+    public function addFilter(Filter ...$filters): self
     {
-        $this->filters[] = $filter;
-
-        return $this;
-    }
-
-    public function addPostFilter(Filter $postFilter): self
-    {
-        $this->postFilter[] = $postFilter;
-
-        return $this;
-    }
-
-    public function addQuery(Filter $filter, int $score, ?string $scoreField = null): self
-    {
-        $query = ['score' => $score, 'query' => $filter->parse()];
-
-        if ($scoreField) {
-            $query['scoreField'] = $scoreField;
+        foreach ($filters as $filter) {
+            $this->filters[] = $filter;
         }
 
-        $this->queries[] = $query;
+        return $this;
+    }
+
+    public function addPostFilter(Filter ...$queries): self
+    {
+        foreach ($queries as $query) {
+            $this->postFilter[] = $query;
+        }
+
+        return $this;
+    }
+
+    public function addQuery(ScoreQuery ...$queries): self
+    {
+        foreach ($queries as $query) {
+            $this->queries[] = $query;
+        }
 
         return $this;
     }
@@ -161,16 +170,20 @@ class Criteria implements ParseAware
         return $this;
     }
 
-    public function addSorting(FieldSorting $sorting): self
+    public function addSorting(FieldSorting ...$sortings): self
     {
-        $this->sortings[] = $sorting;
+        foreach ($sortings as $sorting) {
+            $this->sortings[] = $sorting;
+        }
 
         return $this;
     }
 
-    public function addAggregation(FilterAggregation $aggregation): self
+    public function addAggregation(Aggregation ...$aggregations): self
     {
-        $this->aggregations[] = $aggregation;
+        foreach ($aggregations as $aggregation) {
+            $this->aggregations[] = $aggregation;
+        }
 
         return $this;
     }
@@ -255,9 +268,6 @@ class Criteria implements ParseAware
     }
 
     /**
-     * @param  string  $field
-     * @param mixed $value
-     * @return EqualsFilter
      */
     public static function equals(string $field, $value): EqualsFilter
     {
@@ -290,7 +300,11 @@ class Criteria implements ParseAware
         }
 
         if (! empty($this->queries)) {
-            $params['query'] = $this->queries;
+            $params['query'] = [];
+
+            foreach ($this->queries as $query) {
+                $params['query'][] = $query->parse();
+            }
         }
 
         if (! empty($this->filters)) {
@@ -340,10 +354,162 @@ class Criteria implements ParseAware
             }
         }
 
+        if (!empty($this->includes)) {
+            $params['includes'] = $this->includes;
+        }
+
         if ($this->totalCountMode !== null) {
             $params['total-count-mode'] = $this->totalCountMode;
         }
 
         return $params;
+    }
+
+    public function getPage(): int
+    {
+        return $this->page;
+    }
+
+    public function setPage(int $page): void
+    {
+        $this->page = $page;
+    }
+
+    public function getLimit(): int
+    {
+        return $this->limit;
+    }
+
+    public function setLimit(int $limit): void
+    {
+        $this->limit = $limit;
+    }
+
+    public function getTerm(): ?string
+    {
+        return $this->term;
+    }
+
+    public function setTerm(string $term): void
+    {
+        $this->term = $term;
+    }
+
+    public function getFilters(): array
+    {
+        return $this->filters;
+    }
+
+    public function setFilters(array $filters): void
+    {
+        $this->filters = $filters;
+    }
+
+    public function getQueries(): array
+    {
+        return $this->queries;
+    }
+
+    public function setQueries(array $queries): void
+    {
+        $this->queries = $queries;
+    }
+
+    public function getAssociations(): array
+    {
+        return $this->associations;
+    }
+
+    public function setAssociations(array $associations): void
+    {
+        $this->associations = $associations;
+    }
+
+    public function getPostFilter(): array
+    {
+        return $this->postFilter;
+    }
+
+    public function setPostFilter(array $postFilter): void
+    {
+        $this->postFilter = $postFilter;
+    }
+
+    public function getSortings(): array
+    {
+        return $this->sortings;
+    }
+
+    public function setSortings(array $sortings): void
+    {
+        $this->sortings = $sortings;
+    }
+
+    public function getAggregations(): array
+    {
+        return $this->aggregations;
+    }
+
+    public function setAggregations(array $aggregations): void
+    {
+        $this->aggregations = $aggregations;
+    }
+
+    public function getGrouping(): array
+    {
+        return $this->grouping;
+    }
+
+    public function setGrouping(array $grouping): void
+    {
+        $this->grouping = $grouping;
+    }
+
+    public function getGroupFields(): array
+    {
+        return $this->groupFields;
+    }
+
+    public function setGroupFields(array $groupFields): void
+    {
+        $this->groupFields = $groupFields;
+    }
+
+    public function getTotalCountMode(): int
+    {
+        return $this->totalCountMode;
+    }
+
+    public function setTotalCountMode(int $totalCountMode): void
+    {
+        $this->totalCountMode = $totalCountMode;
+    }
+
+    public function getIncludes(): array
+    {
+        return $this->includes;
+    }
+
+    public function setIncludes(array $includes): self
+    {
+        $this->includes = $includes;
+
+        return $this;
+    }
+
+    public function addInclude(string $apiAlias, array $include): self
+    {
+        $included = $this->includes[$apiAlias] ?? [];
+
+        $this->includes[$apiAlias] = array_merge($included, $include);
+
+        return $this;
+    }
+
+    public function removeInclude(string $apiAlias): self
+    {
+        unset($this->includes[$apiAlias]);
+
+        return $this;
     }
 }

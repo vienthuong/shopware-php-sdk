@@ -1,0 +1,12 @@
+{
+  "username": "admin",
+  "password": "shopware",
+  "grant_type": "password",
+  "shop_url": "http://shopware.test",
+  "client_id": "SWIAD0HGZGVRRZF1T2TUWNDVMG",
+  "client_secret": "QnpublNSVE40Y1VEbk56WXVtVWU3aXFYZ2oyRXdvem82Tk5JNVI",
+  "scopes": "write",
+  "sdk_entity_namespace": "Vin\\ShopwareSdk\\Data\\Entity",
+  "output_entity_dir": "/../../src/Data/Entity/",
+  "output_resource_dir": "/../../src/Resources/"
+}

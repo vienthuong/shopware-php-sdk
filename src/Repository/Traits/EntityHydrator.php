@@ -1,0 +1,225 @@
+<?php declare(strict_types=1);
+
+namespace Vin\ShopwareSdk\Repository\Traits;
+
+use Vin\ShopwareSdk\Data\Context;
+use Vin\ShopwareSdk\Data\Entity\EntityDefinition;
+use Vin\ShopwareSdk\Data\Entity\Entity;
+use Vin\ShopwareSdk\Data\Entity\EntityCollection;
+use Vin\ShopwareSdk\Data\Schema\Schema;
+use Vin\ShopwareSdk\Factory\RepositoryFactory;
+use Vin\ShopwareSdk\Service\InfoService;
+
+trait EntityHydrator
+{
+    protected array $cache = [];
+
+    public function schema(string $entity, Context $context): Schema
+    {
+        $infoService = new InfoService($context);
+
+        return $infoService->getSchema($entity);
+    }
+
+    private function hydrateSearchResult(array $response, Context $context): EntityCollection
+    {
+        if (empty($response) || empty($response['data'])) {
+            return new EntityCollection();
+        }
+
+        $entities = [];
+
+        foreach ($response['data'] as $entityRaw) {
+            $entity = $this->hydrateEntity($entityRaw['type'], $entityRaw, $response, $context);
+            $entities[$entity->id] = $entity;
+        }
+
+        return new EntityCollection($entities);
+    }
+
+    private function hydrateEntity(string $entityName, array $entityRaw, array $data, Context $context): Entity
+    {
+        $cacheKey = $entityRaw['type'] . '-' . $entityRaw['id'];
+
+        if (array_key_exists($cacheKey, $this->cache)) {
+            return $this->cache[$cacheKey];
+        }
+
+        $repository = RepositoryFactory::create($entityName);
+        $definition = $repository->getDefinition();
+        $entityClass = $definition->getEntityClass();
+
+        $attributes = $entityRaw['attributes'];
+        $attributes['id'] = $entityRaw['id'];
+
+        /** @var Entity $entity */
+        $entity = new $entityClass;
+        $entity->internalSetEntityName($definition->getEntityName());
+
+        $entitySchema = $this->schema($entityName, $context);
+
+        $entity = $this->hydrateEmptyJsonFields($entity, $attributes, $entitySchema);
+
+        $relationships = $entityRaw['relationships'] ?? [];
+
+        $entity = $this->hydrateRelationships($entity, $relationships, $entitySchema, $data, $context);
+
+        return $this->cache[$cacheKey] = $entity;
+    }
+
+    private function hydrateRelationships(Entity $entity, array $relationships, Schema $entitySchema, array $data, Context $context): Entity
+    {
+        foreach ($relationships as $property => $relationship) {
+            if ($property === 'extensions') {
+                $entity->addExtensions($this->hydrateExtensions($entity, $entitySchema, $data, $context));
+            }
+
+            if (!$entitySchema->properties->has($property)) {
+                return $entity;
+            }
+
+            $field = $entitySchema->properties->get($property);
+
+            if ($field->isToManyAssociation()) {
+                $type = !empty($relationship['data'][0]['type']) ? $relationship['data'][0]['type'] : '';
+                if ($type && $repository = RepositoryFactory::create($type)) {
+                    $definition = $repository->getDefinition();
+
+                    $entity->setProperty($property, $this->hydrateToMany($definition, $relationship, $data, $context));
+                }
+
+                continue;
+            }
+
+            if ($field->isToOneAssociation() && !empty($relationship['data'])) {
+                $nestedEntity = $this->hydrateToOne($relationship, $data, $context);
+
+                if ($nestedEntity) {
+                    $entity->setProperty($property, $nestedEntity);
+                }
+            }
+        }
+
+        return $entity;
+    }
+
+    private function hydrateExtensions(Entity $entity, Schema $entitySchema, array $data, Context $context): array
+    {
+        $extension = $this->getIncluded('extension', $entity->id, $data) ?? [];
+
+        $attributes = $extension['attributes'] ?? [];
+        $relationships = $extension['relationships'] ?? [];
+
+        foreach ($relationships as $property => $relationship) {
+            if (!$entitySchema->properties->has($property)) {
+                continue;
+            }
+
+            $field = $entitySchema->properties->get($property);
+
+            if ($field->isToManyAssociation()) {
+                $type = !empty($relationship['data'][0]['type']) ? $relationship['data'][0]['type'] : null;
+                if ($type && $repository = RepositoryFactory::create($type)) {
+                    $definition = $repository->getDefinition();
+
+                    $attributes[$property] = $this->hydrateToMany($definition, $relationship, $data, $context);
+                }
+
+                continue;
+            }
+
+            if ($field->isToOneAssociation() && array_key_exists('data', $relationship) && !empty($relationship['data'])) {
+                $nestedEntity = $this->hydrateToOne($relationship, $data, $context);
+
+                if ($nestedEntity) {
+                    $attributes[$property] = $nestedEntity;
+                }
+            }
+        }
+
+        return $attributes;
+    }
+
+    private function hydrateToMany(EntityDefinition $definition, array $value, array $rawData, Context $context): EntityCollection
+    {
+        $collectionClass = $definition->getEntityCollection();
+        /** @var EntityCollection $collection */
+        $collection = new $collectionClass();
+
+        $data = $value['data'] ?? [];
+
+        foreach ($data as $datum) {
+            $nestedRaw = $this->getIncluded($datum['type'], $datum['id'], $rawData);
+
+            $nestedEntity = null;
+
+            if ($nestedRaw) {
+                $nestedEntity = $this->hydrateEntity($datum['type'], $nestedRaw, $rawData, $context);
+            }
+
+            if (!empty($nestedEntity)) {
+                $collection->add($nestedEntity);
+            }
+        }
+
+        return $collection;
+    }
+
+    private function hydrateToOne(array $value, array $data, Context $context): ?Entity
+    {
+        $nestedRaw = $this->getIncluded($value['data']['type'], $value['data']['id'], $data);
+
+        if (empty($nestedRaw)) {
+            return null;
+        }
+
+        return $this->hydrateEntity($value['data']['type'], $nestedRaw, $data, $context);
+    }
+
+    private function hydrateEmptyJsonFields(Entity $entity, array $attributes, Schema $entitySchema): Entity
+    {
+        foreach ($attributes as $attributeKey => $attributeValue) {
+            if (!$entitySchema->properties->has($attributeKey)) {
+                $entity->setProperty($attributeKey, $attributeValue);
+
+                continue;
+            }
+
+            $field = $entitySchema->properties->get($attributeKey);
+
+            if (!$field->isJsonField()) {
+                $entity->setProperty($attributeKey, $attributeValue);
+
+                continue;
+            }
+
+            if (is_array($attributeValue) && count($attributeValue) <= 0 && $field->isJsonObjectField()) {
+                $entity->setProperty($attributeKey, []);
+
+                continue;
+            }
+
+            if (empty($attributeValue) && $field->isJsonListField()) {
+                $entity->setProperty($attributeKey, []);
+                continue;
+            }
+
+            $entity->setProperty($attributeKey, $attributeValue);
+        }
+
+        return $entity;
+    }
+
+    private function getIncluded(string $key, string $id, array $data = []): ?array
+    {
+        $included = $data['included'] ?? [];
+
+        foreach ($included as $item) {
+            if (array_key_exists('id', $item) && $item['id'] === $id && $item['type'] === $key) {
+                return $item;
+            }
+        }
+
+        return null;
+    }
+}
