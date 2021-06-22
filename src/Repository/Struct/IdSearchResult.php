@@ -8,15 +8,15 @@ use Vin\ShopwareSdk\Data\Utils\StringFormatter;
 
 class IdSearchResult
 {
-    public int $total;
+    private int $total;
 
-    public Criteria $criteria;
+    private Criteria $criteria;
 
-    public Context $context;
+    private Context $context;
 
-    public array $ids = [];
+    private array $ids = [];
 
-    public array $data = [];
+    private array $data = [];
 
     public function __construct(int $total, array $ids, Criteria $criteria, Context $context)
     {
@@ -25,6 +25,56 @@ class IdSearchResult
         $this->data = $this->transformData($ids);
         $this->criteria = $criteria;
         $this->context = $context;
+    }
+
+    public function getTotal(): int
+    {
+        return $this->total;
+    }
+
+    public function setTotal(int $total): void
+    {
+        $this->total = $total;
+    }
+
+    public function getCriteria(): Criteria
+    {
+        return $this->criteria;
+    }
+
+    public function setCriteria(Criteria $criteria): void
+    {
+        $this->criteria = $criteria;
+    }
+
+    public function getContext(): Context
+    {
+        return $this->context;
+    }
+
+    public function setContext(Context $context): void
+    {
+        $this->context = $context;
+    }
+
+    public function getIds(): array
+    {
+        return $this->ids;
+    }
+
+    public function setIds(array $ids): void
+    {
+        $this->ids = $ids;
+    }
+
+    public function getData(): array
+    {
+        return $this->data;
+    }
+
+    public function setData(array $data): void
+    {
+        $this->data = $data;
     }
 
     public function firstId(): ?string

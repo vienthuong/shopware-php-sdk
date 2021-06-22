@@ -29,7 +29,7 @@ abstract class GrantType
         $this->clientId = $clientId;
     }
 
-    public static function createFromConfig(array $config): self
+    public static function createFromConfig(array $config): GrantType
     {
         if (empty($config['grant_type'])) {
             throw new \InvalidArgumentException('Grant type is not provided in the config', 400);
@@ -45,7 +45,7 @@ abstract class GrantType
                 return new ClientCredentialsGrantType($config['client_id'], $config['client_secret']);
             }
             case self::PASSWORD: {
-                return new PasswordGrantType($config['username'], $config['password'], $config['scopes']);
+                return new PasswordGrantType($config['username'], $config['password'], $config['scopes'] ?? 'write');
             }
             default: {
                 throw new \InvalidArgumentException('Grant type ' . $grantType . ' is not supported', 400);

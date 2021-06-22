@@ -34,7 +34,14 @@ trait EntityHydrator
             $entities[$entity->id] = $entity;
         }
 
-        return new EntityCollection($entities);
+        $collectionClass = EntityCollection::class;
+
+        if (!empty($response['data'][0]['type'])) {
+            $repository = RepositoryFactory::create($response['data'][0]['type']);
+            $collectionClass = $repository->getDefinition()->getEntityCollection();
+        }
+
+        return new $collectionClass($entities);
     }
 
     private function hydrateEntity(string $entityName, array $entityRaw, array $data, Context $context): Entity

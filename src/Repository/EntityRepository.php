@@ -79,11 +79,11 @@ class EntityRepository implements RepositoryInterface
 
         $aggregations = new AggregationResultCollection($response['aggregations']);
 
-        $result = $this->hydrateSearchResult($response, $context);
+        $entities = $this->hydrateSearchResult($response, $context);
 
         $meta = new SearchResultMeta($response['meta']['total'], $response['meta']['totalCountMode']);
 
-        return new EntitySearchResult($this->entityName, $meta, $result, $aggregations, $criteria, $context);
+        return new EntitySearchResult($this->entityName, $meta, $entities, $aggregations, $criteria, $context);
     }
 
     public function searchIds(Criteria $criteria, Context $context): IdSearchResult

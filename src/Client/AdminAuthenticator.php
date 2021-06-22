@@ -61,42 +61,29 @@ class AdminAuthenticator
 
         $tokenPayload = \json_decode($response, true) ?? [];
 
-        if ($this->isTokenExpired($tokenPayload['access_token'])) {
-            return $this->refreshToken();
+        if (empty($tokenPayload['access_token'])) {
+            throw new AuthorizationFailedException('Access token is invalid format', 401);
         }
 
-        return new AccessToken(
+        $callback = $this->tokenCallback;
+
+        $token = new AccessToken(
             $tokenPayload['access_token'],
-            $tokenPayload['expires_in'],
-            $tokenPayload['token_type'],
+            $tokenPayload['expires_in'] ?? 600,
+            $tokenPayload['token_type'] ?? null,
             $tokenPayload['refresh_token'] ?? null
         );
+
+        if ($callback && is_callable($callback)) {
+            $callback($token, $tokenPayload);
+        }
+
+        return $token;
     }
 
     public function setTokenCallback(callable $callback): void
     {
         $this->tokenCallback = $callback;
-    }
-
-    public function refreshToken(): AccessToken
-    {
-        $response = $this->fetchAccessToken();
-
-        $callback = $this->tokenCallback;
-
-        if ($callback && is_callable($callback)) {
-            $callback($response);
-        }
-
-        return $response;
-    }
-
-    public function isTokenExpired(string $accessToken) : bool
-    {
-        $payload = json_decode(base64_decode(explode('.', $accessToken)[1]), true);
-        $expiresAt = $payload['exp'];
-
-        return $expiresAt + $this->config['sec_before_refresh'] * 1000 < time();
     }
 
     private function buildFormParams(): array

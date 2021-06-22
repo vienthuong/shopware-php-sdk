@@ -8,7 +8,7 @@ use Vin\ShopwareSdk\Data\ParseAware;
 
 abstract class Filter implements ParseAware
 {
-    public const TYPE_MULTI = 'prefix';
+    public const TYPE_MULTI = 'multi';
 
     public const TYPE_PREFIX = 'prefix';
 

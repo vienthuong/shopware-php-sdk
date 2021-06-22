@@ -29,6 +29,11 @@
             "Vin\\ShopwareSdk\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Vin\\ShopwareSdk\\": "tests/"
+        }
+    },
     "scripts": {
         "ecs": "vendor/bin/ecs check src",
         "check-style": "phpcs src",

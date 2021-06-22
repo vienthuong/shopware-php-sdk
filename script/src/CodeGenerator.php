@@ -125,9 +125,6 @@ class CodeGenerator
             ->setDocblock($docblock);
         $foo->addUse(EntityDefinition::class);
 
-//        $foo->addUse('Vin\ShopwareSdk\Data\Entity\\' . $entityName . '\\' . $entityName . 'Entity');
-//        $foo->addUse('Vin\ShopwareSdk\Data\Entity\\' . $entityName . '\\' . $entityName . 'Collection');
-
         $foo->getMethod('getEntityClass')->setBody('return ' . $entityName . 'Entity::class;');
         $foo->getMethod('getEntityCollection')->setBody('return ' . $entityName . 'Collection::class;');
 
@@ -173,26 +170,25 @@ class CodeGenerator
             return $prefix . $refClass;
         }
 
-        if ($property->type === 'int') {
-            return $prefix . 'int';
-        }
-
-        if ($property->type === 'float') {
-            return $prefix . 'float';
-        }
-
-        if ($property->type === 'boolean' || $property->type === 'bool') {
-            return $prefix . 'bool';
-        }
-
-        if ($property->type === 'date') {
-            return $prefix . \DateTimeInterface::class;
-        }
-
         if ($property->isJsonField()) {
             return $prefix . 'array';
         }
-        
-        return null;
+
+        switch ($property->type) {
+            case 'bool':
+            case 'float':
+            case 'int': {
+                return $prefix . $property->type;
+            }
+            case 'boolean': {
+                return $prefix . 'bool';
+            }
+            case 'date': {
+                return $prefix . \DateTimeInterface::class;
+            }
+            default: {
+                return null;
+            }
+        }
     }
 }

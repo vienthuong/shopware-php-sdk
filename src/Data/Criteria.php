@@ -20,6 +20,21 @@ use Vin\ShopwareSdk\Data\ScoreQuery\ScoreQuery;
 
 class Criteria implements ParseAware
 {
+    /**
+     * no total count will be selected. Should be used if no pagination required (fastest)
+     */
+    public const TOTAL_COUNT_MODE_NONE = 0;
+
+    /**
+     * exact total count will be selected. Should be used if an exact pagination is required (slow)
+     */
+    public const TOTAL_COUNT_MODE_EXACT = 1;
+
+    /**
+     * fetches limit * 5 + 1. Should be used if pagination can work with "next page exists" (fast)
+     */
+    public const TOTAL_COUNT_MODE_NEXT_PAGES = 2;
+
     private int $page;
 
     private int $limit;

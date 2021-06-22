@@ -31,7 +31,7 @@ class RepositoryFactory
         }
 
         if (!array_key_exists($entity, self::$mapping)) {
-            throw new \Exception('Definition not found for Entity ' . $entity);
+            throw new \Exception('Definition not found for Entity: ' . $entity);
         }
 
         $definitionClass = self::$mapping[$entity];
