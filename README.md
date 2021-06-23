@@ -1,5 +1,11 @@
 # Shopware 6 PHP SDK
 
+![php](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
+
+[![GitHub Release](https://img.shields.io/github/v/release/vienthuong/shopware-php-sdk.svg?style=flat)]()
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Software License][ico-license]](LICENSE.md)
+
 Shopware PHP SDK is a simple SDK implementation of Shopware 6 APIs. It helps to access the API in an object-oriented way.
 
 If you're familiar with Shopware 6 DAL syntax and how to retrieve it you might see this example is predictable and straightforward
@@ -102,11 +108,17 @@ Check [examples/entity-repository.php](/examples/entity-repository.php) for some
 An ApiService requires a [Context](src/Data/Context.php) object as its first argument. 
 Check [examples/sync-service.php](/examples/sync-service.php) or [examples/info-service.php](/examples/info-service.php) for some references.
 
+## Change log
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+
 ## Working with Webhook
 - Check the integration on our [AppExample](https://github.com/vienthuong/AppExample)
 
 ## Contribution
 Feels free to create an issue on Github issues page or contact me directly at levienthuong@gmail.com
+
+## Security
+If you discover any security related issues, please email levienthuong@gmail.com instead of using the issue tracker.
 
 ### Requirements
 - ext-curl
@@ -114,3 +126,19 @@ Feels free to create an issue on Github issues page or contact me directly at le
 - SW >= 6.4
 
 This SDK is mainly dedicated to Shopware 6.4 and onwards, earlier SW application may still be usable without test
+
+## Credits
+
+- [vienthuong][link-author]
+- [All Contributors][link-contributors]
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+[ico-version]: https://img.shields.io/packagist/v/vin-sw/shopware-sdk.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[link-packagist]: https://packagist.org/packages/vin-sw/shopware-sdk
+[link-downloads]: https://packagist.org/packages/vin-sw/shopware-sdk
+[link-author]: https://github.com/vienthuong
+[link-contributors]: ../../contributors
