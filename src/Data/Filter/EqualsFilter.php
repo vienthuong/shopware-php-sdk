@@ -8,10 +8,13 @@ class EqualsFilter extends Filter
 {
     private string $field;
 
+    /**
+     * @var mixed
+     */
     private $value;
 
     /**
-     * EqualsFilter constructor.
+     * @param mixed $value
      */
     public function __construct(string $field, $value)
     {

@@ -36,6 +36,7 @@
     },
     "scripts": {
         "ecs": "vendor/bin/ecs check src",
+        "test": "vendor/bin/phpunit",
         "check-style": "phpcs src",
         "analyse": "vendor/bin/phpstan analyse src",
         "fix-style": "phpcbf src",

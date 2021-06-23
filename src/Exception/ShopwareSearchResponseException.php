@@ -8,7 +8,7 @@ class ShopwareSearchResponseException extends ShopwareResponseException
 {
     private Criteria $criteria;
 
-    public function __construct($message = "", $code = 0, Criteria $criteria, \Throwable $throwable)
+    public function __construct(string $message, int $code, Criteria $criteria, \Throwable $throwable)
     {
         parent::__construct($message, $code, $throwable);
         $this->criteria = $criteria;

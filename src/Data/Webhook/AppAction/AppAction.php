@@ -3,7 +3,7 @@
 namespace Vin\ShopwareSdk\Data\Webhook\AppAction;
 
 use Vin\ShopwareSdk\Data\Struct;
-use Vin\ShopwareSdk\Service\Webhook\Source;
+use Vin\ShopwareSdk\Data\Webhook\Source;
 
 class AppAction extends Struct
 {
@@ -63,6 +63,6 @@ class AppAction extends Struct
             $meta = new ActionMeta((int) $rawMeta['timestamp'], $rawMeta['reference'], $rawMeta['language']);
         }
 
-        return new self($source, $action, $meta, $headers);
+        return new self($source, $action, $meta, $headers ?? []);
     }
 }

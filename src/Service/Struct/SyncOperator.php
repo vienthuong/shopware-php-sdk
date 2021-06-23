@@ -2,9 +2,10 @@
 
 namespace Vin\ShopwareSdk\Service\Struct;
 
+use Vin\ShopwareSdk\Data\ParseAware;
 use Vin\ShopwareSdk\Data\Struct;
 
-class SyncOperator extends Struct
+class SyncOperator extends Struct implements ParseAware
 {
     public const UPSERT_OPERATOR = 'upsert';
 
@@ -40,5 +41,14 @@ class SyncOperator extends Struct
     public function setPayload(array $payload): void
     {
         $this->payload = $payload;
+    }
+
+    public function parse(): array
+    {
+        return [
+            'entity' => $this->entity,
+            'action' => $this->action,
+            'payload' => $this->payload,
+        ];
     }
 }

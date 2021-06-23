@@ -2,7 +2,7 @@
 
 namespace Vin\ShopwareSdk\Service;
 
-use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Client;
 use Vin\ShopwareSdk\Client\CreateClientTrait;
 use Vin\ShopwareSdk\Data\Context;
 
@@ -14,7 +14,7 @@ class ApiService
 
     protected string $contentType;
 
-    public function __construct(Context $context, string $contentType = 'application/vnd.api+json', ?ClientInterface $httpClient = null)
+    public function __construct(Context $context, string $contentType = 'application/vnd.api+json', ?Client $httpClient = null)
     {
         $this->httpClient = $httpClient ?? $this->createHttpClient();
         $this->context = $context;
@@ -72,13 +72,5 @@ class ApiService
     protected static function getVersionHeader(string $versionId): array
     {
         return ['sw-version-id' => $versionId];
-    }
-
-    private static function isDataStruct(array $data): bool
-    {
-        return array_key_exists('data', $data)
-            || array_key_exists('links', $data)
-            || array_key_exists('errors', $data)
-            || array_key_exists('meta', $data);
     }
 }

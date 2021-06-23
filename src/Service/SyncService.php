@@ -15,7 +15,7 @@ class SyncService extends ApiService
         try {
             $response = $this->httpClient->post($this->getFullUrl(self::SYNC_ENDPOINT), [
                 'headers' => $this->getBasicHeaders($additionalHeaders),
-                'body' => json_encode(array_merge($payload->jsonSerialize(), $additionalParams))
+                'body' => json_encode(array_merge($payload->parse(), $additionalParams))
             ]);
 
             $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());

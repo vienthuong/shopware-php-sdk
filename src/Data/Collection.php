@@ -4,15 +4,20 @@ namespace Vin\ShopwareSdk\Data;
 
 abstract class Collection extends Struct implements \IteratorAggregate, \Countable
 {
-    protected iterable $elements = [];
+    protected array $elements = [];
 
     public function __construct(iterable $elements = [])
     {
+        $elements = $elements instanceof \Traversable ? iterator_to_array($elements) : (array) $elements;
+
         foreach ($elements as $key => $element) {
             $this->set($key, $element);
         }
     }
 
+    /**
+     * @param mixed|null $element
+     */
     public function add($element): void
     {
         $this->validateType($element);
@@ -20,6 +25,10 @@ abstract class Collection extends Struct implements \IteratorAggregate, \Countab
         $this->elements[] = $element;
     }
 
+    /**
+     * @param mixed|null $element
+     * @param mixed|null $key
+     */
     public function set($key, $element): void
     {
         $this->validateType($element);
@@ -60,6 +69,9 @@ abstract class Collection extends Struct implements \IteratorAggregate, \Countab
         return array_keys($this->elements);
     }
 
+    /**
+     * @param mixed|null $key
+     */
     public function has($key): bool
     {
         return \array_key_exists($key, $this->elements);
@@ -70,6 +82,10 @@ abstract class Collection extends Struct implements \IteratorAggregate, \Countab
         return array_map($closure, $this->elements);
     }
 
+    /**
+     * @param mixed|null $initial
+     * @return mixed
+     */
     public function reduce(\Closure $closure, $initial = null)
     {
         return array_reduce($this->elements, $closure, $initial);
@@ -88,7 +104,7 @@ abstract class Collection extends Struct implements \IteratorAggregate, \Countab
     /**
      * @return static
      */
-    public function filterInstance(string $class): self
+    public function filterInstance(string $class)
     {
         return $this->filter(static function ($item) use ($class) {
             return $item instanceof $class;
@@ -98,7 +114,7 @@ abstract class Collection extends Struct implements \IteratorAggregate, \Countab
     /**
      * @return static
      */
-    public function filter(\Closure $closure): self
+    public function filter(\Closure $closure)
     {
         return $this->createNew(array_filter($this->elements, $closure));
     }
@@ -111,7 +127,7 @@ abstract class Collection extends Struct implements \IteratorAggregate, \Countab
         return $this->createNew(\array_slice($this->elements, $offset, $length, true));
     }
 
-    public function getElements(): array
+    public function getElements(): iterable
     {
         return $this->elements;
     }
@@ -123,11 +139,14 @@ abstract class Collection extends Struct implements \IteratorAggregate, \Countab
         }, $this->elements));
     }
 
-    public function first()
+    public function first(): ?Struct
     {
         return array_values($this->elements)[0] ?? null;
     }
 
+    /**
+     * @return mixed
+     */
     public function last()
     {
         return array_values($this->elements)[\count($this->elements) - 1] ?? null;
@@ -159,6 +178,9 @@ abstract class Collection extends Struct implements \IteratorAggregate, \Countab
         return new static($elements);
     }
 
+    /**
+     * @param mixed $element
+     */
     protected function validateType($element): void
     {
         $expectedClass = $this->getExpectedClass();

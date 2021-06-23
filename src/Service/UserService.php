@@ -26,7 +26,9 @@ class UserService extends ApiService
 
         $entity = new UserEntity();
 
-        return $entity->assignProperties($data);
+        $entity->assignProperties($data);
+
+        return $entity;
     }
 
     public function updateMe(array $headers = []): void
@@ -43,7 +45,7 @@ class UserService extends ApiService
         ]);
     }
 
-    public function upsertUser(string $userId, array $headers = []): ApiResponse
+    public function upsertUser(string $userId, array $headers = []): void
     {
         $data['id'] = $userId;
 
@@ -53,7 +55,7 @@ class UserService extends ApiService
         ]);
     }
 
-    public function deleteUser(string $userId, array $headers = []): ApiResponse
+    public function deleteUser(string $userId, array $headers = []): void
     {
         $data = ['user-verified' => true];
 
@@ -63,9 +65,13 @@ class UserService extends ApiService
         ]);
     }
 
-    public function upsertRole(string $roleId, array $headers = []): ApiResponse
+    public function upsertRole(array $headers = [], ?string $roleId = null): void
     {
         $data = ['user-verified' => true];
+
+        if ($roleId) {
+            $data['id'] = $roleId;
+        }
 
         $this->httpClient->post($this->getFullUrl('/api/acl-role'), [
             'body' => json_encode($data),
@@ -73,7 +79,7 @@ class UserService extends ApiService
         ]);
     }
 
-    public function deleteUserRole(string $userId, string $roleId, array $headers = []): ApiResponse
+    public function deleteUserRole(string $userId, string $roleId, array $headers = []): void
     {
         $data = ['user-verified' => true];
 
@@ -83,7 +89,7 @@ class UserService extends ApiService
         ]);
     }
 
-    public function deleteRole(string $roleId, array $headers = []): ApiResponse
+    public function deleteRole(string $roleId, array $headers = []): void
     {
         $data = ['user-verified' => true];
 

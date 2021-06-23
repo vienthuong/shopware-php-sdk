@@ -2,6 +2,7 @@ parameters:
     level: 8
     treatPhpDocTypesAsCertain: false
     checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
     inferPrivatePropertyTypeFromConstructor: true
     reportUnmatchedIgnoredErrors: true # Could be set to false if necessary during PHPStan update
     tmpDir: ./var/cache/phpstan
@@ -14,3 +15,6 @@ parameters:
     excludes_analyse:
 
     ignoreErrors:
+        -
+            message: '#Unsafe usage of new static\(\)#'
+            path: src/Data/Collection.php

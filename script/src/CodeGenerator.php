@@ -42,6 +42,8 @@ class CodeGenerator
             $entityPath = sprintf("%s/%sEntity.php", $folderPath, $entityName);
 
             if (is_dir(sprintf(__DIR__ . $outputEntityDir . "%s", $entityName)) && file_exists($entityPath)) {
+                static::$definitionMapping[$entity->entity] = $entityNamespace . "\\" . $entityName . "\\" . $entityName . 'Definition';
+
                 continue;
             }
 
@@ -50,8 +52,9 @@ class CodeGenerator
             file_put_contents($entityPath, static::generateEntityClass($entityNamespace, $entityName, $entity->properties));
             file_put_contents(sprintf("%s/%sCollection.php", $folderPath, $entityName), static::generateCollectionClass($entityNamespace, $entityName));
             file_put_contents(sprintf("%s/%sDefinition.php", $folderPath, $entityName), static::generateDefinitionClass($entityNamespace, $entityName, $entity->entity));
-            file_put_contents(__DIR__ . $resourcePath . "entity-mapping.json", json_encode(static::$definitionMapping));
         }
+
+        file_put_contents(__DIR__ . $resourcePath . "entity-mapping.json", json_encode(static::$definitionMapping));
     }
 
     private static function generateEntityClass(string $entityNamespace, string $entityName, PropertyCollection $propertyCollection): string
@@ -75,7 +78,10 @@ class CodeGenerator
 
             if ($type) {
                 $dummyProperty->setType($type);
+            } else {
+                $dummyProperty->setDocBlock('@var mixed');
             }
+
             $dummyProperty->setVisibility(PropertyGenerator::FLAG_PUBLIC);
             $properties[] = $dummyProperty;
         }

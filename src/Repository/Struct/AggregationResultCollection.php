@@ -14,12 +14,16 @@ class AggregationResultCollection
     }
 
     /**
+     * @param mixed $aggregation
      */
     public function add(string $key, $aggregation): void
     {
         $this->elements[$key] = $aggregation;
     }
 
+    /**
+     * @return mixed
+     */
     public function get(string $key)
     {
         return $this->elements[$key] ?? null;

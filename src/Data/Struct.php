@@ -9,7 +9,7 @@ class Struct
      */
     protected array $extensions = [];
 
-    public static function createFrom(Struct $object)
+    public static function createFrom(Struct $object): Struct
     {
         try {
             $self = (new \ReflectionClass(static::class))
@@ -26,7 +26,7 @@ class Struct
         return $self;
     }
 
-    public function assign(array $options)
+    public function assign(array $options): self
     {
         if (array_key_exists('id', $options) && property_exists($this, 'id')) {
             $this->id = $options['id'];
@@ -49,7 +49,7 @@ class Struct
      * Adds a new extension struct into the class storage.
      * The passed name is used as unique identifier and has to be stored too.
      */
-    public function addExtension(string $name, ?Struct $extension): void
+    public function addExtension(string $name, Struct $extension): void
     {
         $this->extensions[$name] = $extension;
     }
@@ -89,7 +89,9 @@ class Struct
 
     public function hasExtensionOfType(string $name, string $type): bool
     {
-        return $this->hasExtension($name) && \get_class($this->getExtension($name)) === $type;
+        $extension = $this->getExtension($name);
+
+        return $extension !== null && \get_class($extension) === $type;
     }
 
     public function getExtensions(): array

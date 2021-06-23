@@ -2,8 +2,8 @@
 
 namespace Vin\ShopwareSdk\Exception;
 
-use Vin\ShopwareSdk\Service\Webhook\App;
-use Vin\ShopwareSdk\Service\Webhook\Shop;
+use Vin\ShopwareSdk\Data\Webhook\App;
+use Vin\ShopwareSdk\Data\Webhook\Shop;
 
 class WebhookAuthenticationException extends \Exception
 {

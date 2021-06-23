@@ -36,10 +36,4 @@ class Source extends Struct
     {
         return $this->appVersion;
     }
-
-    public static function createFromPayload(array $payload): self
-    {
-
-        new self();
-    }
 }

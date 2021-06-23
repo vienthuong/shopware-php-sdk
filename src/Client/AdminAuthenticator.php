@@ -18,12 +18,12 @@ class AdminAuthenticator
 
     public const OAUTH_TOKEN_ENDPOINT = '/api/oauth/token';
 
-    public static $headers = [
+    public static array $headers = [
         'Content-Type' => 'application/x-www-form-urlencoded'
     ];
 
     /**
-     * @var callable
+     * @var callable|null
      */
     private $tokenCallback;
 
@@ -120,7 +120,7 @@ class AdminAuthenticator
         return $this->endpoint . $path;
     }
 
-    public function getTokenCallback(): callable
+    public function getTokenCallback(): ?callable
     {
         return $this->tokenCallback;
     }

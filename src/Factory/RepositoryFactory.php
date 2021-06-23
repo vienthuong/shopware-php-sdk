@@ -26,7 +26,7 @@ class RepositoryFactory
     private static function getDefinition(string $entity): EntityDefinition
     {
         if (empty(self::$mapping)) {
-            $mapping = file_get_contents(self::RESOURCES_PATH);
+            $mapping = (string) file_get_contents(self::RESOURCES_PATH);
             self::$mapping = json_decode($mapping, true);
         }
 

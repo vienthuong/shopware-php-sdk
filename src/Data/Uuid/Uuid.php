@@ -37,7 +37,7 @@ class Uuid
 
     public static function randomBytes(): string
     {
-        return hex2bin(self::randomHex());
+        return (string) hex2bin(self::randomHex());
     }
 
     /**
@@ -108,7 +108,10 @@ class Uuid
         return $timeHi;
     }
 
-    private static function applyVariant(int $clockSeqHi): int
+    /**
+     * @param int|float $clockSeqHi
+     */
+    private static function applyVariant($clockSeqHi): int
     {
         // Set the variant to RFC 4122
         $clockSeqHi &= 0x3f;

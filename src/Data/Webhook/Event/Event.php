@@ -3,7 +3,7 @@
 namespace Vin\ShopwareSdk\Data\Webhook\Event;
 
 use Vin\ShopwareSdk\Data\Struct;
-use Vin\ShopwareSdk\Service\Webhook\Source;
+use Vin\ShopwareSdk\Data\Webhook\Source;
 
 class Event extends Struct
 {
@@ -61,6 +61,6 @@ class Event extends Struct
             }
         }
 
-        return new self($source, $data, $payload['timestamp'] ? (int) $payload['timestamp'] : null, $headers);
+        return new self($source, $data, (int) $payload['timestamp'], $headers ?? []);
     }
 }

@@ -18,7 +18,13 @@ trait EntityHydrator
     {
         $infoService = new InfoService($context);
 
-        return $infoService->getSchema($entity);
+        $schema = $infoService->getSchema($entity);
+
+        if ($schema === null) {
+            throw new \Exception('Schema for entity: ' . $entity . ' not found');
+        }
+
+        return $schema;
     }
 
     private function hydrateSearchResult(array $response, Context $context): EntityCollection
@@ -76,6 +82,7 @@ trait EntityHydrator
 
     private function hydrateRelationships(Entity $entity, array $relationships, Schema $entitySchema, array $data, Context $context): Entity
     {
+        /** @var string $property */
         foreach ($relationships as $property => $relationship) {
             if ($property === 'extensions') {
                 $entity->addExtensions($this->hydrateExtensions($entity, $entitySchema, $data, $context));
@@ -87,9 +94,14 @@ trait EntityHydrator
 
             $field = $entitySchema->properties->get($property);
 
+            if ($field === null) {
+                continue;
+            }
+
             if ($field->isToManyAssociation()) {
                 $type = !empty($relationship['data'][0]['type']) ? $relationship['data'][0]['type'] : '';
-                if ($type && $repository = RepositoryFactory::create($type)) {
+                if ($type) {
+                    $repository = RepositoryFactory::create($type);
                     $definition = $repository->getDefinition();
 
                     $entity->setProperty($property, $this->hydrateToMany($definition, $relationship, $data, $context));
@@ -124,9 +136,14 @@ trait EntityHydrator
 
             $field = $entitySchema->properties->get($property);
 
+            if ($field === null) {
+                continue;
+            }
+
             if ($field->isToManyAssociation()) {
                 $type = !empty($relationship['data'][0]['type']) ? $relationship['data'][0]['type'] : null;
-                if ($type && $repository = RepositoryFactory::create($type)) {
+                if ($type) {
+                    $repository = RepositoryFactory::create($type);
                     $definition = $repository->getDefinition();
 
                     $attributes[$property] = $this->hydrateToMany($definition, $relationship, $data, $context);
@@ -193,6 +210,10 @@ trait EntityHydrator
             }
 
             $field = $entitySchema->properties->get($attributeKey);
+
+            if ($field === null) {
+                continue;
+            }
 
             if (!$field->isJsonField()) {
                 $entity->setProperty($attributeKey, $attributeValue);

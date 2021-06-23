@@ -6,6 +6,17 @@ namespace Vin\ShopwareSdk\Data\Entity;
 
 use Vin\ShopwareSdk\Data\Collection;
 
+/**
+ * @method void                add(Entity $entity)
+ * @method void                set(string $key, Entity $entity)
+ * @method EntityCollection    filter(\Closure $closure)()
+ * @method EntityCollection    createNew(iterable $elements = [])
+ * @method Entity[]    getIterator()
+ * @method Entity[]    getElements()
+ * @method Entity|null get(string $key)
+ * @method Entity|null first()
+ * @method Entity|null last()
+ */
 class EntityCollection extends Collection
 {
     public function getIds(): array
@@ -15,7 +26,10 @@ class EntityCollection extends Collection
         });
     }
 
-    public function filterByProperty(string $property, $value)
+    /**
+     * @param mixed $value
+     */
+    public function filterByProperty(string $property, $value): self
     {
         return $this->filter(
             static function (Entity $struct) use ($property, $value) {
@@ -24,12 +38,15 @@ class EntityCollection extends Collection
         );
     }
 
-    public function filterAndReduceByProperty(string $property, $value)
+    /**
+     * @param mixed $value
+     */
+    public function filterAndReduceByProperty(string $property, $value): self
     {
         $filtered = [];
 
         foreach ($this->getIterator() as $key => $struct) {
-            if ($struct->get($property) !== $value) {
+            if ($struct->$property !== $value) {
                 continue;
             }
             $filtered[] = $struct;

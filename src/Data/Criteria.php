@@ -72,7 +72,7 @@ class Criteria implements ParseAware
     private array $sortings = [];
 
     /**
-     * @var FilterAggregation[]
+     * @var Aggregation[]
      */
     private array $aggregations = [];
 
@@ -283,6 +283,7 @@ class Criteria implements ParseAware
     }
 
     /**
+     * @param mixed $value
      */
     public static function equals(string $field, $value): EqualsFilter
     {

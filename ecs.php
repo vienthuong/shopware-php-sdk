@@ -48,7 +48,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(GeneralPhpdocAnnotationRemoveFixer::class)
         ->call('configure', [['annotations' => ['copyright', 'category']]]);
 
-    $services->set(NoSuperfluousPhpdocTagsFixer::class);
+//    $services->set(NoSuperfluousPhpdocTagsFixer::class);
 
     $services->set(PhpdocOrderFixer::class);
 

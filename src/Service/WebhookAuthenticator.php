@@ -34,7 +34,7 @@ class WebhookAuthenticator
     public static function authenticatePostRequest(string $shopSecret): bool
     {
         $signature = $_SERVER['HTTP_SHOPWARE_SHOP_SIGNATURE'];
-        $requestContent = file_get_contents('php://input');
+        $requestContent = (string) file_get_contents('php://input');
 
         $hmac = \hash_hmac('sha256', $requestContent, $shopSecret);
 

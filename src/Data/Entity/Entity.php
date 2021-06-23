@@ -31,15 +31,19 @@ class Entity extends Struct
         return property_exists($this, $property);
     }
 
+    /**
+     * @param mixed $value
+     */
     public function setProperty(string $property, $value): void
     {
-        if (!$this->has($property) || $value === null) {
+        if (!$this->has($property)) {
             $this->$property = $value;
             return;
         }
 
         $rp = new \ReflectionProperty($this, $property);
 
+        /** @var \ReflectionNamedType|null $type */
         $type = $rp->getType();
 
         if ($type === null || ($type->allowsNull() && $value === null)) {
@@ -47,21 +51,22 @@ class Entity extends Struct
             return;
         }
 
+        /** @var class-string $typeName */
         $typeName = $type->getName();
 
-        if ($value instanceof EntityCollection || $value instanceof Entity) {
-            $original = $value;
-            $value = $typeName::createFrom($value);
-
-            if (method_exists($original, 'internalSetEntityName')) {
-                $value->internalSetEntityName($original->getEntityName());
-            }
-
+        if (in_array($typeName, self::NON_STRUCT_PROPERTY_TYPES)) {
             $this->$property = $value;
             return;
         }
 
-        if (in_array($typeName, self::NON_STRUCT_PROPERTY_TYPES, true)) {
+        if (is_subclass_of($typeName, Struct::class) && ($value instanceof EntityCollection || $value instanceof Entity)) {
+            $original = $value;
+            $value = $typeName::createFrom($value);
+
+            if ($original instanceof Entity && $value instanceof Entity && $entity = $original->getEntityName()) {
+                $value->internalSetEntityName($entity);
+            }
+
             $this->$property = $value;
             return;
         }
@@ -109,6 +114,9 @@ class Entity extends Struct
         return $this->translated;
     }
 
+    /**
+     * @return mixed
+     */
     public function getTranslation(string $field)
     {
         return $this->translated[$field] ?? null;
@@ -119,6 +127,9 @@ class Entity extends Struct
         $this->translated = $translated;
     }
 
+    /**
+     * @param mixed $value
+     */
     public function addTranslated(string $key, $value): void
     {
         $this->translated[$key] = $value;
@@ -136,7 +147,7 @@ class Entity extends Struct
         return $this->_entityName;
     }
 
-    public function assignProperties(array $options)
+    public function assignProperties(array $options): self
     {
         foreach ($options as $key => $value) {
             if ($key === 'id' && property_exists($this, 'id')) {

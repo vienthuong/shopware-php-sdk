@@ -2,13 +2,11 @@
 
 namespace Vin\ShopwareSdk\Data\Uuid\Exception;
 
-use Symfony\Component\HttpFoundation\Response;
-
 class InvalidUuidException extends \Exception
 {
     public function __construct(string $uuid)
     {
-        parent::__construct('Value is not a valid UUID: {{ input }}', ['input' => $uuid]);
+        parent::__construct(sprintf('Value is not a valid UUID: {{ %s }}', $uuid));
     }
 
     public function getErrorCode(): string
@@ -18,6 +16,6 @@ class InvalidUuidException extends \Exception
 
     public function getStatusCode(): int
     {
-        return Response::HTTP_BAD_REQUEST;
+        return 400;
     }
 }

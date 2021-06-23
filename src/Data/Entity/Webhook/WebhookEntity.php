@@ -17,11 +17,11 @@ class WebhookEntity extends Entity
 
     public ?string $url = null;
 
-    public ?string $appId = null;
-
-    public ?AppEntity $app = null;
-
     public ?int $errorCount = null;
 
     public ?bool $active = null;
+
+    public ?string $appId = null;
+
+    public ?AppEntity $app = null;
 }
