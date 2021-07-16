@@ -25,6 +25,6 @@ class AccessToken
         $payload = json_decode(base64_decode(explode('.', $this->accessToken)[1]), true);
         $expiresAt = $payload['exp'];
 
-        return $expiresAt * 1000 < time();
+        return $expiresAt - 10 < time();
     }
 }

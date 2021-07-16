@@ -8,7 +8,7 @@ class VersionResponse extends Struct
 {
     protected string $versionId;
 
-    protected string $versionName;
+    protected ?string $versionName;
 
     protected string $id;
 
@@ -42,12 +42,12 @@ class VersionResponse extends Struct
         $this->versionId = $versionId;
     }
 
-    public function getVersionName(): string
+    public function getVersionName(): ?string
     {
         return $this->versionName;
     }
 
-    public function setVersionName(string $versionName): void
+    public function setVersionName(?string $versionName): void
     {
         $this->versionName = $versionName;
     }

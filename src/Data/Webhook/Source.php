@@ -10,12 +10,12 @@ class Source extends Struct
 
     private string $shopId;
 
-    private int $appVersion;
+    private string $appVersion;
 
     /**
      * Create the event from Event::createFromPayload.
      */
-    public function __construct(string $shopUrl, string $shopId, int $appVersion)
+    public function __construct(string $shopUrl, string $shopId, string $appVersion)
     {
         $this->shopUrl = $shopUrl;
         $this->shopId = $shopId;
@@ -32,7 +32,7 @@ class Source extends Struct
         return $this->shopId;
     }
 
-    public function getAppVersion(): int
+    public function getAppVersion(): string
     {
         return $this->appVersion;
     }

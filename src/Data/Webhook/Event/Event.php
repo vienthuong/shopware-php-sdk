@@ -51,7 +51,7 @@ class Event extends Struct
         $source = $data = null;
 
         if ($rawSource = $payload['source']) {
-            $source = new Source($rawSource['url'], $rawSource['shopId'], (int) $rawSource['appVersion']);
+            $source = new Source($rawSource['url'], $rawSource['shopId'], (string) $rawSource['appVersion']);
         }
 
 

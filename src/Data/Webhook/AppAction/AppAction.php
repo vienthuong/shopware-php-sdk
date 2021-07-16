@@ -51,7 +51,7 @@ class AppAction extends Struct
         $source = $action = $meta = null;
 
         if ($rawSource = $payload['source']) {
-            $source = new Source($rawSource['url'], $rawSource['shopId'], (int) $rawSource['appVersion']);
+            $source = new Source($rawSource['url'], $rawSource['shopId'], (string) $rawSource['appVersion']);
         }
 
 

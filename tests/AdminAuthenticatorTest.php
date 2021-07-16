@@ -87,13 +87,13 @@ class AdminAuthenticatorTest extends TestCase
 
     public function testTokenExpired(): void
     {
-        $token = 'abc.' . base64_encode(json_encode(['exp' => (time() - 1000)/1000])) . '.xyz';
+        $token = 'abc.' . base64_encode(json_encode(['exp' => time() - 100])) . '.xyz';
 
         $accessToken = new AccessToken($token);
 
         static::assertTrue($accessToken->isExpired());
 
-        $token = 'abc.' . base64_encode(json_encode(['exp' => (time() + 1000)/1000])) . '.xyz';
+        $token = 'abc.' . base64_encode(json_encode(['exp' => time() + 100])) . '.xyz';
 
         $accessToken = new AccessToken($token);
 
