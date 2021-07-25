@@ -7,6 +7,14 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * Shopware Collection Mapping Class
  *
  * This class is generated dynamically following SW entities schema
+ *
+ * @method void add(ShippingMethodEntity $entity)
+ * @method void set(ShippingMethodEntity $entity)
+ * @method ShippingMethodEntity[] getIterator()
+ * @method ShippingMethodEntity[] getElements()
+ * @method ShippingMethodEntity|null get(string $key)
+ * @method ShippingMethodEntity|null first()
+ * @method ShippingMethodEntity|null last()
  */
 class ShippingMethodCollection extends EntityCollection
 {

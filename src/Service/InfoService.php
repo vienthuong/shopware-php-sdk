@@ -2,10 +2,6 @@
 
 namespace Vin\ShopwareSdk\Service;
 
-use Vin\ShopwareSdk\Data\Schema\Flag;
-use Vin\ShopwareSdk\Data\Schema\FlagCollection;
-use Vin\ShopwareSdk\Data\Schema\Property;
-use Vin\ShopwareSdk\Data\Schema\PropertyCollection;
 use Vin\ShopwareSdk\Data\Schema\Schema;
 use Vin\ShopwareSdk\Data\Schema\SchemaCollection;
 
@@ -82,14 +78,16 @@ class InfoService extends ApiService
         return $this->cache[$entity] = $this->schema->get($entity);
     }
 
-    public function refreshSchema(): SchemaCollection
+    public function refreshSchema(bool $persist = true): SchemaCollection
     {
         $this->cache = [];
         $this->schema = null;
 
         $rawSchema = $this->fetchRawSchema();
 
-        \file_put_contents(self::SCHEMA_FILE_PATH, json_encode($rawSchema->getContents()));
+        if ($persist) {
+            \file_put_contents(self::SCHEMA_FILE_PATH, json_encode($rawSchema->getContents()));
+        }
 
         $schemas = $this->parseSchema($rawSchema->getContents());
 
@@ -108,31 +106,7 @@ class InfoService extends ApiService
         $schemaCollection = [];
 
         foreach ($schema as $keySchema => $item) {
-            $entity = $item['entity'];
-            $properties = $item['properties'];
-            $propertiesCollection = [];
-
-            foreach ($properties as $keyProperty => $property) {
-                $flags = $property['flags'] ?? [];
-                $flagCollection = [];
-
-                foreach ($flags as $key => $flag) {
-                    $flagCollection[$key] = new Flag($key, $flag);
-                }
-
-                $propertiesCollection[$keyProperty] = new Property(
-                    $keyProperty,
-                    $property['type'],
-                    new FlagCollection($flagCollection),
-                    $property['entity'] ?? null,
-                    $property['relation'] ?? null,
-                    $property['localField'] ?? null,
-                    $property['referenceField'] ?? null,
-                    $property['properties'] ?? [],
-                );
-            }
-
-            $schemaCollection[$keySchema] = new Schema($entity, new PropertyCollection($propertiesCollection));
+            $schemaCollection[$keySchema] = Schema::createFromRaw($item['entity'], $item['properties']);
         }
 
         return new SchemaCollection($schemaCollection);

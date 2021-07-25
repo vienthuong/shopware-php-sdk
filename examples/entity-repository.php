@@ -41,7 +41,7 @@ class EntityRepositoryExample {
         /** @var ProductCollection $productCollection */
         $productCollection = $products->getEntities();
 
-        $productId = $products->first()->id;
+        $productId = $productCollection->first()->id;
 
         // Repository get
         /** @var ProductEntity $product */
@@ -51,7 +51,7 @@ class EntityRepositoryExample {
         try {
             $productRepository->update([
                 'id' => $productId,
-                'name' => 'Edited name 09011994',
+                'name' => 'Edited name' . time(),
                 'stock' => 'abc'
             ], $context);
         } catch (ShopwareResponseException $exception) {

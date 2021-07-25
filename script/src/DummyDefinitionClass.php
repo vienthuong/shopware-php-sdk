@@ -3,6 +3,8 @@
 namespace Vin\Script;
 
 use Vin\ShopwareSdk\Data\Entity\EntityDefinition;
+use Vin\ShopwareSdk\Data\Schema\PropertyCollection;
+use Vin\ShopwareSdk\Data\Schema\Schema;
 
 class DummyDefinitionClass implements EntityDefinition
 {
@@ -21,5 +23,10 @@ class DummyDefinitionClass implements EntityDefinition
     public function getEntityCollection(): string
     {
         return DummyCollectionClass::class;
+    }
+
+    public function getSchema() : Schema
+    {
+        return new Schema(self::ENTITY_NAME, new PropertyCollection([]));
     }
 }

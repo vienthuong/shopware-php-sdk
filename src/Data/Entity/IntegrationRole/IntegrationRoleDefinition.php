@@ -2,6 +2,11 @@
 namespace Vin\ShopwareSdk\Data\Entity\IntegrationRole;
 
 use Vin\ShopwareSdk\Data\Entity\EntityDefinition;
+use Vin\ShopwareSdk\Data\Schema\PropertyCollection;
+use Vin\ShopwareSdk\Data\Schema\FlagCollection;
+use Vin\ShopwareSdk\Data\Schema\Property;
+use Vin\ShopwareSdk\Data\Schema\Flag;
+use Vin\ShopwareSdk\Data\Schema\Schema;
 
 /**
  * Shopware Definition Mapping Class
@@ -25,5 +30,15 @@ class IntegrationRoleDefinition implements EntityDefinition
     public function getEntityCollection() : string
     {
         return IntegrationRoleCollection::class;
+    }
+
+    public function getSchema() : Schema
+    {
+        return new Schema('integration_role', new PropertyCollection([
+            new Property('integrationId', 'uuid', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource']]), new Flag('primary_key', 1), new Flag('required', 1), ]), []),
+            new Property('aclRoleId', 'uuid', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource']]), new Flag('primary_key', 1), new Flag('required', 1), ]), []),
+            new Property('integration', 'association', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource']]), ]), ['entity' => 'integration', 'referenceField' => 'id', 'localField' => 'integrationId', 'relation' => 'many_to_one', ]),
+            new Property('role', 'association', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource']]), ]), ['entity' => 'acl_role', 'referenceField' => 'id', 'localField' => 'aclRoleId', 'relation' => 'many_to_one', ]),
+        ]));
     }
 }

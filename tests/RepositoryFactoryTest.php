@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk;
 
 use PHPUnit\Framework\TestCase;
+use Vin\ShopwareSdk\Data\Entity\Custom\CustomCollection;
+use Vin\ShopwareSdk\Data\Entity\Custom\CustomDefinition;
+use Vin\ShopwareSdk\Data\Entity\Custom\CustomEntity;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
 use Vin\ShopwareSdk\Data\Entity\Product\ProductCollection;
@@ -15,14 +18,6 @@ use Vin\ShopwareSdk\Repository\EntityRepository;
 
 class RepositoryFactoryTest extends TestCase
 {
-    public function testCreateUnsupportEntity(): void
-    {
-        static::expectException(\Exception::class);
-        static::expectExceptionMessage('Definition not found for Entity: company');
-
-        RepositoryFactory::create('company');
-    }
-
     public function testCreateEntity(): void
     {
         $repository = RepositoryFactory::create(ProductDefinition::ENTITY_NAME);
@@ -34,6 +29,17 @@ class RepositoryFactoryTest extends TestCase
         static::assertEquals(ProductCollection::class, $repository->getDefinition()->getEntityCollection());
     }
 
+    public function testCreateCustomEntity(): void
+    {
+        $repository = RepositoryFactory::create('custom_entity');
+
+        static::assertInstanceOf(EntityRepository::class, $repository);
+        static::assertInstanceOf(CustomDefinition::class, $repository->getDefinition());
+        static::assertEquals('custom_entity', $repository->getDefinition()->getEntityName());
+        static::assertEquals(CustomEntity::class, $repository->getDefinition()->getEntityClass());
+        static::assertEquals(CustomCollection::class, $repository->getDefinition()->getEntityCollection());
+    }
+
     public function testAllEntitiesClassesAreCreated(): void
     {
         $entityMapping = file_get_contents(__DIR__ . '/../src/Resources/entity-mapping.json');
@@ -41,8 +47,13 @@ class RepositoryFactoryTest extends TestCase
         $entityMapping = json_decode($entityMapping, true);
 
         foreach ($entityMapping as $entity => $definition) {
-            static::assertTrue(class_exists($definition));
             $repository = RepositoryFactory::create($entity);
+
+            static::assertInstanceOf(EntityRepository::class, $repository);
+
+            if (!class_exists($definition)) {
+                $definition = CustomDefinition::class;
+            }
 
             static::assertInstanceOf(EntityRepository::class, $repository);
             static::assertInstanceOf($definition, $repository->getDefinition());

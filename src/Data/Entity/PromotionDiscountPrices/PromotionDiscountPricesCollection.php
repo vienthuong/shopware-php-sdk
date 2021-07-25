@@ -7,6 +7,14 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * Shopware Collection Mapping Class
  *
  * This class is generated dynamically following SW entities schema
+ *
+ * @method void add(PromotionDiscountPricesEntity $entity)
+ * @method void set(PromotionDiscountPricesEntity $entity)
+ * @method PromotionDiscountPricesEntity[] getIterator()
+ * @method PromotionDiscountPricesEntity[] getElements()
+ * @method PromotionDiscountPricesEntity|null get(string $key)
+ * @method PromotionDiscountPricesEntity|null first()
+ * @method PromotionDiscountPricesEntity|null last()
  */
 class PromotionDiscountPricesCollection extends EntityCollection
 {

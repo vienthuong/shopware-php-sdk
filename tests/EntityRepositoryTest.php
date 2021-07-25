@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -14,15 +13,21 @@ use PHPUnit\Framework\TestCase;
 use Vin\ShopwareSdk\Data\AccessToken;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Criteria;
+use Vin\ShopwareSdk\Data\Entity\Custom\CustomCollection;
+use Vin\ShopwareSdk\Data\Entity\Custom\CustomDefinition;
+use Vin\ShopwareSdk\Data\Entity\Custom\CustomEntity;
 use Vin\ShopwareSdk\Data\Entity\Product\ProductCollection;
 use Vin\ShopwareSdk\Data\Entity\Product\ProductDefinition;
 use Vin\ShopwareSdk\Data\Entity\Product\ProductEntity;
+use Vin\ShopwareSdk\Data\Schema\PropertyCollection;
+use Vin\ShopwareSdk\Data\Schema\Schema;
 use Vin\ShopwareSdk\Data\Uuid\Uuid;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 use Vin\ShopwareSdk\Factory\RepositoryFactory;
 use Vin\ShopwareSdk\Repository\EntityRepository;
 use Vin\ShopwareSdk\Repository\Struct\EntitySearchResult;
 use Vin\ShopwareSdk\Repository\Struct\IdSearchResult;
+use Vin\ShopwareSdk\Client\Client;
 
 class EntityRepositoryTest extends TestCase
 {
@@ -90,6 +95,27 @@ class EntityRepositoryTest extends TestCase
         static::assertEquals('NEW PRODUCT', $result->first()->name);
         static::assertEquals('53280fa43009419ca3b0f2d9193dcdd0', $result->last()->id);
         static::assertEquals('Gorgeous Plastic FaceField', $result->last()->name);
+    }
+
+    public function testSearchCustom(): void
+    {
+        $customId = '6bfa486a2c4c4e0db32c6a252baf6b3a';
+        $this->mock->append(new Response(200, ['test'=> 324], file_get_contents(__DIR__ . '/stubs/custom.json')));
+
+        $handlerStack = HandlerStack::create($this->mock);
+
+        $client = new Client(['handler' => $handlerStack]);
+
+        $mockRepository = $this->getMockBuilder(EntityRepository::class)->setConstructorArgs(['custom', new CustomDefinition('custom'), '/'])->onlyMethods(['schema'])->getMock();
+
+        $mockRepository->method('schema')->willReturn(new Schema('custom', new PropertyCollection()));
+        $mockRepository->setHttpClient($client);
+
+        /** @var CustomEntity $result */
+        $result = $mockRepository->get($customId, new Criteria(), $this->context);
+
+        static::assertEquals('custom', $result->getEntityName());
+        static::assertInstanceOf(CustomEntity::class, $result);
     }
 
     public function testSearchIds(): void

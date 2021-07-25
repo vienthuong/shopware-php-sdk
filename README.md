@@ -1,6 +1,8 @@
 # Shopware 6 PHP SDK
 
-![php](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white) [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/vinle)
+![php](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white) 
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/vinle)
 
 [![GitHub Release](https://img.shields.io/github/v/release/vienthuong/shopware-php-sdk.svg?style=flat)]()
 [![Latest Version on Packagist][ico-version]][link-packagist]

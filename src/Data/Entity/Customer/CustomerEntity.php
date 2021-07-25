@@ -85,6 +85,8 @@ class CustomerEntity extends Entity
 
     public ?int $orderCount = null;
 
+    public ?float $orderTotalAmount = null;
+
     public ?string $legacyPassword = null;
 
     public ?string $legacyEncoder = null;

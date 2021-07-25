@@ -12,6 +12,16 @@ use Vin\ShopwareSdk\Data\Collection;
  */
 class SchemaCollection extends Collection
 {
+    public function __construct(iterable $elements = [])
+    {
+        $elements = $elements instanceof \Traversable ? iterator_to_array($elements) : (array) $elements;
+
+        /** @var Schema $element */
+        foreach ($elements as $element) {
+            $this->set($element->entity, $element);
+        }
+    }
+
     protected function getExpectedClass(): string
     {
         return Schema::class;

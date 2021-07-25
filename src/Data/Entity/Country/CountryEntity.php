@@ -39,7 +39,13 @@ class CountryEntity extends Entity
 
     public ?bool $checkVatIdPattern = null;
 
+    public ?bool $vatIdRequired = null;
+
     public ?string $vatIdPattern = null;
+
+    public ?array $customerTax = null;
+
+    public ?array $companyTax = null;
 
     public ?CountryStateCollection $states = null;
 

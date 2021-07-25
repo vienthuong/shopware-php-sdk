@@ -43,6 +43,8 @@ class PromotionEntity extends Entity
 
     public ?bool $customerRestriction = null;
 
+    public ?bool $preventCombination = null;
+
     public ?int $orderCount = null;
 
     public ?array $ordersPerCustomerCount = null;

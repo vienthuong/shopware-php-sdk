@@ -7,6 +7,14 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * Shopware Collection Mapping Class
  *
  * This class is generated dynamically following SW entities schema
+ *
+ * @method void add(EventActionRuleEntity $entity)
+ * @method void set(EventActionRuleEntity $entity)
+ * @method EventActionRuleEntity[] getIterator()
+ * @method EventActionRuleEntity[] getElements()
+ * @method EventActionRuleEntity|null get(string $key)
+ * @method EventActionRuleEntity|null first()
+ * @method EventActionRuleEntity|null last()
  */
 class EventActionRuleCollection extends EntityCollection
 {

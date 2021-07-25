@@ -76,25 +76,21 @@ class Entity extends Struct
         $dummyType = $reflectionClass->isInstantiable() ? new $typeName : null;
 
         switch (true) {
-            case $dummyType instanceof Entity: {
+            case $dummyType instanceof Entity:
                 $this->$property = self::createFromArray($typeName, $value);
                 break;
-            }
-            case $dummyType instanceof EntityCollection: {
+            case $dummyType instanceof EntityCollection:
                 $value = array_map(function (array $item) use ($dummyType) {
                     return self::createFromArray($dummyType->getExpectedClass(), $item);
                 }, $value);
                 $this->$property = new $dummyType($value);
                 break;
-            }
-            case $reflectionClass->implementsInterface(\DateTimeInterface::class): {
+            case $reflectionClass->implementsInterface(\DateTimeInterface::class):
                 $this->$property = new \DateTimeImmutable($value);
 
                 break;
-            }
-            default: {
+            default:
                 $this->$property = $value;
-            }
         }
     }
 

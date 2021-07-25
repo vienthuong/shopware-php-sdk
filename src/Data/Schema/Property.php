@@ -30,19 +30,15 @@ class Property extends Struct
         string $name,
         string $type,
         FlagCollection $flags,
-        ?string $entity = null,
-        ?string $relation = null,
-        ?string $localField = null,
-        ?string $referenceField = null,
-        ?array $properties = []
+        array $properties = []
     ) {
         $this->type = $type;
         $this->flags = $flags;
-        $this->relation = $relation;
-        $this->localField = $localField;
-        $this->referenceField = $referenceField;
-        $this->entity = $entity;
-        $this->properties = $properties;
+        $this->relation = $properties['relation'] ?? null;
+        $this->localField = $properties['localField'] ?? null;
+        $this->referenceField = $properties['referenceField'] ?? null;
+        $this->entity = $properties['entity'] ?? null;
+        $this->properties = $properties['properties'] ?? null;
         $this->name = $name;
     }
 

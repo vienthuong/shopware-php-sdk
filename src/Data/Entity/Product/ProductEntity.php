@@ -137,8 +137,6 @@ class ProductEntity extends Entity
 
     public ?int $sales = null;
 
-    public ?array $cheapestPrice = null;
-
     public ?string $metaDescription = null;
 
     public ?string $name = null;
@@ -216,4 +214,6 @@ class ProductEntity extends Entity
     public ?CustomFieldSetCollection $customFieldSets = null;
 
     public ?ProductTranslationCollection $translations = null;
+
+    public ?array $cheapestPrice = null;
 }

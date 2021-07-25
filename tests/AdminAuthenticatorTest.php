@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk;
 
-use GuzzleHttp\Client;
+use Vin\ShopwareSdk\Client\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
