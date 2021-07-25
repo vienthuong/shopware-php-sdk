@@ -2,7 +2,6 @@
 
 namespace Vin\ShopwareSdk\Service;
 
-use GuzzleHttp\Client;
 use Vin\ShopwareSdk\Client\CreateClientTrait;
 use Vin\ShopwareSdk\Data\Context;
 
@@ -14,7 +13,7 @@ class ApiService
 
     protected string $contentType;
 
-    public function __construct(Context $context, string $contentType = 'application/vnd.api+json', ?Client $httpClient = null)
+    public function __construct(Context $context, string $contentType = 'application/vnd.api+json')
     {
         $this->httpClient = $httpClient ?? $this->createHttpClient();
         $this->context = $context;

@@ -15,4 +15,27 @@ class Schema extends Struct
         $this->entity = $entity;
         $this->properties = $properties;
     }
+
+    public static function createFromRaw(string $entity, array $properties): self
+    {
+        $propertiesCollection = [];
+
+        foreach ($properties as $keyProperty => $property) {
+            $flags = $property['flags'] ?? [];
+            $flagCollection = [];
+
+            foreach ($flags as $key => $flag) {
+                $flagCollection[$key] = new Flag($key, $flag);
+            }
+
+            $propertiesCollection[$keyProperty] = new Property(
+                $keyProperty,
+                $property['type'],
+                new FlagCollection($flagCollection),
+                $property
+            );
+        }
+
+        return new self($entity, new PropertyCollection($propertiesCollection));
+    }
 }

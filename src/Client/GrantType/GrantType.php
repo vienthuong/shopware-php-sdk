@@ -38,18 +38,14 @@ abstract class GrantType
         $grantType = $config['grant_type'];
 
         switch ($grantType) {
-            case self::REFRESH_TOKEN: {
+            case self::REFRESH_TOKEN:
                 return new RefreshTokenGrantType($config['refresh_token']);
-            }
-            case self::CLIENT_CREDENTIALS: {
+            case self::CLIENT_CREDENTIALS:
                 return new ClientCredentialsGrantType($config['client_id'], $config['client_secret']);
-            }
-            case self::PASSWORD: {
+            case self::PASSWORD:
                 return new PasswordGrantType($config['username'], $config['password'], $config['scopes'] ?? 'write');
-            }
-            default: {
+            default:
                 throw new \InvalidArgumentException('Grant type ' . $grantType . ' is not supported', 400);
-            }
         }
     }
 }

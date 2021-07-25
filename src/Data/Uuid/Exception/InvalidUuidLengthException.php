@@ -6,7 +6,11 @@ class InvalidUuidLengthException extends \Exception
 {
     public function __construct(int $length, string $hex)
     {
-        parent::__construct(sprintf('UUID has a invalid length. 16 bytes expected, {{ %s }} given. Hexadecimal reprensentation: {{ %s }}', $length, $hex));
+        parent::__construct(sprintf(
+            'UUID has a invalid length. 16 bytes expected, {{ %s }} given. Hexadecimal reprensentation: {{ %s }}',
+            $length,
+            $hex
+        ));
     }
 
     public function getErrorCode(): string

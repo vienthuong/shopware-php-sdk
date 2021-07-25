@@ -2,6 +2,11 @@
 namespace Vin\ShopwareSdk\Data\Entity\ScheduledTask;
 
 use Vin\ShopwareSdk\Data\Entity\EntityDefinition;
+use Vin\ShopwareSdk\Data\Schema\PropertyCollection;
+use Vin\ShopwareSdk\Data\Schema\FlagCollection;
+use Vin\ShopwareSdk\Data\Schema\Property;
+use Vin\ShopwareSdk\Data\Schema\Flag;
+use Vin\ShopwareSdk\Data\Schema\Schema;
 
 /**
  * Shopware Definition Mapping Class
@@ -25,5 +30,21 @@ class ScheduledTaskDefinition implements EntityDefinition
     public function getEntityCollection() : string
     {
         return ScheduledTaskCollection::class;
+    }
+
+    public function getSchema() : Schema
+    {
+        return new Schema('scheduled_task', new PropertyCollection([
+            new Property('id', 'uuid', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource']]), new Flag('primary_key', 1), new Flag('required', 1), ]), []),
+            new Property('name', 'string', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource']]), new Flag('required', 1), ]), []),
+            new Property('scheduledTaskClass', 'string', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource']]), new Flag('required', 1), ]), []),
+            new Property('runInterval', 'int', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource']]), new Flag('required', 1), ]), []),
+            new Property('status', 'string', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource']]), new Flag('required', 1), ]), []),
+            new Property('lastExecutionTime', 'date', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource']]), ]), []),
+            new Property('nextExecutionTime', 'date', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource']]), new Flag('required', 1), ]), []),
+            new Property('deadMessages', 'association', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource']]), new Flag('set_null_on_delete', 1), ]), ['entity' => 'dead_message', 'referenceField' => 'scheduledTaskId', 'localField' => 'id', 'relation' => 'one_to_many', ]),
+            new Property('createdAt', 'date', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource', 'Shopware\Core\Framework\Api\Context\SalesChannelApiSource']]), new Flag('required', 1), ]), []),
+            new Property('updatedAt', 'date', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource', 'Shopware\Core\Framework\Api\Context\SalesChannelApiSource']]), ]), []),
+        ]));
     }
 }

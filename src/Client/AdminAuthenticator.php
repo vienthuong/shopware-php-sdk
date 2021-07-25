@@ -56,7 +56,11 @@ class AdminAuthenticator
                 'form_params' => $formParams
             ])->getBody()->getContents();
         } catch (BadResponseException $exception) {
-            throw new AuthorizationFailedException($exception->getResponse()->getBody()->getContents(), $exception->getCode(), $exception);
+            throw new AuthorizationFailedException(
+                $exception->getResponse()->getBody()->getContents(),
+                $exception->getCode(),
+                $exception
+            );
         }
 
         $tokenPayload = \json_decode($response, true) ?? [];
@@ -96,20 +100,17 @@ class AdminAuthenticator
         ];
 
         switch (true) {
-            case $grantType instanceof ClientCredentialsGrantType: {
+            case $grantType instanceof ClientCredentialsGrantType:
                 $formParams['client_secret'] = $grantType->clientSecret;
                 return $formParams;
-            }
-            case $grantType instanceof PasswordGrantType: {
+            case $grantType instanceof PasswordGrantType:
                 $formParams['password'] = $grantType->password;
                 $formParams['username'] = $grantType->username;
                 $formParams['scopes'] = $grantType->scopes;
                 return $formParams;
-            }
-            case $grantType instanceof RefreshTokenGrantType: {
+            case $grantType instanceof RefreshTokenGrantType:
                 $formParams['refresh_token'] = $grantType->refreshToken;
                 return $formParams;
-            }
             default:
                 throw new \InvalidArgumentException('Grant type ' . $grantType->grantType . ' is not supported', 400);
         }

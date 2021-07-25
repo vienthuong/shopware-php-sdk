@@ -11,6 +11,16 @@ use Vin\ShopwareSdk\Data\Collection;
  */
 class PropertyCollection extends Collection
 {
+    public function __construct(iterable $elements = [])
+    {
+        $elements = $elements instanceof \Traversable ? iterator_to_array($elements) : (array) $elements;
+
+        /** @var Property $element */
+        foreach ($elements as $element) {
+            $this->set($element->name, $element);
+        }
+    }
+
     protected function getExpectedClass(): ?string
     {
         return Property::class;

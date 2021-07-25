@@ -50,4 +50,6 @@ class CurrencyEntity extends Entity
     public ?array $totalRounding = null;
 
     public ?CurrencyCountryRoundingCollection $countryRoundings = null;
+
+    public ?float $taxFreeFrom = null;
 }

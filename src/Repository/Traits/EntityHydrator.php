@@ -3,6 +3,7 @@
 namespace Vin\ShopwareSdk\Repository\Traits;
 
 use Vin\ShopwareSdk\Data\Context;
+use Vin\ShopwareSdk\Data\Entity\Custom\CustomDefinition;
 use Vin\ShopwareSdk\Data\Entity\EntityDefinition;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -21,7 +22,14 @@ trait EntityHydrator
         $schema = $infoService->getSchema($entity);
 
         if ($schema === null) {
-            throw new \Exception('Schema for entity: ' . $entity . ' not found');
+            $schemas = $infoService->refreshSchema(false);
+            dump($schemas);
+
+            $schema = $schemas->get($entity);
+
+            if ($schema === null) {
+                throw new \Exception('Schema for entity: ' . $entity . ' not found');
+            }
         }
 
         return $schema;
@@ -69,7 +77,7 @@ trait EntityHydrator
         $entity = new $entityClass;
         $entity->internalSetEntityName($definition->getEntityName());
 
-        $entitySchema = $this->schema($entityName, $context);
+        $entitySchema = $definition instanceof CustomDefinition ? $this->schema($entityName, $context) : $definition->getSchema();
 
         $entity = $this->hydrateEmptyJsonFields($entity, $attributes, $entitySchema);
 
