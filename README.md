@@ -99,7 +99,65 @@ Each method requires a [Context](src/Data/Context.php) object
 
 Check [examples/entity-repository.php](/examples/entity-repository.php) for some useful references.
 
-## Working with API Services
+## Working with App
+
+### AppRegistration examples:
+The example took from a Laravel route action, but it can be the same in other frameworks
+
+```php
+public function register(ShopRepository $repository): RegistrationResponse
+{
+    $authenticator = new WebhookAuthenticator();
+
+    $app = new App(config('sas_app.app_name'), config('sas_app.app_secret'));
+
+    $response = $authenticator->register($app);
+
+    // Save the response the database...
+    $repository->createShop($response->getShop());
+
+    $confirmationUrl = route('sas.app.auth.confirmation');
+
+    return new RegistrationResponse($response, $confirmationUrl);
+}
+
+public function confirm(Request $request, ShopRepository $shopRepository): Response
+{
+    $shopId = $request->request->get('shopId');
+
+    $shopSecret = $shopRepository->getSecretByShopId($shopId);
+
+    if (!WebhookAuthenticator::authenticatePostRequest($shopSecret)) {
+        return new Response(null, 401);
+    }
+
+    $shopRepository->updateAccessKeysForShop(
+        $shopId,
+        $request->request->get('apiKey'),
+        $request->request->get('secretKey')
+    );
+
+    return new Response();
+}
+```
+
+### ActionButton examples:
+When receive a POST request from an action button, you can either return one of these ActionResponse with is ported from Shopware's core
+
+```php
+namespace Vin\ShopwareSdk\Data\Response;
+/**
+* @see Shopware\Core\Framework\App\ActionButton
+ */
+new EmptyResponse();
+new ReloadDataResponse($shopSecret);
+new OpenNewTabResponse($shopSecret, 'http://shopware.test');
+new NotificationResponse($shopSecret, 'Success!', NotificationResponse::SUCCESS);
+new NotificationResponse($shopSecret, 'Error!', NotificationResponse::ERROR);
+new OpenModalResponse($shopSecret, $iframeUrl, OpenModalResponse::LARGE_SIZE, true);
+```
+
+## Working with Admin API Services
 - Current supported services: 
   - [InfoService](/src/Service/InfoService.php)
   - [UserService](/src/Service/UserService.php)

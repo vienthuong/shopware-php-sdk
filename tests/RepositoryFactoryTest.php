@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vin\ShopwareSdk;
+namespace Vin\ShopwareSdkTest;
 
 use PHPUnit\Framework\TestCase;
 use Vin\ShopwareSdk\Data\Entity\Custom\CustomCollection;

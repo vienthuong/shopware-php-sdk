@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vin\ShopwareSdk;
+namespace Vin\ShopwareSdkTest;
 
 use PHPUnit\Framework\TestCase;
 use Vin\ShopwareSdk\Data\AccessToken;
@@ -10,7 +10,7 @@ use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Schema\Schema;
 use Vin\ShopwareSdk\Service\InfoService;
 
-class InfoControllerTest extends TestCase
+class InfoServiceTest extends TestCase
 {
     public function testGetSchema(): void
     {
