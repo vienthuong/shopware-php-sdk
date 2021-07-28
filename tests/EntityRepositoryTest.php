@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vin\ShopwareSdk;
+namespace Vin\ShopwareSdkTest;
 
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Handler\MockHandler;
