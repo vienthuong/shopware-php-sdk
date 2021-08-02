@@ -4,6 +4,9 @@ All notable changes to `shopware-php-sdk` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 1.2.1
+- Add RepositoryFactory::createFromDefinition that allow to generate the repository from an EntityDefinition 
+
 ### 1.2.0
 - Add ActionButtonResponse classes that can be return directly when receive an action button request
 - Add RegistrationResponse that can be return directly when receive an app register request
