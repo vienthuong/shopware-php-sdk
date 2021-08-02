@@ -23,7 +23,6 @@ trait EntityHydrator
 
         if ($schema === null) {
             $schemas = $infoService->refreshSchema(false);
-            dump($schemas);
 
             $schema = $schemas->get($entity);
 

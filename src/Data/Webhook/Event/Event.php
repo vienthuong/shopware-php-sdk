@@ -7,13 +7,13 @@ use Vin\ShopwareSdk\Data\Webhook\Source;
 
 class Event extends Struct
 {
-    private ?Source $source;
+    protected ?Source $source;
 
-    private ?EventData $data;
+    protected ?EventData $data;
 
-    private int $timestamp;
+    protected int $timestamp;
 
-    private array $headers;
+    protected array $headers;
 
     /**
      * Create the event from Event::createFromPayload.
@@ -61,6 +61,6 @@ class Event extends Struct
             }
         }
 
-        return new self($source, $data, (int) $payload['timestamp'], $headers ?? []);
+        return new self($source, $data, (int) ($payload['timestamp'] ?? 0), $headers ?? []);
     }
 }

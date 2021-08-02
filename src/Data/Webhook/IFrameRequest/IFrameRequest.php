@@ -7,15 +7,15 @@ use Vin\ShopwareSdk\Data\Webhook\ShopRequest;
 
 class IFrameRequest extends Struct
 {
-    private string $shopId;
+    protected string $shopId;
 
-    private string $shopUrl;
+    protected string $shopUrl;
 
-    private int $timestamp = 0;
+    protected int $timestamp = 0;
 
-    private string $swVersion;
+    protected string $swVersion;
 
-    private ?string $shopwareShopSignature;
+    protected ?string $shopwareShopSignature;
 
     public function __construct(array $parameters = [])
     {

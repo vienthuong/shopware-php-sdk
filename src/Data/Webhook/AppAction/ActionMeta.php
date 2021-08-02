@@ -6,11 +6,11 @@ use Vin\ShopwareSdk\Data\Struct;
 
 class ActionMeta extends Struct
 {
-    private int $timestamp;
+    protected int $timestamp;
 
-    private string $reference;
+    protected string $reference;
 
-    private string $language;
+    protected string $language;
 
     public function __construct(int $timestamp, string $reference, string $language)
     {
