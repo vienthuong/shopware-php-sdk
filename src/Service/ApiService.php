@@ -9,15 +9,25 @@ class ApiService
 {
     use CreateClientTrait;
 
-    protected Context $context;
+    protected ?Context $context = null;
 
     protected string $contentType;
 
-    public function __construct(Context $context, string $contentType = 'application/vnd.api+json')
+    /**
+     * @deprecated tag v2.0.0 - $context will be remove, use setContext method instead
+     */
+    public function __construct(?Context $context = null, string $contentType = 'application/vnd.api+json')
     {
         $this->httpClient = $httpClient ?? $this->createHttpClient();
         $this->context = $context;
         $this->contentType = $contentType;
+    }
+
+    public function setContext(Context $context): self
+    {
+        $this->context = $context;
+
+        return $this;
     }
 
     protected function get(string $endpoint, array $additionalHeaders = []): ApiResponse
@@ -45,9 +55,16 @@ class ApiService
 
     protected function getBasicHeaders(array $additionalHeaders = []): array
     {
+        /** @var Context|null $context */
+        $context = $this->context;
+
+        if ($context === null) {
+            throw new \Exception('Please call setContext method before sending the request');
+        }
+
         $basicHeaders = [
             'Accept' => $this->contentType,
-            'Authorization' => 'Bearer ' . $this->context->accessToken->accessToken,
+            'Authorization' => 'Bearer ' . $context->accessToken->accessToken,
             'Content-Type' => 'application/json'
         ];
 
@@ -56,7 +73,26 @@ class ApiService
 
     protected function getFullUrl(string $path): string
     {
-        return $this->context->apiEndpoint . $path;
+        /** @var Context|null $context */
+        $context = $this->context;
+
+        if ($context === null) {
+            throw new \Exception('Please call setContext method before sending the request');
+        }
+
+        return $context->apiEndpoint . $path;
+    }
+
+    protected function buildQueryUrl(string $path, array $queries): string
+    {
+        /** @var Context|null $context */
+        $context = $this->context;
+
+        if ($context === null) {
+            throw new \Exception('Please call setContext method before sending the request');
+        }
+
+        return $context->apiEndpoint . $path . '?' . http_build_query($queries);
     }
 
     protected static function handleResponse(string $data, array $headers): array
@@ -64,7 +100,9 @@ class ApiService
         try {
             return \json_decode($data, true) ?? [];
         } catch (\Throwable $exception) {
-            return [];
+            return [
+                'data' => $data
+            ];
         }
     }
 

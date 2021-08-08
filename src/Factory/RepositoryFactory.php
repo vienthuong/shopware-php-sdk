@@ -16,7 +16,8 @@ class RepositoryFactory
     public static function createFromDefinition(EntityDefinition $definition, ?string $route = null): RepositoryInterface
     {
         if (!$route) {
-            $route = sprintf('/%s', $definition->getEntityName());
+            $route =  str_replace('_', '-', $definition->getEntityName());
+            $route = sprintf('/%s', $route);
         }
 
         return new EntityRepository($definition->getEntityName(), $definition, $route);
@@ -25,7 +26,7 @@ class RepositoryFactory
     public static function create(string $entity, ?string $route = null): RepositoryInterface
     {
         if (!$route) {
-            $route = sprintf('/%s', $entity);
+            $route = sprintf('/%s', str_replace('_', '-', $entity));
         }
 
         $definition = static::getDefinition($entity);
