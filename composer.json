@@ -3,7 +3,7 @@
     "description": "A PHP SDK for Shopware 6 Platform",
     "type": "library",
     "license": "MIT",
-    "version": "1.2.2",
+    "version": "1.3.0",
     "authors": [
         {
             "name": "vin",
@@ -12,7 +12,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": "^7.4",
+        "php": "^7.4 || ^8.0",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^7.0"
     },
