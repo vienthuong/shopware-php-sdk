@@ -127,6 +127,8 @@ class ProductEntity extends Entity
 
     public ?array $optionIds = null;
 
+    public ?array $streamIds = null;
+
     public ?array $tagIds = null;
 
     public ?array $categoryIds = null;

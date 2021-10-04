@@ -50,6 +50,7 @@ use Vin\ShopwareSdk\Data\Entity\ProductFeatureSetTranslation\ProductFeatureSetTr
 use Vin\ShopwareSdk\Data\Entity\AppTranslation\AppTranslationCollection;
 use Vin\ShopwareSdk\Data\Entity\AppActionButtonTranslation\AppActionButtonTranslationCollection;
 use Vin\ShopwareSdk\Data\Entity\LandingPageTranslation\LandingPageTranslationCollection;
+use Vin\ShopwareSdk\Data\Entity\AppCmsBlockTranslation\AppCmsBlockTranslationCollection;
 use Vin\ShopwareSdk\Data\Entity\ProductSearchConfig\ProductSearchConfigEntity;
 use Vin\ShopwareSdk\Data\Entity\ThemeTranslation\ThemeTranslationCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
@@ -174,6 +175,8 @@ class LanguageEntity extends Entity
     public ?AppActionButtonTranslationCollection $actionButtonTranslations = null;
 
     public ?LandingPageTranslationCollection $landingPageTranslations = null;
+
+    public ?AppCmsBlockTranslationCollection $appCmsBlockTranslations = null;
 
     public ?ProductSearchConfigEntity $productSearchConfig = null;
 

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace Vin\ShopwareSdk\Data\Entity\SasBlogAuthorTranslation;
+namespace Vin\ShopwareSdk\Data\Entity\AppCmsBlockTranslation;
 
-use Vin\ShopwareSdk\Data\Entity\SasBlogAuthor\SasBlogAuthorEntity;
+use Vin\ShopwareSdk\Data\Entity\AppCmsBlock\AppCmsBlockEntity;
 use Vin\ShopwareSdk\Data\Entity\Language\LanguageEntity;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
@@ -10,15 +10,15 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
  *
  * This class is generated dynamically following SW entities schema
  */
-class SasBlogAuthorTranslationEntity extends Entity
+class AppCmsBlockTranslationEntity extends Entity
 {
-    public ?string $description = null;
+    public ?string $label = null;
 
-    public ?string $sasBlogAuthorId = null;
+    public ?string $appCmsBlockId = null;
 
     public ?string $languageId = null;
 
-    public ?SasBlogAuthorEntity $sasBlogAuthor = null;
+    public ?AppCmsBlockEntity $appCmsBlock = null;
 
     public ?LanguageEntity $language = null;
 }

@@ -42,6 +42,8 @@ class UserEntity extends Entity
 
     public ?\DateTimeInterface$lastUpdatedPasswordAt = null;
 
+    public ?string $timeZone = null;
+
     public ?LocaleEntity $locale = null;
 
     public ?MediaEntity $avatarMedia = null;

@@ -10,6 +10,7 @@ use Vin\ShopwareSdk\Data\Entity\Promotion\PromotionCollection;
 use Vin\ShopwareSdk\Data\Entity\PromotionDiscount\PromotionDiscountCollection;
 use Vin\ShopwareSdk\Data\Entity\PromotionSetgroup\PromotionSetgroupCollection;
 use Vin\ShopwareSdk\Data\Entity\EventAction\EventActionCollection;
+use Vin\ShopwareSdk\Data\Entity\FlowSequence\FlowSequenceCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -54,4 +55,6 @@ class RuleEntity extends Entity
     public ?PromotionSetgroupCollection $promotionSetGroups = null;
 
     public ?EventActionCollection $eventActions = null;
+
+    public ?FlowSequenceCollection $flowSequences = null;
 }
