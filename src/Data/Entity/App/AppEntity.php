@@ -9,6 +9,7 @@ use Vin\ShopwareSdk\Data\Entity\AppActionButton\AppActionButtonCollection;
 use Vin\ShopwareSdk\Data\Entity\AppTemplate\AppTemplateCollection;
 use Vin\ShopwareSdk\Data\Entity\Webhook\WebhookCollection;
 use Vin\ShopwareSdk\Data\Entity\AppPaymentMethod\AppPaymentMethodCollection;
+use Vin\ShopwareSdk\Data\Entity\AppCmsBlock\AppCmsBlockCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -73,4 +74,6 @@ class AppEntity extends Entity
     public ?WebhookCollection $webhooks = null;
 
     public ?AppPaymentMethodCollection $paymentMethods = null;
+
+    public ?AppCmsBlockCollection $cmsBlocks = null;
 }

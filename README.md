@@ -33,6 +33,8 @@ composer require vin-sw/shopware-sdk
   - Webhook authentication  
   - Webhook receiver
 
+- If you're using Laravel 8, consider check this out [Laravel Shopware SDK Adapter](https://github.com/Shape-and-Shift/shopware-laravel-sdk)
+
 ## Usage
 
 More in the examples folder, for integrating the sdk in an App, have a look at this [repository](https://github.com/vienthuong/AppExample)

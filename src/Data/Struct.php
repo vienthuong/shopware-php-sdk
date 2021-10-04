@@ -60,6 +60,10 @@ class Struct
     public function addExtensions(array $extensions): void
     {
         foreach ($extensions as $key => $extension) {
+            if (!$extension instanceof Struct) {
+                continue;
+            }
+
             $this->addExtension($key, $extension);
         }
     }

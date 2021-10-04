@@ -4,6 +4,10 @@ All notable changes to `shopware-php-sdk` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 1.3.1
+- [Hydrate Bug fixed](https://github.com/vienthuong/shopware-php-sdk/issues/10)
+- Update Latest DAL Classes
+
 ### 1.3.0
 - PHP 8 compatibility
 
