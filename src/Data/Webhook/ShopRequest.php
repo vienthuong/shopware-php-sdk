@@ -13,4 +13,8 @@ class ShopRequest
     public const SHOPWARE_VERSION_REQUEST_PARAMETER = 'sw-version';
 
     public const SHOP_SIGNATURE_REQUEST_PARAMETER = 'shopware-shop-signature';
+
+    public const SHOP_CONTEXT_LANGUAGE = 'sw-context-language';
+
+    public const SHOP_USER_LANGUAGE = 'sw-user-language';
 }
