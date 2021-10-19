@@ -59,6 +59,18 @@ class WebhookAuthenticator
             $queries['sw-version'],
         );
 
+        if (array_key_exists('sw-context-language', $queries) && array_key_exists('sw-context-language', $queries)) {
+            $queryString = sprintf(
+                'shop-id=%s&shop-url=%s&timestamp=%s&sw-version=%s&sw-context-language=%s&sw-user-language=%s',
+                $shop->getShopId(),
+                $shop->getShopUrl(),
+                $queries['timestamp'],
+                $queries['sw-version'],
+                $queries['sw-context-language'],
+                $queries['sw-user-language'],
+            );
+        }
+
         $hmac = \hash_hmac('sha256', htmlspecialchars_decode($queryString), $shopSecret);
 
         return hash_equals($hmac, $queries['shopware-shop-signature']);
