@@ -12,7 +12,7 @@ class AdminActionService extends ApiService
 {
     public function execute(string $method, string $path, array $data = [], array $headers = []): ApiResponse
     {
-        if (!in_array($method, ['get', 'post', 'put', 'path', 'delete'])) {
+        if (!in_array($method, ['get', 'post', 'put', 'patch', 'delete'])) {
             throw new \InvalidArgumentException('Method ' . $method . ' is not supported');
         }
 
