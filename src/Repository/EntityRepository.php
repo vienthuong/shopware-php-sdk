@@ -159,7 +159,7 @@ class EntityRepository implements RepositoryInterface
         }, $ids);
 
         $payload = new SyncPayload();
-        $operator = new SyncOperator($this->entityName, SyncOperator::UPSERT_OPERATOR, $data);
+        $operator = new SyncOperator($this->entityName, SyncOperator::DELETE_OPERATOR, $data);
         $payload->set($this->entityName, $operator);
 
         return $syncService->sync($payload, [], $headers);
