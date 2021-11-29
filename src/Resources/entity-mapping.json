@@ -166,6 +166,7 @@
     "salutation": "Vin\\ShopwareSdk\\Data\\Entity\\Salutation\\SalutationDefinition",
     "salutation_translation": "Vin\\ShopwareSdk\\Data\\Entity\\SalutationTranslation\\SalutationTranslationDefinition",
     "scheduled_task": "Vin\\ShopwareSdk\\Data\\Entity\\ScheduledTask\\ScheduledTaskDefinition",
+    "script": "Vin\\ShopwareSdk\\Data\\Entity\\Script\\ScriptDefinition",
     "seo_url": "Vin\\ShopwareSdk\\Data\\Entity\\SeoUrl\\SeoUrlDefinition",
     "seo_url_template": "Vin\\ShopwareSdk\\Data\\Entity\\SeoUrlTemplate\\SeoUrlTemplateDefinition",
     "shipping_method": "Vin\\ShopwareSdk\\Data\\Entity\\ShippingMethod\\ShippingMethodDefinition",

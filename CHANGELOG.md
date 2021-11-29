@@ -6,6 +6,8 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### 1.3.3
 - [Use correct sync operator for syncDeleted](https://github.com/vienthuong/shopware-php-sdk/pull/16)
+- [Remove extends HttpClient from GuzzleClient](https://github.com/vienthuong/shopware-php-sdk/issues/5)
+- Added `Script` entity definition
 
 ### 1.3.2
 - Shopware 6.5 compatibility

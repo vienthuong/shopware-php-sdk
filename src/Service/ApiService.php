@@ -18,7 +18,7 @@ class ApiService
      */
     public function __construct(?Context $context = null, string $contentType = 'application/vnd.api+json')
     {
-        $this->httpClient = $httpClient ?? $this->createHttpClient();
+        $this->httpClient = $this->httpClient ?? $this->createHttpClient();
         $this->context = $context;
         $this->contentType = $contentType;
     }
@@ -97,13 +97,7 @@ class ApiService
 
     protected static function handleResponse(string $data, array $headers): array
     {
-        try {
-            return \json_decode($data, true) ?? [];
-        } catch (\Throwable $exception) {
-            return [
-                'data' => $data
-            ];
-        }
+        return \json_decode($data, true) ?? [];
     }
 
     protected static function getVersionHeader(string $versionId): array

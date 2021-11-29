@@ -15,7 +15,4 @@ parameters:
         -
             message: '#Unsafe usage of new static\(\)#'
             path: src/Data/Collection.php
-        -
-            message: '#Method Vin\\ShopwareSdk\\Client\\ClientInterface\:\:(.*) has parameter \$uri with no typehint specified\.#'
-            path: src/Client/ClientInterface.php
 

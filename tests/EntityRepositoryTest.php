@@ -13,7 +13,6 @@ use PHPUnit\Framework\TestCase;
 use Vin\ShopwareSdk\Data\AccessToken;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Criteria;
-use Vin\ShopwareSdk\Data\Entity\Custom\CustomCollection;
 use Vin\ShopwareSdk\Data\Entity\Custom\CustomDefinition;
 use Vin\ShopwareSdk\Data\Entity\Custom\CustomEntity;
 use Vin\ShopwareSdk\Data\Entity\Product\ProductCollection;
@@ -42,7 +41,7 @@ class EntityRepositoryTest extends TestCase
 
         $handlerStack = HandlerStack::create($this->mock);
 
-        $client = new Client(['handler' => $handlerStack]);
+        $client = Client::create(['handler' => $handlerStack]);
 
         $this->productRepository = RepositoryFactory::create(ProductDefinition::ENTITY_NAME);
 
@@ -104,7 +103,7 @@ class EntityRepositoryTest extends TestCase
 
         $handlerStack = HandlerStack::create($this->mock);
 
-        $client = new Client(['handler' => $handlerStack]);
+        $client = Client::create(['handler' => $handlerStack]);
 
         $mockRepository = $this->getMockBuilder(EntityRepository::class)->setConstructorArgs(['custom', new CustomDefinition('custom'), '/'])->onlyMethods(['schema'])->getMock();
 
