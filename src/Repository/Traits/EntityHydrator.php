@@ -54,7 +54,10 @@ trait EntityHydrator
             $collectionClass = $repository->getDefinition()->getEntityCollection();
         }
 
-        return new $collectionClass($entities);
+        /** @var EntityCollection $collection */
+        $collection = new $collectionClass($entities);
+
+        return $collection;
     }
 
     private function hydrateEntity(string $entityName, array $entityRaw, array $data, Context $context): Entity

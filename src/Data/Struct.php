@@ -35,11 +35,7 @@ class Struct
         }
 
         foreach ($options as $key => $value) {
-            try {
-                $this->$key = $value;
-            } catch (\Error | \Exception $error) {
-                // nth
-            }
+            $this->$key = $value;
         }
 
         return $this;

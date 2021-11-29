@@ -9,13 +9,13 @@ use Psr\Http\Message\ResponseInterface;
 
 interface ClientInterface extends HttpClient
 {
-    public function get($uri, array $options = []): ResponseInterface;
+    public function get(string $uri, array $options = []): ResponseInterface;
 
-    public function post($uri, array $options = []): ResponseInterface;
+    public function post(string $uri, array $options = []): ResponseInterface;
 
-    public function put($uri, array $options = []): ResponseInterface;
+    public function put(string $uri, array $options = []): ResponseInterface;
 
-    public function patch($uri, array $options = []): ResponseInterface;
+    public function patch(string $uri, array $options = []): ResponseInterface;
 
-    public function delete($uri, array $options = []): ResponseInterface;
+    public function delete(string $uri, array $options = []): ResponseInterface;
 }

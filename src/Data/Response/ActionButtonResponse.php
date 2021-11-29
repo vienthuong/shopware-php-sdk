@@ -19,7 +19,7 @@ abstract class ActionButtonResponse extends SdkResponse
             $contents['payload'] = [];
         }
 
-        $contentEncoded = (string) json_encode($contents) ?? '';
+        $contentEncoded = (string) json_encode($contents);
 
         parent::__construct(200, $this->withAppSecret($appSecret, $contentEncoded));
 

@@ -29,7 +29,7 @@ class RepositoryFactory
             $route = sprintf('/%s', str_replace('_', '-', $entity));
         }
 
-        $definition = static::getDefinition($entity);
+        $definition = self::getDefinition($entity);
 
         return new EntityRepository($entity, $definition, $route);
     }
@@ -57,6 +57,9 @@ class RepositoryFactory
 
         $definitionClass = self::$mapping[$entity];
 
-        return new $definitionClass;
+        /** @var EntityDefinition $definition */
+        $definition = new $definitionClass;
+
+        return $definition;
     }
 }

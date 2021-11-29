@@ -96,6 +96,7 @@ class Entity extends Struct
 
     public static function createFromArray(string $expectedEntityClass, array $attributes = []): Entity
     {
+        /** @var Entity $expectedEntity */
         $expectedEntity = new $expectedEntityClass;
 
         foreach ($attributes as $attributeKey => $attributeValue) {

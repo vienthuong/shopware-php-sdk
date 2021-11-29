@@ -6,12 +6,6 @@ class ShopwareResponseException extends \Exception
 {
     public function getResponse(): array
     {
-        try {
-            return json_decode($this->message, true);
-        } catch (\Throwable $exception) {
-            return [
-                'message' => $this->message
-            ];
-        }
+        return json_decode($this->message, true);
     }
 }

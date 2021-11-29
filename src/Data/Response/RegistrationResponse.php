@@ -15,7 +15,7 @@ class RegistrationResponse extends SdkResponse
             'proof' => $result->getProof(),
             'secret' => $result->getShop()->getShopSecret(),
             'confirmation_url' => $confirmationUrl
-        ]) ?? '';
+        ]);
 
         $this->getBody()->write($json);
     }

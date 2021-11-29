@@ -35,7 +35,7 @@ class AdminAuthenticatorTest extends TestCase
 
         $handlerStack = HandlerStack::create($this->mock);
 
-        $this->authenticator->setHttpClient(new Client(['handler' => $handlerStack]));
+        $this->authenticator->setHttpClient(Client::create(['handler' => $handlerStack]));
     }
 
     public function testFetchAccessTokenSuccess(): void
