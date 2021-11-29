@@ -9,9 +9,6 @@ parameters:
     paths:
         - src
 
-    featureToggles:
-        unusedClassElements: true
-
     excludes_analyse:
 
     ignoreErrors:

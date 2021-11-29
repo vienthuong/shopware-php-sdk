@@ -4,6 +4,9 @@ All notable changes to `shopware-php-sdk` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 1.3.3
+- [Use correct sync operator for syncDeleted](https://github.com/vienthuong/shopware-php-sdk/pull/16)
+
 ### 1.3.2
 - Shopware 6.5 compatibility
 - `WebhookAuthenticator::authenticateGetRequest` now also consider `sw-context-language` and `sw-user-language`
