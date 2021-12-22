@@ -52,7 +52,7 @@ class CriteriaTest extends TestCase
         $criteria->addAggregation(new MinAggregation('field-min', 'field-min'));
         $criteria->addAggregation(new MaxAggregation('field-max', 'field-max'));
         $criteria->addAggregation(new AverageAggregation('field-avg', 'field-avg'));
-        $criteria->addAggregation(new HistogramAggregation('field-histogram', 'field-histogram', 500, null));
+        $criteria->addAggregation(new HistogramAggregation('field-histogram', 'field-histogram', HistogramAggregation::PER_DAY, null));
 
         $criteria->addSorting(new FieldSorting('field-sort-1', FieldSorting::DESCENDING));
         $criteria->addSorting(new FieldSorting('field-sort-2', FieldSorting::ASCENDING));
@@ -209,7 +209,7 @@ class CriteriaTest extends TestCase
                     "field" => "value-stat"
                 ],
                 [
-                    "type" => "filter",
+                    "type" => "terms",
                     "name" => "field-term",
                     "field" => "value-term"
                 ],
@@ -229,10 +229,10 @@ class CriteriaTest extends TestCase
                     "field" => "field-avg"
                 ],
                 [
-                    "type" => "filter",
+                    "type" => "histogram",
                     "name" => "field-histogram",
                     "field" => "field-histogram",
-                    "interval" => 500
+                    "interval" => 'day'
                 ]
             ],
             "grouping" => [

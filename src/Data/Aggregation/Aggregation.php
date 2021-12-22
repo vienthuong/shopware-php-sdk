@@ -25,4 +25,6 @@ abstract class Aggregation implements ParseAware
     public const TYPE_COUNT = 'count';
 
     public const TYPE_AVG = 'avg';
+
+    public const TYPE_HISTOGRAM = 'histogram';
 }

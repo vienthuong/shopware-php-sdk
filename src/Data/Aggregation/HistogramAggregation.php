@@ -8,6 +8,14 @@ use Vin\ShopwareSdk\Data\Filter\Filter;
 
 class HistogramAggregation extends Aggregation
 {
+    public const PER_MINUTE = 'minute';
+    public const PER_HOUR = 'hour';
+    public const PER_DAY = 'day';
+    public const PER_WEEK = 'week';
+    public const PER_MONTH = 'month';
+    public const PER_QUARTER = 'quarter';
+    public const PER_YEAR = 'year';
+
     public string $name;
 
     /**
@@ -19,14 +27,14 @@ class HistogramAggregation extends Aggregation
 
     public string $field;
 
-    public ?int $interval;
+    public string $interval;
 
     public ?string $format;
 
     public function __construct(
         string $name,
         string $field,
-        ?int $interval = null,
+        string $interval,
         ?string $format = null,
         ?Aggregation $aggregation = null
     ) {
@@ -41,7 +49,7 @@ class HistogramAggregation extends Aggregation
     {
         return array_filter(
             [
-                'type' => self::TYPE_FILTER,
+                'type' => self::TYPE_HISTOGRAM,
                 'name' => $this->name,
                 'field' => $this->field,
                 'interval' => $this->interval,
