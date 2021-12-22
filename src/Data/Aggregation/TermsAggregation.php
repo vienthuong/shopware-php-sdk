@@ -42,7 +42,7 @@ class TermsAggregation extends Aggregation
     {
         return array_filter(
             [
-                'type' => self::TYPE_FILTER,
+                'type' => self::TYPE_TERMS,
                 'name' => $this->name,
                 'field' => $this->field,
                 'limit' => $this->limit,
