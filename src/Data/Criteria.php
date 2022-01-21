@@ -37,7 +37,7 @@ class Criteria implements ParseAware
 
     private int $page;
 
-    private int $limit;
+    private ?int $limit;
 
     /**
      * Don't use term parameters together with query parameters.
@@ -84,7 +84,7 @@ class Criteria implements ParseAware
 
     private array $includes = [];
 
-    public function __construct(int $page = 1, int $limit = 25)
+    public function __construct(int $page = 1, ?int $limit = 25)
     {
         $this->page = $page;
         $this->limit = $limit;
@@ -307,9 +307,7 @@ class Criteria implements ParseAware
             $params['page'] = $this->page;
         }
 
-        if ($this->limit) {
-            $params['limit'] = $this->limit;
-        }
+        $params['limit'] = $this->limit;
 
         if ($this->term !== null) {
             $params['term'] = $this->term;
@@ -391,12 +389,12 @@ class Criteria implements ParseAware
         $this->page = $page;
     }
 
-    public function getLimit(): int
+    public function getLimit(): ?int
     {
         return $this->limit;
     }
 
-    public function setLimit(int $limit): void
+    public function setLimit(?int $limit): void
     {
         $this->limit = $limit;
     }
