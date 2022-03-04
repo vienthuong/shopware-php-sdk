@@ -33,6 +33,8 @@ class ImportExportLogEntity extends Entity
 
     public ?array $config = null;
 
+    public ?array $result = null;
+
     public ?UserEntity $user = null;
 
     public ?ImportExportProfileEntity $profile = null;

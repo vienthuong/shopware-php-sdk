@@ -3,6 +3,7 @@ namespace Vin\ShopwareSdk\Data\Entity\ProductMedia;
 
 use Vin\ShopwareSdk\Data\Entity\Product\ProductEntity;
 use Vin\ShopwareSdk\Data\Entity\Media\MediaEntity;
+use Vin\ShopwareSdk\Data\Entity\Product\ProductCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -23,4 +24,6 @@ class ProductMediaEntity extends Entity
     public ?ProductEntity $product = null;
 
     public ?MediaEntity $media = null;
+
+    public ?ProductCollection $coverProducts = null;
 }

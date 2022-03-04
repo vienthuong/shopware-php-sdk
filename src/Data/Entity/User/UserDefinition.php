@@ -63,6 +63,7 @@ class UserDefinition implements EntityDefinition
             new Property('updatedOrders', 'association', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource']]), ]), ['entity' => 'order', 'referenceField' => 'updatedById', 'localField' => 'id', 'relation' => 'one_to_many', ]),
             new Property('createdAt', 'date', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource', 'Shopware\Core\Framework\Api\Context\SalesChannelApiSource']]), new Flag('required', 1), ]), []),
             new Property('updatedAt', 'date', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource', 'Shopware\Core\Framework\Api\Context\SalesChannelApiSource']]), ]), []),
+            new Property('createdNotifications', 'association', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource']]), new Flag('extension', 1), ]), ['entity' => 'notification', 'referenceField' => 'createdByUserId', 'localField' => 'id', 'relation' => 'one_to_many', ]),
         ]));
     }
 }

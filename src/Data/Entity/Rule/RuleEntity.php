@@ -6,11 +6,11 @@ use Vin\ShopwareSdk\Data\Entity\ProductPrice\ProductPriceCollection;
 use Vin\ShopwareSdk\Data\Entity\ShippingMethodPrice\ShippingMethodPriceCollection;
 use Vin\ShopwareSdk\Data\Entity\ShippingMethod\ShippingMethodCollection;
 use Vin\ShopwareSdk\Data\Entity\PaymentMethod\PaymentMethodCollection;
+use Vin\ShopwareSdk\Data\Entity\FlowSequence\FlowSequenceCollection;
 use Vin\ShopwareSdk\Data\Entity\Promotion\PromotionCollection;
 use Vin\ShopwareSdk\Data\Entity\PromotionDiscount\PromotionDiscountCollection;
 use Vin\ShopwareSdk\Data\Entity\PromotionSetgroup\PromotionSetgroupCollection;
 use Vin\ShopwareSdk\Data\Entity\EventAction\EventActionCollection;
-use Vin\ShopwareSdk\Data\Entity\FlowSequence\FlowSequenceCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -46,6 +46,8 @@ class RuleEntity extends Entity
 
     public ?PromotionCollection $personaPromotions = null;
 
+    public ?FlowSequenceCollection $flowSequences = null;
+
     public ?PromotionCollection $orderPromotions = null;
 
     public ?PromotionCollection $cartPromotions = null;
@@ -55,6 +57,4 @@ class RuleEntity extends Entity
     public ?PromotionSetgroupCollection $promotionSetGroups = null;
 
     public ?EventActionCollection $eventActions = null;
-
-    public ?FlowSequenceCollection $flowSequences = null;
 }

@@ -7,6 +7,7 @@ use Vin\ShopwareSdk\Data\Entity\AclRole\AclRoleEntity;
 use Vin\ShopwareSdk\Data\Entity\CustomFieldSet\CustomFieldSetCollection;
 use Vin\ShopwareSdk\Data\Entity\AppActionButton\AppActionButtonCollection;
 use Vin\ShopwareSdk\Data\Entity\AppTemplate\AppTemplateCollection;
+use Vin\ShopwareSdk\Data\Entity\Script\ScriptCollection;
 use Vin\ShopwareSdk\Data\Entity\Webhook\WebhookCollection;
 use Vin\ShopwareSdk\Data\Entity\AppPaymentMethod\AppPaymentMethodCollection;
 use Vin\ShopwareSdk\Data\Entity\AppCmsBlock\AppCmsBlockCollection;
@@ -70,6 +71,8 @@ class AppEntity extends Entity
     public ?AppActionButtonCollection $actionButtons = null;
 
     public ?AppTemplateCollection $templates = null;
+
+    public ?ScriptCollection $scripts = null;
 
     public ?WebhookCollection $webhooks = null;
 

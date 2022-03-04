@@ -77,6 +77,8 @@ class CustomerEntity extends Entity
 
     public ?\DateTimeInterface$lastLogin = null;
 
+    public ?array $newsletterSalesChannelIds = null;
+
     public ?bool $newsletter = null;
 
     public ?\DateTimeInterface$birthday = null;

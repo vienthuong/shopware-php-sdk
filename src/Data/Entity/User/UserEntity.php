@@ -11,6 +11,7 @@ use Vin\ShopwareSdk\Data\Entity\ImportExportLog\ImportExportLogCollection;
 use Vin\ShopwareSdk\Data\Entity\AclRole\AclRoleCollection;
 use Vin\ShopwareSdk\Data\Entity\UserRecovery\UserRecoveryEntity;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderCollection;
+use Vin\ShopwareSdk\Data\Entity\Notification\NotificationCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -67,4 +68,6 @@ class UserEntity extends Entity
     public ?OrderCollection $createdOrders = null;
 
     public ?OrderCollection $updatedOrders = null;
+
+    public ?NotificationCollection $createdNotifications = null;
 }

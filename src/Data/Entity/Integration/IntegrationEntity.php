@@ -3,6 +3,7 @@ namespace Vin\ShopwareSdk\Data\Entity\Integration;
 
 use Vin\ShopwareSdk\Data\Entity\App\AppEntity;
 use Vin\ShopwareSdk\Data\Entity\AclRole\AclRoleCollection;
+use Vin\ShopwareSdk\Data\Entity\Notification\NotificationCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -29,4 +30,6 @@ class IntegrationEntity extends Entity
     public ?AppEntity $app = null;
 
     public ?AclRoleCollection $aclRoles = null;
+
+    public ?NotificationCollection $createdNotifications = null;
 }

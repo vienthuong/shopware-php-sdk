@@ -44,5 +44,7 @@ class ThemeEntity extends Entity
 
     public ?MediaEntity $previewMedia = null;
 
+    public ?ThemeCollection $dependentThemes = null;
+
     public ?ThemeCollection $childThemes = null;
 }
