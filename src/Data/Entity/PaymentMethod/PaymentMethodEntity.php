@@ -40,6 +40,12 @@ class PaymentMethodEntity extends Entity
 
     public ?string $formattedHandlerIdentifier = null;
 
+    public ?bool $synchronous = null;
+
+    public ?bool $asynchronous = null;
+
+    public ?bool $prepared = null;
+
     public ?PaymentMethodTranslationCollection $translations = null;
 
     public ?MediaEntity $media = null;

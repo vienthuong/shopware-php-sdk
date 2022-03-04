@@ -48,6 +48,7 @@ class IntegrationDefinition implements EntityDefinition
             new Property('aclRoles', 'association', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource']]), ]), ['entity' => 'acl_role', 'referenceField' => 'id', 'localField' => 'id', 'relation' => 'many_to_many', ]),
             new Property('createdAt', 'date', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource', 'Shopware\Core\Framework\Api\Context\SalesChannelApiSource']]), new Flag('required', 1), ]), []),
             new Property('updatedAt', 'date', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource', 'Shopware\Core\Framework\Api\Context\SalesChannelApiSource']]), ]), []),
+            new Property('createdNotifications', 'association', new FlagCollection([new Flag('read_protected', [['Shopware\Core\Framework\Api\Context\AdminApiSource']]), new Flag('extension', 1), ]), ['entity' => 'notification', 'referenceField' => 'createdByIntegrationId', 'localField' => 'id', 'relation' => 'one_to_many', ]),
         ]));
     }
 }

@@ -29,6 +29,8 @@ class PromotionEntity extends Entity
 
     public ?int $maxRedemptionsPerCustomer = null;
 
+    public ?int $priority = null;
+
     public ?bool $exclusive = null;
 
     public ?string $code = null;

@@ -23,8 +23,6 @@ class CountryEntity extends Entity
 
     public ?int $position = null;
 
-    public ?bool $taxFree = null;
-
     public ?bool $active = null;
 
     public ?bool $shippingAvailable = null;
@@ -40,6 +38,8 @@ class CountryEntity extends Entity
     public ?bool $checkVatIdPattern = null;
 
     public ?bool $vatIdRequired = null;
+
+    public ?bool $taxFree = null;
 
     public ?string $vatIdPattern = null;
 

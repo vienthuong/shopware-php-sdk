@@ -9,11 +9,17 @@ use Vin\ShopwareSdk\Data\Filter\Filter;
 class HistogramAggregation extends Aggregation
 {
     public const PER_MINUTE = 'minute';
+
     public const PER_HOUR = 'hour';
+
     public const PER_DAY = 'day';
+
     public const PER_WEEK = 'week';
+
     public const PER_MONTH = 'month';
+
     public const PER_QUARTER = 'quarter';
+
     public const PER_YEAR = 'year';
 
     public string $name;

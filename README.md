@@ -14,6 +14,9 @@ If you're familiar with Shopware 6 DAL syntax and how to retrieve it you might s
 
 ![image](https://i.imgur.com/NyXy2db.png)
 
+Or sending notification from external server
+![image](https://i.imgur.com/26LdTab.png)
+
 ## Installation
 Install with Composer
 ```shell
@@ -25,6 +28,9 @@ composer require vin-sw/shopware-sdk
 - Admin API
   - CRUD API 
   - Sync Api
+  - User Config API
+  - Notification API
+  - Admin Search API
   - Other services  
   - ... (TODO)
   
@@ -165,6 +171,9 @@ new OpenModalResponse($shopSecret, $iframeUrl, OpenModalResponse::LARGE_SIZE, tr
   - [UserService](/src/Service/UserService.php)
   - [StateMachineService](/src/Service/StateMachineService.php)
   - [SyncService](/src/Service/SyncService.php)
+  - [NotificationService](/src/Service/NotificationService.php)
+  - [UserConfigService](/src/Service/UserConfigService.php)
+  - [AdminSearchService](/src/Service/AdminSearchService.php)
   - For other services that does not have a concrete class, use: [AdminActionService](/src/Service/AdminActionService.php)   
   
 An ApiService requires a [Context](src/Data/Context.php) object as its first argument. 

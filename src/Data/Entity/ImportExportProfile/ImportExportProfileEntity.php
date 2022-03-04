@@ -16,6 +16,8 @@ class ImportExportProfileEntity extends Entity
 
     public ?string $label = null;
 
+    public ?string $type = null;
+
     public ?bool $systemDefault = null;
 
     public ?string $sourceEntity = null;
@@ -27,6 +29,8 @@ class ImportExportProfileEntity extends Entity
     public ?string $enclosure = null;
 
     public ?array $mapping = null;
+
+    public ?array $updateBy = null;
 
     public ?array $config = null;
 

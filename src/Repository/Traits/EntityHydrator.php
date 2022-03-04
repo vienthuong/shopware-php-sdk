@@ -49,8 +49,11 @@ trait EntityHydrator
 
         $collectionClass = EntityCollection::class;
 
-        if (!empty($response['data'][0]['type'])) {
-            $repository = RepositoryFactory::create($response['data'][0]['type']);
+        $data = $response['data'];
+        $first = current($data);
+
+        if (!empty($first['type'])) {
+            $repository = RepositoryFactory::create($first['type']);
             $collectionClass = $repository->getDefinition()->getEntityCollection();
         }
 

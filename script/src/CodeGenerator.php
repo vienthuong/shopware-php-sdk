@@ -240,6 +240,11 @@ class CodeGenerator
 
     private static function getTypedProperty(string $entityNamespace, string $entityName, ClassGenerator $class, Property $property): ?string
     {
+        // TODO: hotfix for ConfigJsonFieldSerializer bug in core
+        if ($entityName === 'SystemConfig' && $property->name === 'configurationValue') {
+            return null;
+        }
+
         $prefix = '?';
 
 //        $flags = $property->flags;

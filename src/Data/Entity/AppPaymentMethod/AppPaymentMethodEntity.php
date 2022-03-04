@@ -21,6 +21,10 @@ class AppPaymentMethodEntity extends Entity
 
     public ?string $finalizeUrl = null;
 
+    public ?string $validateUrl = null;
+
+    public ?string $captureUrl = null;
+
     public ?string $appId = null;
 
     public ?AppEntity $app = null;
