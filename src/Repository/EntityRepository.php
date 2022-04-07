@@ -154,8 +154,18 @@ class EntityRepository implements RepositoryInterface
 
         $headers = ['fail-on-error' => true];
 
+        if (!\is_array($ids[array_key_first($ids)]))
+        {
+            $data = array_map(function (string $id) {
+                return ['id' => $id];
+            }, $ids);
+        } else
+        {
+            $data = $ids;
+        }
+
         $payload = new SyncPayload();
-        $operator = new SyncOperator($this->entityName, SyncOperator::DELETE_OPERATOR, $ids);
+        $operator = new SyncOperator($this->entityName, SyncOperator::DELETE_OPERATOR, $data);
         $payload->set($this->entityName, $operator);
 
         return $syncService->sync($payload, [], $headers);
