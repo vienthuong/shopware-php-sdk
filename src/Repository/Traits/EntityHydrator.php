@@ -102,7 +102,7 @@ trait EntityHydrator
             }
 
             if (!$entitySchema->properties->has($property)) {
-                return $entity;
+                continue;
             }
 
             $field = $entitySchema->properties->get($property);
