@@ -4,7 +4,9 @@ namespace Vin\ShopwareSdk\Data\Entity\OrderLineItem;
 use Vin\ShopwareSdk\Data\Entity\Media\MediaEntity;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 use Vin\ShopwareSdk\Data\Entity\Product\ProductEntity;
+use Vin\ShopwareSdk\Data\Entity\Promotion\PromotionEntity;
 use Vin\ShopwareSdk\Data\Entity\OrderDeliveryPosition\OrderDeliveryPositionCollection;
+use Vin\ShopwareSdk\Data\Entity\OrderTransactionCaptureRefundPosition\OrderTransactionCaptureRefundPositionCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -21,6 +23,8 @@ class OrderLineItemEntity extends Entity
     public ?string $productId = null;
 
     public ?string $productVersionId = null;
+
+    public ?string $promotionId = null;
 
     public ?string $parentId = null;
 
@@ -64,7 +68,11 @@ class OrderLineItemEntity extends Entity
 
     public ?ProductEntity $product = null;
 
+    public ?PromotionEntity $promotion = null;
+
     public ?OrderDeliveryPositionCollection $orderDeliveryPositions = null;
+
+    public ?OrderTransactionCaptureRefundPositionCollection $orderTransactionCaptureRefundPositions = null;
 
     public ?OrderLineItemEntity $parent = null;
 

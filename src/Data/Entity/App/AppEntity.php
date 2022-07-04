@@ -10,7 +10,9 @@ use Vin\ShopwareSdk\Data\Entity\AppTemplate\AppTemplateCollection;
 use Vin\ShopwareSdk\Data\Entity\Script\ScriptCollection;
 use Vin\ShopwareSdk\Data\Entity\Webhook\WebhookCollection;
 use Vin\ShopwareSdk\Data\Entity\AppPaymentMethod\AppPaymentMethodCollection;
+use Vin\ShopwareSdk\Data\Entity\AppScriptCondition\AppScriptConditionCollection;
 use Vin\ShopwareSdk\Data\Entity\AppCmsBlock\AppCmsBlockCollection;
+use Vin\ShopwareSdk\Data\Entity\AppFlowAction\AppFlowActionCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -50,6 +52,14 @@ class AppEntity extends Entity
 
     public ?array $cookies = null;
 
+    public ?bool $allowDisable = null;
+
+    public ?string $baseAppUrl = null;
+
+    public ?array $allowedHosts = null;
+
+    public ?int $templateLoadPriority = null;
+
     public ?AppTranslationCollection $translations = null;
 
     public ?string $label = null;
@@ -78,5 +88,9 @@ class AppEntity extends Entity
 
     public ?AppPaymentMethodCollection $paymentMethods = null;
 
+    public ?AppScriptConditionCollection $scriptConditions = null;
+
     public ?AppCmsBlockCollection $cmsBlocks = null;
+
+    public ?AppFlowActionCollection $flowActions = null;
 }

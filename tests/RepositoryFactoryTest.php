@@ -34,11 +34,11 @@ class RepositoryFactoryTest extends TestCase
 
     public function testCreateCustomEntity(): void
     {
-        $repository = RepositoryFactory::create('custom_entity');
+        $repository = RepositoryFactory::create('my_custom_entity');
 
         static::assertInstanceOf(EntityRepository::class, $repository);
         static::assertInstanceOf(CustomDefinition::class, $repository->getDefinition());
-        static::assertEquals('custom_entity', $repository->getDefinition()->getEntityName());
+        static::assertEquals('my_custom_entity', $repository->getDefinition()->getEntityName());
         static::assertEquals(CustomEntity::class, $repository->getDefinition()->getEntityClass());
         static::assertEquals(CustomCollection::class, $repository->getDefinition()->getEntityCollection());
     }
