@@ -2,6 +2,7 @@
 namespace Vin\ShopwareSdk\Data\Entity\RuleCondition;
 
 use Vin\ShopwareSdk\Data\Entity\Rule\RuleEntity;
+use Vin\ShopwareSdk\Data\Entity\AppScriptCondition\AppScriptConditionEntity;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -15,6 +16,8 @@ class RuleConditionEntity extends Entity
 
     public ?string $ruleId = null;
 
+    public ?string $scriptId = null;
+
     public ?string $parentId = null;
 
     public ?array $value = null;
@@ -22,6 +25,8 @@ class RuleConditionEntity extends Entity
     public ?int $position = null;
 
     public ?RuleEntity $rule = null;
+
+    public ?AppScriptConditionEntity $appScriptCondition = null;
 
     public ?RuleConditionEntity $parent = null;
 

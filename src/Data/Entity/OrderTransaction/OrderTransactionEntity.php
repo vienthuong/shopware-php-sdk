@@ -4,6 +4,7 @@ namespace Vin\ShopwareSdk\Data\Entity\OrderTransaction;
 use Vin\ShopwareSdk\Data\Entity\StateMachineState\StateMachineStateEntity;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 use Vin\ShopwareSdk\Data\Entity\PaymentMethod\PaymentMethodEntity;
+use Vin\ShopwareSdk\Data\Entity\OrderTransactionCapture\OrderTransactionCaptureCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -28,4 +29,6 @@ class OrderTransactionEntity extends Entity
     public ?OrderEntity $order = null;
 
     public ?PaymentMethodEntity $paymentMethod = null;
+
+    public ?OrderTransactionCaptureCollection $captures = null;
 }

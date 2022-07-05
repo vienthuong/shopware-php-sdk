@@ -193,7 +193,7 @@ If you discover any security related issues, please email levienthuong@gmail.com
 
 ### Requirements
 - ext-curl
-- PHP 7.4
+- PHP >=7.4
 - SW >= 6.4
 
 This SDK is mainly dedicated to Shopware 6.4 and onwards, earlier SW application may still be usable without test

@@ -7,6 +7,7 @@ use Vin\ShopwareSdk\Data\Entity\PromotionDiscount\PromotionDiscountCollection;
 use Vin\ShopwareSdk\Data\Entity\PromotionIndividualCode\PromotionIndividualCodeCollection;
 use Vin\ShopwareSdk\Data\Entity\Customer\CustomerCollection;
 use Vin\ShopwareSdk\Data\Entity\Rule\RuleCollection;
+use Vin\ShopwareSdk\Data\Entity\OrderLineItem\OrderLineItemCollection;
 use Vin\ShopwareSdk\Data\Entity\PromotionTranslation\PromotionTranslationCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
@@ -66,6 +67,8 @@ class PromotionEntity extends Entity
     public ?RuleCollection $orderRules = null;
 
     public ?RuleCollection $cartRules = null;
+
+    public ?OrderLineItemCollection $orderLineItems = null;
 
     public ?PromotionTranslationCollection $translations = null;
 
