@@ -94,6 +94,20 @@ class Entity extends Struct
         }
     }
 
+    /**
+     * @param string $property
+     *
+     * @return mixed
+     */
+    public function getProperty(string $property)
+    {
+        if ($this->has($property)) {
+            return $this->$property;
+        }
+
+        return null;
+    }
+
     public static function createFromArray(string $expectedEntityClass, array $attributes = []): Entity
     {
         /** @var Entity $expectedEntity */
