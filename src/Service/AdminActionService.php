@@ -10,14 +10,17 @@ namespace Vin\ShopwareSdk\Service;
  */
 class AdminActionService extends ApiService
 {
-    public function execute(string $method, string $path, array $data = [], array $headers = []): ApiResponse
+    /**
+     * @param array|string|resource $data
+     */
+    public function execute(string $method, string $path, $data, array $headers = []): ApiResponse
     {
-        if (!in_array($method, ['get', 'post', 'put', 'patch', 'delete'])) {
+        if (!in_array(strtolower($method), ['get', 'post', 'put', 'patch', 'delete'])) {
             throw new \InvalidArgumentException('Method ' . $method . ' is not supported');
         }
 
         $response = $this->httpClient->$method($this->getFullUrl($path), [
-            'body' => json_encode($data),
+            'body' => is_array($data) ? json_encode($data) : $data,
             'headers' => $this->getBasicHeaders($headers)
         ]);
 
