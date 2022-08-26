@@ -309,7 +309,7 @@ class EntityRepository implements RepositoryInterface
             'sw-version-id' => $context->versionId,
             'sw-inheritance' => $context->inheritance,
             'sw-api-compatibility' => $context->compatibility,
-        ], $additionalHeaders);
+        ], $additionalHeaders, $context->additionalHeaders);
 
         return array_filter($headers);
     }

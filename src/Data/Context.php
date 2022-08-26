@@ -17,6 +17,8 @@ class Context
     public AccessToken $accessToken;
 
     public string $apiEndpoint;
+    
+    public array $additionalHeaders;
 
     public function __construct(
         string $apiEndpoint,
@@ -25,7 +27,8 @@ class Context
         string $currencyId = Defaults::CURRENCY,
         string $versionId = Defaults::LIVE_VERSION,
         bool $compatibility = true,
-        bool $inheritance = true
+        bool $inheritance = true,
+        array $additionalHeaders = []
     ) {
         $this->languageId = $languageId;
         $this->currencyId = $currencyId;
@@ -34,5 +37,6 @@ class Context
         $this->inheritance = $inheritance;
         $this->accessToken = $accessToken;
         $this->apiEndpoint = $apiEndpoint;
+        $this->additionalHeaders = $additionalHeaders;
     }
 }
