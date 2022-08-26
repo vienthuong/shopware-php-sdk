@@ -62,11 +62,11 @@ class ApiService
             throw new \Exception('Please call setContext method before sending the request');
         }
 
-        $basicHeaders = [
+        $basicHeaders = array_merge([
             'Accept' => $this->contentType,
             'Authorization' => 'Bearer ' . $context->accessToken->accessToken,
             'Content-Type' => 'application/json'
-        ];
+        ], $this->context->additionalHeaders);
 
         return array_merge($basicHeaders, $additionalHeaders);
     }
