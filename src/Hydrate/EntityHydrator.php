@@ -1,20 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace Vin\ShopwareSdk\Repository\Traits;
+namespace Vin\ShopwareSdk\Hydrate;
 
+use Exception;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Entity\Custom\CustomDefinition;
-use Vin\ShopwareSdk\Data\Entity\EntityDefinition;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
+use Vin\ShopwareSdk\Data\Entity\EntityDefinition;
 use Vin\ShopwareSdk\Data\Schema\Schema;
 use Vin\ShopwareSdk\Factory\RepositoryFactory;
 use Vin\ShopwareSdk\Service\InfoService;
 
-trait EntityHydrator
+class EntityHydrator implements HydratorInterface
 {
-    protected array $cache = [];
-
     protected array $cacheSchema = [];
 
     public function schema(string $entity, Context $context): Schema
@@ -33,14 +32,14 @@ trait EntityHydrator
             $schema = $schemas->get($entity);
 
             if ($schema === null) {
-                throw new \Exception('Schema for entity: ' . $entity . ' not found');
+                throw new Exception('Schema for entity: ' . $entity . ' not found');
             }
         }
 
-        return $this->cacheSchema[$entity] = $schema;
+        return $schema;
     }
 
-    private function hydrateSearchResult(array $response, Context $context): EntityCollection
+    public function hydrateSearchResult(array $response, Context $context): EntityCollection
     {
         if (empty($response) || empty($response['data'])) {
             return new EntityCollection();
@@ -71,12 +70,6 @@ trait EntityHydrator
 
     private function hydrateEntity(string $entityName, array $entityRaw, array $data, Context $context): Entity
     {
-        $cacheKey = $entityRaw['type'] . '-' . $entityRaw['id'];
-
-        if (array_key_exists($cacheKey, $this->cache)) {
-            return $this->cache[$cacheKey];
-        }
-
         $repository = RepositoryFactory::create($entityName);
         $definition = $repository->getDefinition();
         $entityClass = $definition->getEntityClass();
@@ -94,11 +87,7 @@ trait EntityHydrator
 
         $relationships = $entityRaw['relationships'] ?? [];
 
-        // reserve cache before relationships hydration. This prevents circular references to fail
-        $this->cache[$cacheKey] = $entity;
-
         return $this->hydrateRelationships($entity, $relationships, $entitySchema, $data, $context);
-
     }
 
     private function hydrateRelationships(Entity $entity, array $relationships, Schema $entitySchema, array $data, Context $context): Entity

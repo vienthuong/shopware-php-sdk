@@ -11,13 +11,14 @@ use Vin\ShopwareSdk\Data\Entity\EntityDefinition;
 use Vin\ShopwareSdk\Data\Uuid\Uuid;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 use Vin\ShopwareSdk\Exception\ShopwareSearchResponseException;
+use Vin\ShopwareSdk\Factory\HydratorFactory;
+use Vin\ShopwareSdk\Hydrate\HydratorInterface;
 use Vin\ShopwareSdk\Repository\Struct\AggregationResultCollection;
 use Vin\ShopwareSdk\Repository\Struct\CloneBehaviour;
 use Vin\ShopwareSdk\Repository\Struct\EntitySearchResult;
 use Vin\ShopwareSdk\Repository\Struct\IdSearchResult;
 use Vin\ShopwareSdk\Repository\Struct\SearchResultMeta;
 use Vin\ShopwareSdk\Repository\Struct\VersionResponse;
-use Vin\ShopwareSdk\Repository\Traits\EntityHydrator;
 use Vin\ShopwareSdk\Service\ApiResponse;
 use Vin\ShopwareSdk\Service\Struct\SyncOperator;
 use Vin\ShopwareSdk\Service\Struct\SyncPayload;
@@ -26,7 +27,6 @@ use Vin\ShopwareSdk\Service\SyncService;
 class EntityRepository implements RepositoryInterface
 {
     use CreateClientTrait;
-    use EntityHydrator;
 
     private const SEARCH_API_ENDPOINT = '/api/search';
 
@@ -40,12 +40,15 @@ class EntityRepository implements RepositoryInterface
 
     public string $route;
 
+    private HydratorInterface $hydrator;
+
     private EntityDefinition $definition;
 
-    public function __construct(string $entityName, EntityDefinition $definition, string $route)
+    public function __construct(string $entityName, EntityDefinition $definition, string $route, ?HydratorInterface $hydrator = null)
     {
         $this->entityName = $entityName;
         $this->httpClient = $this->httpClient ?? $this->createHttpClient();
+        $this->hydrator = $hydrator ?: HydratorFactory::create();
         $this->definition = $definition;
         $this->route = $route;
     }
@@ -79,7 +82,7 @@ class EntityRepository implements RepositoryInterface
 
         $aggregations = new AggregationResultCollection($response['aggregations']);
 
-        $entities = $this->hydrateSearchResult($response, $context);
+        $entities = $this->hydrator->hydrateSearchResult($response, $context);
 
         $meta = new SearchResultMeta($response['meta']['total'], $response['meta']['totalCountMode']);
 

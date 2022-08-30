@@ -6,18 +6,29 @@ use GuzzleHttp\Exception\BadResponseException;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Criteria;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
+use Vin\ShopwareSdk\Factory\HydratorFactory;
+use Vin\ShopwareSdk\Hydrate\HydratorInterface;
 use Vin\ShopwareSdk\Repository\Struct\AggregationResultCollection;
 use Vin\ShopwareSdk\Repository\Struct\EntitySearchResult;
 use Vin\ShopwareSdk\Repository\Struct\SearchResultMeta;
-use Vin\ShopwareSdk\Repository\Traits\EntityHydrator;
 use Vin\ShopwareSdk\Service\Struct\KeyValuePair;
 use Vin\ShopwareSdk\Service\Struct\KeyValuePairs;
 
 class AdminSearchService extends ApiService
 {
-    use EntityHydrator;
-
     private const ADMIN_SEARCH_ENDPOINT = '/api/_admin/search';
+
+    private HydratorInterface $hydrator;
+
+    public function __construct(
+        ?Context $context = null,
+        string $contentType = 'application/vnd.api+json',
+        ?HydratorInterface $hydrator = null
+    ) {
+        $this->hydrator = $hydrator ?: HydratorFactory::create();
+
+        parent::__construct($context, $contentType);
+    }
 
     /**
      * @param  KeyValuePairs $criteriaCollection
@@ -79,7 +90,7 @@ class AdminSearchService extends ApiService
 
                 $aggregations = new AggregationResultCollection($itemResponse['aggregations'] ?? []);
 
-                $entities = $this->hydrateSearchResult($itemResponse, $context);
+                $entities = $this->hydrator->hydrateSearchResult($itemResponse, $context);
 
 
                 $meta = new SearchResultMeta($itemResponse['total'] ?? 0, Criteria::TOTAL_COUNT_MODE_EXACT);
