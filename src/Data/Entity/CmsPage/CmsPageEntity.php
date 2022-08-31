@@ -23,6 +23,8 @@ class CmsPageEntity extends Entity
 
     public ?string $entity = null;
 
+    public ?string $cssClass = null;
+
     public ?array $config = null;
 
     public ?string $previewMediaId = null;

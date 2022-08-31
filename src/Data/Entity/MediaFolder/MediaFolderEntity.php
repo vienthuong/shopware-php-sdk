@@ -27,6 +27,8 @@ class MediaFolderEntity extends Entity
 
     public ?int $childCount = null;
 
+    public ?string $path = null;
+
     public ?MediaCollection $media = null;
 
     public ?MediaDefaultFolderEntity $defaultFolder = null;

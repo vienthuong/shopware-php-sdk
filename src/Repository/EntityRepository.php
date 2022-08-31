@@ -154,9 +154,15 @@ class EntityRepository implements RepositoryInterface
 
         $headers = ['fail-on-error' => true];
 
-        $data = array_map(function (string $id) {
-            return ['id' => $id];
-        }, $ids);
+        if (!\is_array($ids[array_key_first($ids)]))
+        {
+            $data = array_map(function (string $id) {
+                return ['id' => $id];
+            }, $ids);
+        } else
+        {
+            $data = $ids;
+        }
 
         $payload = new SyncPayload();
         $operator = new SyncOperator($this->entityName, SyncOperator::DELETE_OPERATOR, $data);
@@ -303,7 +309,7 @@ class EntityRepository implements RepositoryInterface
             'sw-version-id' => $context->versionId,
             'sw-inheritance' => $context->inheritance,
             'sw-api-compatibility' => $context->compatibility,
-        ], $additionalHeaders);
+        ], $additionalHeaders, $context->additionalHeaders);
 
         return array_filter($headers);
     }

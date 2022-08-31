@@ -4,6 +4,19 @@ All notable changes to `shopware-php-sdk` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 1.5.1
+- [Add property getter for Entity](https://github.com/vienthuong/shopware-php-sdk/pull/43)
+- [Introduce new admin api gateway `Vin\ShopwareSdk\Service\MediaService` to work with media endpoint and media-service in examples](https://github.com/vienthuong/shopware-php-sdk/issues/39)
+- [Fixed AdminActionService to allow uppercase and lowercase http method](https://github.com/vienthuong/shopware-php-sdk/issues/35)
+- [Fixed AdminActionService to allow uppercase and lowercase http method](https://github.com/vienthuong/shopware-php-sdk/issues/35)
+- [Fixed AdminActionService to accept non-array data as third argument](https://github.com/vienthuong/shopware-php-sdk/issues/38)
+
+### 1.5.0
+- Updated Latest DAL Classes
+- Continue to hydrate remaining relationships event if schema is partly defined
+- Give the possibility to reload default mapping
+- [Add internal cache for EntityHydrator's schema to avoid call getSchema multiple times with CustomDefinition](https://github.com/vienthuong/shopware-php-sdk/issues/35)
+
 ### 1.4.0
 - Updated Latest DAL Classes
 - Added NotificationService to allow sending/getting notification from external app (success/error/warning/info)

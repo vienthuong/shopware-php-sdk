@@ -7,6 +7,7 @@ use Vin\ShopwareSdk\Data\Entity\ShippingMethodPrice\ShippingMethodPriceCollectio
 use Vin\ShopwareSdk\Data\Entity\ShippingMethod\ShippingMethodCollection;
 use Vin\ShopwareSdk\Data\Entity\PaymentMethod\PaymentMethodCollection;
 use Vin\ShopwareSdk\Data\Entity\FlowSequence\FlowSequenceCollection;
+use Vin\ShopwareSdk\Data\Entity\Tag\TagCollection;
 use Vin\ShopwareSdk\Data\Entity\Promotion\PromotionCollection;
 use Vin\ShopwareSdk\Data\Entity\PromotionDiscount\PromotionDiscountCollection;
 use Vin\ShopwareSdk\Data\Entity\PromotionSetgroup\PromotionSetgroupCollection;
@@ -47,6 +48,8 @@ class RuleEntity extends Entity
     public ?PromotionCollection $personaPromotions = null;
 
     public ?FlowSequenceCollection $flowSequences = null;
+
+    public ?TagCollection $tags = null;
 
     public ?PromotionCollection $orderPromotions = null;
 

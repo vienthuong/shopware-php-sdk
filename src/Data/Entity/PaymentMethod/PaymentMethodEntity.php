@@ -46,6 +46,8 @@ class PaymentMethodEntity extends Entity
 
     public ?bool $prepared = null;
 
+    public ?bool $refundable = null;
+
     public ?PaymentMethodTranslationCollection $translations = null;
 
     public ?MediaEntity $media = null;

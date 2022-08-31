@@ -9,6 +9,7 @@ use Vin\ShopwareSdk\Data\Entity\Order\OrderCollection;
 use Vin\ShopwareSdk\Data\Entity\ShippingMethod\ShippingMethodCollection;
 use Vin\ShopwareSdk\Data\Entity\NewsletterRecipient\NewsletterRecipientCollection;
 use Vin\ShopwareSdk\Data\Entity\LandingPage\LandingPageCollection;
+use Vin\ShopwareSdk\Data\Entity\Rule\RuleCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -35,4 +36,6 @@ class TagEntity extends Entity
     public ?NewsletterRecipientCollection $newsletterRecipients = null;
 
     public ?LandingPageCollection $landingPages = null;
+
+    public ?RuleCollection $rules = null;
 }

@@ -43,12 +43,21 @@ class RepositoryFactory
     {
         self::$mapping = array_merge(self::$mapping, $mapping);
     }
+    
+    public static function loadDefaultEntityMapping(): void
+    {
+        try {
+            $mapping = (string) file_get_contents(self::RESOURCES_PATH);
+            self::$mapping = json_decode($mapping, true);
+        } catch (\JsonException $e) {
+            throw new \RuntimeException('Could not load default entity mapping');
+        }
+    }
 
     private static function getDefinition(string $entity): EntityDefinition
     {
         if (empty(self::$mapping)) {
-            $mapping = (string) file_get_contents(self::RESOURCES_PATH);
-            self::$mapping = json_decode($mapping, true);
+            self::loadDefaultEntityMapping();
         }
 
         if (!array_key_exists($entity, self::$mapping) || !class_exists(self::$mapping[$entity])) {

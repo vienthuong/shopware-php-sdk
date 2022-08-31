@@ -15,8 +15,14 @@ trait EntityHydrator
 {
     protected array $cache = [];
 
+    protected array $cacheSchema = [];
+
     public function schema(string $entity, Context $context): Schema
     {
+        if (array_key_exists($entity, $this->cacheSchema)) {
+            return $this->cacheSchema[$entity];
+        }
+
         $infoService = new InfoService($context);
 
         $schema = $infoService->getSchema($entity);
@@ -31,7 +37,7 @@ trait EntityHydrator
             }
         }
 
-        return $schema;
+        return $this->cacheSchema[$entity] = $schema;
     }
 
     private function hydrateSearchResult(array $response, Context $context): EntityCollection
@@ -104,7 +110,7 @@ trait EntityHydrator
             }
 
             if (!$entitySchema->properties->has($property)) {
-                return $entity;
+                continue;
             }
 
             $field = $entitySchema->properties->get($property);

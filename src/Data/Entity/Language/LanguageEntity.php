@@ -51,7 +51,9 @@ use Vin\ShopwareSdk\Data\Entity\AppTranslation\AppTranslationCollection;
 use Vin\ShopwareSdk\Data\Entity\AppActionButtonTranslation\AppActionButtonTranslationCollection;
 use Vin\ShopwareSdk\Data\Entity\LandingPageTranslation\LandingPageTranslationCollection;
 use Vin\ShopwareSdk\Data\Entity\AppCmsBlockTranslation\AppCmsBlockTranslationCollection;
+use Vin\ShopwareSdk\Data\Entity\AppScriptConditionTranslation\AppScriptConditionTranslationCollection;
 use Vin\ShopwareSdk\Data\Entity\ProductSearchConfig\ProductSearchConfigEntity;
+use Vin\ShopwareSdk\Data\Entity\AppFlowActionTranslation\AppFlowActionTranslationCollection;
 use Vin\ShopwareSdk\Data\Entity\ThemeTranslation\ThemeTranslationCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
@@ -178,7 +180,11 @@ class LanguageEntity extends Entity
 
     public ?AppCmsBlockTranslationCollection $appCmsBlockTranslations = null;
 
+    public ?AppScriptConditionTranslationCollection $appScriptConditionTranslations = null;
+
     public ?ProductSearchConfigEntity $productSearchConfig = null;
+
+    public ?AppFlowActionTranslationCollection $appFlowActionTranslations = null;
 
     public ?ThemeTranslationCollection $themeTranslations = null;
 }

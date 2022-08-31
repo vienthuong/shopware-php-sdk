@@ -168,6 +168,7 @@ new OpenModalResponse($shopSecret, $iframeUrl, OpenModalResponse::LARGE_SIZE, tr
 ## Working with Admin API Services
 - Current supported services: 
   - [InfoService](/src/Service/InfoService.php)
+  - [MediaService](/src/Service/MediaService.php)
   - [UserService](/src/Service/UserService.php)
   - [StateMachineService](/src/Service/StateMachineService.php)
   - [SyncService](/src/Service/SyncService.php)
@@ -193,7 +194,7 @@ If you discover any security related issues, please email levienthuong@gmail.com
 
 ### Requirements
 - ext-curl
-- PHP 7.4
+- PHP >=7.4
 - SW >= 6.4
 
 This SDK is mainly dedicated to Shopware 6.4 and onwards, earlier SW application may still be usable without test

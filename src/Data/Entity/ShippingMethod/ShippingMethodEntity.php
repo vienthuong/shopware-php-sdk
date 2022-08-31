@@ -23,6 +23,8 @@ class ShippingMethodEntity extends Entity
 
     public ?bool $active = null;
 
+    public ?int $position = null;
+
     public ?string $availabilityRuleId = null;
 
     public ?string $mediaId = null;
