@@ -4,6 +4,10 @@ All notable changes to `shopware-php-sdk` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 1.6.0
+- [Use composition instead of Traits for entity hydration logic](https://github.com/vienthuong/shopware-php-sdk/issues/46)
+- [Removed cache for hydrated entities](https://github.com/vienthuong/shopware-php-sdk/issues/46)
+
 ### 1.5.1
 - [Add property getter for Entity](https://github.com/vienthuong/shopware-php-sdk/pull/43)
 - [Introduce new admin api gateway `Vin\ShopwareSdk\Service\MediaService` to work with media endpoint and media-service in examples](https://github.com/vienthuong/shopware-php-sdk/issues/39)
