@@ -94,9 +94,11 @@ trait EntityHydrator
 
         $relationships = $entityRaw['relationships'] ?? [];
 
-        $entity = $this->hydrateRelationships($entity, $relationships, $entitySchema, $data, $context);
+        // reserve cache before relationships hydration. This prevents circular references to fail
+        $this->cache[$cacheKey] = $entity;
 
-        return $this->cache[$cacheKey] = $entity;
+        return $this->hydrateRelationships($entity, $relationships, $entitySchema, $data, $context);
+
     }
 
     private function hydrateRelationships(Entity $entity, array $relationships, Schema $entitySchema, array $data, Context $context): Entity
