@@ -20,7 +20,7 @@ class RepositoryFactory
             $route = sprintf('/%s', $route);
         }
 
-        return new EntityRepository($definition->getEntityName(), $definition, $route);
+        return new EntityRepository($definition->getEntityName(), $definition, $route, HydratorFactory::create());
     }
 
     public static function create(string $entity, ?string $route = null): RepositoryInterface
@@ -31,7 +31,7 @@ class RepositoryFactory
 
         $definition = self::getDefinition($entity);
 
-        return new EntityRepository($entity, $definition, $route);
+        return new EntityRepository($entity, $definition, $route, HydratorFactory::create());
     }
 
     public static function setEntityMapping(array $mapping): void

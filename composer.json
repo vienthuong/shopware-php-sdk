@@ -3,7 +3,7 @@
     "description": "A PHP SDK for Shopware 6 Platform",
     "type": "library",
     "license": "MIT",
-    "version": "1.5.1",
+    "version": "1.6.0",
     "authors": [
         {
             "name": "vin",

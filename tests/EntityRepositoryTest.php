@@ -23,6 +23,7 @@ use Vin\ShopwareSdk\Data\Schema\Schema;
 use Vin\ShopwareSdk\Data\Uuid\Uuid;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 use Vin\ShopwareSdk\Factory\RepositoryFactory;
+use Vin\ShopwareSdk\Hydrate\EntityHydrator;
 use Vin\ShopwareSdk\Repository\EntityRepository;
 use Vin\ShopwareSdk\Repository\Struct\EntitySearchResult;
 use Vin\ShopwareSdk\Repository\Struct\IdSearchResult;
@@ -105,13 +106,19 @@ class EntityRepositoryTest extends TestCase
 
         $client = Client::create(['handler' => $handlerStack]);
 
-        $mockRepository = $this->getMockBuilder(EntityRepository::class)->setConstructorArgs(['custom', new CustomDefinition('custom'), '/'])->onlyMethods(['schema'])->getMock();
+        $hydrator = $this->getMockBuilder(EntityHydrator::class)->onlyMethods(['schema'])->getMock();
+        $repository = new EntityRepository(
+            'custom',
+            new CustomDefinition('custom'),
+            '/',
+            $hydrator
+        );
 
-        $mockRepository->method('schema')->willReturn(new Schema('custom', new PropertyCollection()));
-        $mockRepository->setHttpClient($client);
+        $hydrator->method('schema')->willReturn(new Schema('custom', new PropertyCollection()));
+        $repository->setHttpClient($client);
 
         /** @var CustomEntity $result */
-        $result = $mockRepository->get($customId, new Criteria(), $this->context);
+        $result = $repository->get($customId, new Criteria(), $this->context);
 
         static::assertEquals('custom', $result->getEntityName());
         static::assertInstanceOf(CustomEntity::class, $result);
