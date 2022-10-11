@@ -14,7 +14,19 @@ use Vin\ShopwareSdk\Service\InfoService;
 
 class EntityHydrator implements HydratorInterface
 {
+    // using cache is recommended if you want to use circular references
+    protected bool $useCache;
+
+    protected array $cache = [];
+
     protected array $cacheSchema = [];
+
+    public function __construct(
+        bool $useCache = false
+    )
+    {
+        $this->useCache = $useCache;
+    }
 
     public function schema(string $entity, Context $context): Schema
     {
@@ -70,6 +82,14 @@ class EntityHydrator implements HydratorInterface
 
     private function hydrateEntity(string $entityName, array $entityRaw, array $data, Context $context): Entity
     {
+        if($this->useCache) {
+            $cacheKey = $entityRaw['type'] . '-' . $entityRaw['id'];
+
+            if (array_key_exists($cacheKey, $this->cache)) {
+                return $this->cache[$cacheKey];
+            }
+        }
+
         $repository = RepositoryFactory::create($entityName);
         $definition = $repository->getDefinition();
         $entityClass = $definition->getEntityClass();
@@ -86,6 +106,11 @@ class EntityHydrator implements HydratorInterface
         $entity = $this->hydrateEmptyJsonFields($entity, $attributes, $entitySchema);
 
         $relationships = $entityRaw['relationships'] ?? [];
+
+        // reserve cache before relationships hydration. This prevents circular references to fail
+        if($this->useCache && isset($cacheKey)) {
+            $this->cache[$cacheKey] = $entity;
+        }
 
         return $this->hydrateRelationships($entity, $relationships, $entitySchema, $data, $context);
     }
