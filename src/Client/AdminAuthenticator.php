@@ -106,7 +106,7 @@ class AdminAuthenticator
             case $grantType instanceof PasswordGrantType:
                 $formParams['password'] = $grantType->password;
                 $formParams['username'] = $grantType->username;
-                $formParams['scopes'] = $grantType->scopes;
+                $formParams['scope'] = $grantType->scopes;
                 return $formParams;
             case $grantType instanceof RefreshTokenGrantType:
                 $formParams['refresh_token'] = $grantType->refreshToken;
