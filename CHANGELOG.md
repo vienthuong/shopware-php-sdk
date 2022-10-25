@@ -4,6 +4,9 @@ All notable changes to `shopware-php-sdk` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 1.7.0
+- PHP 8.1 compatibility
+
 ### 1.6.0
 - [Use composition instead of Traits for entity hydration logic](https://github.com/vienthuong/shopware-php-sdk/issues/46)
 - [Removed cache for hydrated entities](https://github.com/vienthuong/shopware-php-sdk/issues/46)

@@ -35,6 +35,8 @@ class AppFlowActionEntity extends Entity
 
     public ?string $url = null;
 
+    public ?bool $delayable = null;
+
     public ?string $label = null;
 
     public ?string $description = null;
