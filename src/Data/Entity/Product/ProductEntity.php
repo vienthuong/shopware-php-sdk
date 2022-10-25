@@ -87,6 +87,10 @@ class ProductEntity extends Entity
 
     public ?string $mainVariantId = null;
 
+    public ?bool $displayParent = null;
+
+    public ?array $variantListingConfig = null;
+
     public ?array $variantRestrictions = null;
 
     public ?string $manufacturerNumber = null;

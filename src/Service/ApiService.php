@@ -66,7 +66,7 @@ class ApiService
             'Accept' => $this->contentType,
             'Authorization' => 'Bearer ' . $context->accessToken->accessToken,
             'Content-Type' => 'application/json'
-        ], $this->context->additionalHeaders);
+        ], $context->additionalHeaders);
 
         return array_merge($basicHeaders, $additionalHeaders);
     }

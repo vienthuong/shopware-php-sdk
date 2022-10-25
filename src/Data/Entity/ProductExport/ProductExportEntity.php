@@ -48,6 +48,8 @@ class ProductExportEntity extends Entity
 
     public ?bool $pausedSchedule = null;
 
+    public ?bool $isRunning = null;
+
     public ?ProductStreamEntity $productStream = null;
 
     public ?SalesChannelEntity $storefrontSalesChannel = null;

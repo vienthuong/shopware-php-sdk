@@ -12,7 +12,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^7.4 || ^8.0 || ^8.1",
         "ext-json": "*",
         "guzzlehttp/guzzle": "~7.4.5",
         "psr/http-client": "^1.0"
