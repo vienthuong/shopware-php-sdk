@@ -4,6 +4,9 @@ All notable changes to `shopware-php-sdk` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 1.7.1
+- guzzlehttp/guzzle updated to version 7.5
+
 ### 1.7.0
 - PHP 8.1 compatibility
 
