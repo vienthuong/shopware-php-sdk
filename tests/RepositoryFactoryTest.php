@@ -19,6 +19,9 @@ use Vin\ShopwareSdk\Data\Entity\Product\ProductEntity;
 use Vin\ShopwareSdk\Factory\RepositoryFactory;
 use Vin\ShopwareSdk\Repository\EntityRepository;
 
+/**
+ * @covers \Vin\ShopwareSdk\Factory\RepositoryFactory
+ */
 class RepositoryFactoryTest extends TestCase
 {
     public function testCreateEntity(): void

@@ -90,8 +90,7 @@ class AdminSearchService extends ApiService
 
                 $aggregations = new AggregationResultCollection($itemResponse['aggregations'] ?? []);
 
-                $entities = $this->hydrator->hydrateSearchResult($itemResponse, $context);
-
+                $entities = $this->hydrator->hydrateSearchResult($itemResponse, $context, $entityName);
 
                 $meta = new SearchResultMeta($itemResponse['total'] ?? 0, Criteria::TOTAL_COUNT_MODE_EXACT);
 

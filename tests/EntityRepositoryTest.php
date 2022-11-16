@@ -29,6 +29,9 @@ use Vin\ShopwareSdk\Repository\Struct\EntitySearchResult;
 use Vin\ShopwareSdk\Repository\Struct\IdSearchResult;
 use Vin\ShopwareSdk\Client\Client;
 
+/**
+ * @covers \Vin\ShopwareSdk\Repository\EntityRepository
+ */
 class EntityRepositoryTest extends TestCase
 {
     private EntityRepository $productRepository;
@@ -49,7 +52,7 @@ class EntityRepositoryTest extends TestCase
         $this->productRepository->setHttpClient($client);
     }
 
-    public function testBadResponse(): void
+    public function testSearchBadResponse(): void
     {
         static::expectException(ShopwareResponseException::class);
         static::expectExceptionMessage('Unauthenticated');
@@ -134,6 +137,17 @@ class EntityRepositoryTest extends TestCase
         static::assertEquals('fb170089052445f19ef4420a648d0d49', $result->firstId());
         static::assertCount(25, $result->getData());
         static::assertEquals(69, $result->getTotal());
+    }
+
+    public function testSearchShouldThrowShopwareHttpException(): void
+    {
+        static::expectException(ShopwareResponseException::class);
+        static::expectExceptionMessage('Unauthenticated');
+        static::expectExceptionCode(401);
+
+        $this->mock->append(new BadResponseException('Unauthenticated', new Request('POST', 'test'), new Response(401, [], 'Unauthenticated')));
+
+        $this->productRepository->searchIds(new Criteria(), $this->context);
     }
 
     public function testCreateNew(): void

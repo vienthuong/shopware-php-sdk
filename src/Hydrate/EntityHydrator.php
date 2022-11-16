@@ -51,10 +51,31 @@ class EntityHydrator implements HydratorInterface
         return $schema;
     }
 
-    public function hydrateSearchResult(array $response, Context $context): EntityCollection
+    /**
+     * @deprecated - third parameter will be required from next major version 2.0.0
+     */
+    public function hydrateSearchResult(array $response, Context $context, ?string $entityName = null): EntityCollection
     {
+        // Deprecated - Remove this block on next major version 2.0.0
+        if ($entityName === null && !empty($response) && !empty($response['data'])) {
+            $data = $response['data'];
+            $first = current($data);
+
+            $entityName = $first['type'];
+        }
+
+        $collectionClass = EntityCollection::class;
+
+        if ($entityName !== null) {
+            $repository = RepositoryFactory::create($entityName);
+            $collectionClass = $repository->getDefinition()->getEntityCollection();
+        }
+
         if (empty($response) || empty($response['data'])) {
-            return new EntityCollection();
+            /** @var EntityCollection $hydrated */
+            $hydrated = new $collectionClass([]);
+
+            return $hydrated;
         }
 
         $entities = [];
@@ -62,16 +83,6 @@ class EntityHydrator implements HydratorInterface
         foreach ($response['data'] as $entityRaw) {
             $entity = $this->hydrateEntity($entityRaw['type'], $entityRaw, $response, $context);
             $entities[$entity->id] = $entity;
-        }
-
-        $collectionClass = EntityCollection::class;
-
-        $data = $response['data'];
-        $first = current($data);
-
-        if (!empty($first['type'])) {
-            $repository = RepositoryFactory::create($first['type']);
-            $collectionClass = $repository->getDefinition()->getEntityCollection();
         }
 
         /** @var EntityCollection $collection */

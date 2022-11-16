@@ -82,7 +82,7 @@ class EntityRepository implements RepositoryInterface
 
         $aggregations = new AggregationResultCollection($response['aggregations']);
 
-        $entities = $this->hydrator->hydrateSearchResult($response, $context);
+        $entities = $this->hydrator->hydrateSearchResult($response, $context, $this->entityName);
 
         $meta = new SearchResultMeta($response['meta']['total'], $response['meta']['totalCountMode']);
 
@@ -91,10 +91,16 @@ class EntityRepository implements RepositoryInterface
 
     public function searchIds(Criteria $criteria, Context $context): IdSearchResult
     {
-        $response = $this->httpClient->post($this->getSearchIdsApiUrl($context->apiEndpoint), [
-            'headers' => $this->buildHeaders($context),
-            'body' => json_encode($criteria->parse())
-        ])->getBody()->getContents();
+        try {
+            $response = $this->httpClient->post($this->getSearchIdsApiUrl($context->apiEndpoint), [
+                'headers' => $this->buildHeaders($context),
+                'body' => json_encode($criteria->parse())
+            ])->getBody()->getContents();
+        } catch (BadResponseException $exception) {
+            $message = $exception->getResponse()->getBody()->getContents();
+
+            throw new ShopwareSearchResponseException($message, $exception->getResponse()->getStatusCode(), $criteria, $exception);
+        }
 
         $response = $this->decodeResponse($response);
 

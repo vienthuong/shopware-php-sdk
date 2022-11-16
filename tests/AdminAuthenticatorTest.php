@@ -16,6 +16,9 @@ use Vin\ShopwareSdk\Client\GrantType\GrantType;
 use Vin\ShopwareSdk\Data\AccessToken;
 use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
 
+/**
+ * @covers \Vin\ShopwareSdk\Client\AdminAuthenticator
+ */
 class AdminAuthenticatorTest extends TestCase
 {
     private AdminAuthenticator $authenticator;
