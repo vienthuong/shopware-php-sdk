@@ -12,6 +12,9 @@ use Vin\ShopwareSdk\Data\Response\OpenModalResponse;
 use Vin\ShopwareSdk\Data\Response\OpenNewTabResponse;
 use Vin\ShopwareSdk\Data\Response\ReloadDataResponse;
 
+/**
+ * @covers \Vin\ShopwareSdk\Data\Response\ActionButtonResponse
+ */
 class ActionButtonResponseTest extends TestCase
 {
     public function testEmptyResponsestEmptyResponse(): void

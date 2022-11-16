@@ -9,6 +9,9 @@ use Vin\ShopwareSdk\Data\Response\RegistrationResponse;
 use Vin\ShopwareSdk\Data\Webhook\Shop;
 use Vin\ShopwareSdk\Data\Webhook\ShopRegistrationResult;
 
+/**
+ * @covers \Vin\ShopwareSdk\Data\Response\RegistrationResponse
+ */
 class RegistrationResponseTest extends TestCase
 {
     public function testResponse(): void

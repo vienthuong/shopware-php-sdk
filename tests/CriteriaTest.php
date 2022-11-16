@@ -26,6 +26,9 @@ use Vin\ShopwareSdk\Data\Filter\RangeFilter;
 use Vin\ShopwareSdk\Data\Filter\SuffixFilter;
 use Vin\ShopwareSdk\Data\ScoreQuery\ScoreQuery;
 
+/**
+ * @covers \Vin\ShopwareSdk\Data\Criteria
+ */
 class CriteriaTest extends TestCase
 {
     public function testCriteriaParsed(): void

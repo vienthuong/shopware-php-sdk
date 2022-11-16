@@ -18,6 +18,10 @@ class WebhookAuthenticator
 
         parse_str($queryString, $queries);
 
+        if (!is_string($queries['shop-id']) || !is_string($queries['shop-url'])) {
+            throw new \RuntimeException('shop-id and shop-url should be strings');
+        }
+
         $shop = new Shop($queries['shop-id'], $queries['shop-url']);
 
         $hmac = \hash_hmac('sha256', htmlspecialchars_decode($queryString), $app->getAppSecret());
@@ -49,14 +53,18 @@ class WebhookAuthenticator
 
         parse_str($queryString, $queries);
 
+        if (!is_string($queries['shop-id']) || !is_string($queries['shop-url'])) {
+            throw new \RuntimeException('shop-id and shop-url should be strings');
+        }
+
         $shop = new Shop($queries['shop-id'], $queries['shop-url'], $shopSecret);
 
         $queryString = sprintf(
             'shop-id=%s&shop-url=%s&timestamp=%s&sw-version=%s',
             $shop->getShopId(),
             $shop->getShopUrl(),
-            $queries['timestamp'],
-            $queries['sw-version'],
+            $queries['timestamp'] ?? null,
+            $queries['sw-version'] ?? null,
         );
 
         if (array_key_exists('sw-context-language', $queries) && array_key_exists('sw-context-language', $queries)) {

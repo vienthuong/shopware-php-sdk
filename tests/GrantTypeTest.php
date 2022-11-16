@@ -10,6 +10,9 @@ use Vin\ShopwareSdk\Client\GrantType\PasswordGrantType;
 use Vin\ShopwareSdk\Client\GrantType\ClientCredentialsGrantType;
 use Vin\ShopwareSdk\Client\GrantType\RefreshTokenGrantType;
 
+/**
+ * @covers \Vin\ShopwareSdk\Client\GrantType\GrantType
+ */
 class GrantTypeTest extends TestCase
 {
     public function testCreateFromInvalidConfig(): void

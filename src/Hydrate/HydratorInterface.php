@@ -12,5 +12,5 @@ interface HydratorInterface
 {
     public function schema(string $entity, Context $context): Schema;
 
-    public function hydrateSearchResult(array $response, Context $context): EntityCollection;
+    public function hydrateSearchResult(array $response, Context $context, ?string $entityName): EntityCollection;
 }

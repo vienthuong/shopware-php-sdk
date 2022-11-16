@@ -10,6 +10,9 @@ use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Schema\Schema;
 use Vin\ShopwareSdk\Service\InfoService;
 
+/**
+ * @covers \Vin\ShopwareSdk\Service\InfoService
+ */
 class InfoServiceTest extends TestCase
 {
     public function testGetSchema(): void
