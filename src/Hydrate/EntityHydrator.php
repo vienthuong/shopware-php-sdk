@@ -47,6 +47,8 @@ class EntityHydrator implements HydratorInterface
                 throw new Exception('Schema for entity: ' . $entity . ' not found');
             }
         }
+        
+        $this->cacheSchema[$entity] = $schema;
 
         return $schema;
     }
