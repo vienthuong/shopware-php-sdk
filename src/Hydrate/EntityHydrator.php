@@ -121,7 +121,7 @@ class EntityHydrator implements HydratorInterface
         $relationships = $entityRaw['relationships'] ?? [];
 
         // reserve cache before relationships hydration. This prevents circular references to fail
-        if($this->useCache && isset($cacheKey)) {
+        if($this->useCache) {
             $this->cache[$cacheKey] = $entity;
         }
 
