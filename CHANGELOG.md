@@ -4,6 +4,10 @@ All notable changes to `shopware-php-sdk` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 1.7.3
+- [Fix Schema caching](https://github.com/vienthuong/shopware-php-sdk/pull/62)
+- [Loosen Guzzle requirement](https://github.com/vienthuong/shopware-php-sdk/pull/63)
+
 ### 1.7.2
 - [Fix EntityCollection is returned for empty result](https://github.com/vienthuong/shopware-php-sdk/issues/58)
 - [Fix EntityRepository::searchIds does not throw ShopwareSearchResponseException](https://github.com/vienthuong/shopware-php-sdk/issues/49)
