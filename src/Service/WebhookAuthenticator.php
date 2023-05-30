@@ -59,25 +59,31 @@ class WebhookAuthenticator
 
         $shop = new Shop($queries['shop-id'], $queries['shop-url'], $shopSecret);
 
-        $queryString = sprintf(
-            'shop-id=%s&shop-url=%s&timestamp=%s&sw-version=%s',
-            $shop->getShopId(),
-            $shop->getShopUrl(),
-            $queries['timestamp'] ?? null,
-            $queries['sw-version'] ?? null,
-        );
+        $queryParams = [
+            'shop-id' => $shop->getShopId(),
+            'shop-url' => $shop->getShopUrl(),
+            'timestamp' => $queries['timestamp'],
+            'sw-version' => $queries['sw-version'],
+        ];
 
-        if (array_key_exists('sw-context-language', $queries) && array_key_exists('sw-context-language', $queries)) {
-            $queryString = sprintf(
-                'shop-id=%s&shop-url=%s&timestamp=%s&sw-version=%s&sw-context-language=%s&sw-user-language=%s',
-                $shop->getShopId(),
-                $shop->getShopUrl(),
-                $queries['timestamp'],
-                $queries['sw-version'],
-                $queries['sw-context-language'],
-                $queries['sw-user-language'],
-            );
+        if (array_key_exists('sw-context-language', $queries)) {
+            $queryParams['sw-context-language'] = $queries['sw-context-language'];
         }
+
+        if (array_key_exists('sw-user-language', $queries)) {
+            $queryParams['sw-user-language'] = $queries['sw-user-language'];
+        }
+
+        if (array_key_exists('location-id', $queries)) {
+            $queryParams['location-id'] = $queries['location-id'];
+        }
+
+        if (array_key_exists('privileges', $queries)) {
+            $queryParams['privileges'] = urlencode($queries['privileges']);
+        }
+
+        $queryString = http_build_query($queryParams);
+
 
         $hmac = \hash_hmac('sha256', htmlspecialchars_decode($queryString), $shopSecret);
 

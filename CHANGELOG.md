@@ -9,6 +9,8 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - Added EndPointTrait for supporting to remove the unnecessary last slashes of an endpoint
 - Updated `AdminAuthenticator` and `Context` to remove the unnecessary last slashes of the provided endpoint
 - [Fix Call to a member function getSource() on null](https://github.com/vienthuong/shopware-php-sdk/issues/65)
+- `WebhookAuthenticator::authenticateGetRequest` now also consider `location-id` and `privileges`
+- [Fix GET Requests of Webhook are not validated correctly](https://github.com/vienthuong/shopware-php-sdk/issues/61)
 
 ### 1.7.3
 - [Fix Schema caching](https://github.com/vienthuong/shopware-php-sdk/pull/62)
