@@ -102,4 +102,17 @@ class AdminAuthenticatorTest extends TestCase
 
         static::assertFalse($accessToken->isExpired());
     }
+
+    public function testRemoveLastSlashesFromEndPoint(): void
+    {
+        $grantType = GrantType::createFromConfig([
+            'grant_type' => GrantType::PASSWORD,
+            'username' => 'admin',
+            'password' => 'shopware'
+        ]);
+
+        $this->authenticator = new AdminAuthenticator($grantType, 'http://test.com///////');
+
+        static::assertEquals('http://test.com', $this->authenticator->getEndpoint());
+    }
 }

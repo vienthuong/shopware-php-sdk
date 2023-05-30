@@ -6,6 +6,9 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### 2.0.0
 - Updated the entity-schema for Shopware version 6.5
+- Added EndPointTrait for supporting to remove the unnecessary last slashes of an endpoint
+- Updated `AdminAuthenticator` and `Context` to remove the unnecessary last slashes of the provided endpoint
+- [Fix Call to a member function getSource() on null](https://github.com/vienthuong/shopware-php-sdk/issues/65)
 
 ### 1.7.3
 - [Fix Schema caching](https://github.com/vienthuong/shopware-php-sdk/pull/62)

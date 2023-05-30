@@ -10,11 +10,13 @@ use Vin\ShopwareSdk\Client\GrantType\GrantType;
 use Vin\ShopwareSdk\Client\GrantType\PasswordGrantType;
 use Vin\ShopwareSdk\Client\GrantType\RefreshTokenGrantType;
 use Vin\ShopwareSdk\Data\AccessToken;
+use Vin\ShopwareSdk\Data\EndPointTrait;
 use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
 
 class AdminAuthenticator
 {
     use CreateClientTrait;
+    use EndPointTrait;
 
     public const OAUTH_TOKEN_ENDPOINT = '/api/oauth/token';
 
@@ -43,7 +45,7 @@ class AdminAuthenticator
 
         $this->httpClient = $this->httpClient ?? $this->createHttpClient($this->config);
         $this->grantType = $grantType;
-        $this->endpoint = $endpoint;
+        $this->endpoint = $this->removeLastSlashes($endpoint);
     }
 
     public function fetchAccessToken(): AccessToken

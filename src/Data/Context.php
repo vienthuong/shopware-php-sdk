@@ -4,6 +4,8 @@ namespace Vin\ShopwareSdk\Data;
 
 class Context
 {
+    use EndPointTrait;
+
     public string $languageId = Defaults::LANGUAGE_SYSTEM;
 
     public string $currencyId = Defaults::CURRENCY;
@@ -36,7 +38,7 @@ class Context
         $this->compatibility = $compatibility;
         $this->inheritance = $inheritance;
         $this->accessToken = $accessToken;
-        $this->apiEndpoint = $apiEndpoint;
+        $this->apiEndpoint = $this->removeLastSlashes($apiEndpoint);
         $this->additionalHeaders = $additionalHeaders;
     }
 }
