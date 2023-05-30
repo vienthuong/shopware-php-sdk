@@ -27,7 +27,5 @@ class OrderTransactionCaptureRefundEntity extends Entity
 
     public ?string $reason = null;
 
-    public ?float $totalAmount = null;
-
     public ?array $amount = null;
 }

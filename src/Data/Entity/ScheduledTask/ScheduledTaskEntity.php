@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 namespace Vin\ShopwareSdk\Data\Entity\ScheduledTask;
 
-use Vin\ShopwareSdk\Data\Entity\DeadMessage\DeadMessageCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -22,6 +21,4 @@ class ScheduledTaskEntity extends Entity
     public ?\DateTimeInterface$lastExecutionTime = null;
 
     public ?\DateTimeInterface$nextExecutionTime = null;
-
-    public ?DeadMessageCollection $deadMessages = null;
 }

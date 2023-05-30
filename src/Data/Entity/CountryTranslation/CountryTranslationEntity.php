@@ -14,6 +14,8 @@ class CountryTranslationEntity extends Entity
 {
     public ?string $name = null;
 
+    public ?array $addressFormat = null;
+
     public ?string $countryId = null;
 
     public ?string $languageId = null;

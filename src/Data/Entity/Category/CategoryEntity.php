@@ -49,6 +49,10 @@ class CategoryEntity extends Entity
 
     public ?bool $active = null;
 
+    public ?bool $cmsPageIdSwitched = null;
+
+    public ?int $visibleChildCount = null;
+
     public ?string $name = null;
 
     public ?array $slotConfig = null;
@@ -92,6 +96,8 @@ class CategoryEntity extends Entity
     public ?string $productStreamId = null;
 
     public ?ProductStreamEntity $productStream = null;
+
+    public ?string $customEntityTypeId = null;
 
     public ?SalesChannelCollection $navigationSalesChannels = null;
 

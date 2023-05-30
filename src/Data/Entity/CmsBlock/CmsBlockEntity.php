@@ -39,6 +39,8 @@ class CmsBlockEntity extends Entity
 
     public ?string $cssClass = null;
 
+    public ?array $visibility = null;
+
     public ?string $sectionId = null;
 
     public ?CmsSectionEntity $section = null;

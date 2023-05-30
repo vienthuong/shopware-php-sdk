@@ -4,6 +4,9 @@ All notable changes to `shopware-php-sdk` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 2.0.0
+- Updated the entity-schema for Shopware version 6.5
+
 ### 1.7.3
 - [Fix Schema caching](https://github.com/vienthuong/shopware-php-sdk/pull/62)
 - [Loosen Guzzle requirement](https://github.com/vienthuong/shopware-php-sdk/pull/63)

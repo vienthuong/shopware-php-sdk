@@ -29,6 +29,4 @@ class OrderTransactionCaptureRefundPositionEntity extends Entity
     public ?int $quantity = null;
 
     public ?array $amount = null;
-
-    public ?float $refundPrice = null;
 }

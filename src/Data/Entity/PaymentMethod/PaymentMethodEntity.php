@@ -65,4 +65,6 @@ class PaymentMethodEntity extends Entity
     public ?SalesChannelCollection $salesChannels = null;
 
     public ?AppPaymentMethodEntity $appPaymentMethod = null;
+
+    public ?string $shortName = null;
 }

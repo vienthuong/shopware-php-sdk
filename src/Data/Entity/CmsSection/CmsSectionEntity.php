@@ -35,6 +35,8 @@ class CmsSectionEntity extends Entity
 
     public ?string $pageId = null;
 
+    public ?array $visibility = null;
+
     public ?CmsPageEntity $page = null;
 
     public ?MediaEntity $backgroundMedia = null;

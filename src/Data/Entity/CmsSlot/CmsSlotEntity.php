@@ -28,5 +28,7 @@ class CmsSlotEntity extends Entity
 
     public ?CmsSlotTranslationCollection $translations = null;
 
+    public ?array $fieldConfig = null;
+
     public ?string $cmsBlockVersionId = null;
 }
