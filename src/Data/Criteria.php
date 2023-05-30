@@ -35,9 +35,20 @@ class Criteria implements ParseAware
      */
     public const TOTAL_COUNT_MODE_NEXT_PAGES = 2;
 
-    private int $page;
 
-    private ?int $limit;
+    /**
+     * page and limit should be mixed to allow null also
+     * this would prevent from generating pagination problems
+     * 
+     * @var mixed
+     */
+    private $page;
+
+    /**
+     * see above
+     * @var mixed
+     */
+    private $limit;
 
     /**
      * Don't use term parameters together with query parameters.
@@ -84,7 +95,13 @@ class Criteria implements ParseAware
 
     private array $includes = [];
 
-    public function __construct(int $page = 1, ?int $limit = 25)
+    /**
+     * Default should be null to not limit artificily
+     *
+     * @param $page
+     * @param $limit
+     */
+    public function __construct($page = null, $limit = null)
     {
         $this->page = $page;
         $this->limit = $limit;
