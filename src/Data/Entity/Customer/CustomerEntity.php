@@ -14,6 +14,7 @@ use Vin\ShopwareSdk\Data\Entity\CustomerRecovery\CustomerRecoveryEntity;
 use Vin\ShopwareSdk\Data\Entity\CustomerGroup\CustomerGroupEntity;
 use Vin\ShopwareSdk\Data\Entity\SalesChannel\SalesChannelEntity;
 use Vin\ShopwareSdk\Data\Entity\CustomerWishlist\CustomerWishlistCollection;
+use Vin\ShopwareSdk\Data\Entity\User\UserEntity;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -79,8 +80,6 @@ class CustomerEntity extends Entity
 
     public ?array $newsletterSalesChannelIds = null;
 
-    public ?bool $newsletter = null;
-
     public ?\DateTimeInterface$birthday = null;
 
     public ?\DateTimeInterface$lastOrderDate = null;
@@ -137,4 +136,12 @@ class CustomerEntity extends Entity
     public ?SalesChannelEntity $boundSalesChannel = null;
 
     public ?CustomerWishlistCollection $wishlists = null;
+
+    public ?string $createdById = null;
+
+    public ?string $updatedById = null;
+
+    public ?UserEntity $createdBy = null;
+
+    public ?UserEntity $updatedBy = null;
 }

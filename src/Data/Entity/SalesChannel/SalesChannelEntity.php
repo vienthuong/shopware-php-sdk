@@ -33,7 +33,6 @@ use Vin\ShopwareSdk\Data\Entity\MainCategory\MainCategoryCollection;
 use Vin\ShopwareSdk\Data\Entity\ProductExport\ProductExportCollection;
 use Vin\ShopwareSdk\Data\Entity\SalesChannelAnalytics\SalesChannelAnalyticsEntity;
 use Vin\ShopwareSdk\Data\Entity\CustomerGroup\CustomerGroupCollection;
-use Vin\ShopwareSdk\Data\Entity\EventAction\EventActionCollection;
 use Vin\ShopwareSdk\Data\Entity\LandingPage\LandingPageCollection;
 use Vin\ShopwareSdk\Data\Entity\Customer\CustomerCollection;
 use Vin\ShopwareSdk\Data\Entity\CustomerWishlist\CustomerWishlistCollection;
@@ -186,8 +185,6 @@ class SalesChannelEntity extends Entity
     public ?SalesChannelAnalyticsEntity $analytics = null;
 
     public ?CustomerGroupCollection $customerGroupsRegistrations = null;
-
-    public ?EventActionCollection $eventActions = null;
 
     public ?LandingPageCollection $landingPages = null;
 

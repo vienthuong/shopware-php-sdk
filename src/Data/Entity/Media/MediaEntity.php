@@ -4,10 +4,13 @@ namespace Vin\ShopwareSdk\Data\Entity\Media;
 use Vin\ShopwareSdk\Data\Entity\MediaTranslation\MediaTranslationCollection;
 use Vin\ShopwareSdk\Data\Entity\Tag\TagCollection;
 use Vin\ShopwareSdk\Data\Entity\MediaThumbnail\MediaThumbnailCollection;
+use Vin\ShopwareSdk\Data\Entity\User\UserEntity;
 use Vin\ShopwareSdk\Data\Entity\Category\CategoryCollection;
 use Vin\ShopwareSdk\Data\Entity\ProductManufacturer\ProductManufacturerCollection;
 use Vin\ShopwareSdk\Data\Entity\ProductMedia\ProductMediaCollection;
-use Vin\ShopwareSdk\Data\Entity\User\UserEntity;
+use Vin\ShopwareSdk\Data\Entity\ProductDownload\ProductDownloadCollection;
+use Vin\ShopwareSdk\Data\Entity\OrderLineItemDownload\OrderLineItemDownloadCollection;
+use Vin\ShopwareSdk\Data\Entity\User\UserCollection;
 use Vin\ShopwareSdk\Data\Entity\MediaFolder\MediaFolderEntity;
 use Vin\ShopwareSdk\Data\Entity\PropertyGroupOption\PropertyGroupOptionCollection;
 use Vin\ShopwareSdk\Data\Entity\MailTemplateMedia\MailTemplateMediaCollection;
@@ -77,7 +80,11 @@ class MediaEntity extends Entity
 
     public ?ProductMediaCollection $productMedia = null;
 
-    public ?UserEntity $avatarUser = null;
+    public ?ProductDownloadCollection $productDownloads = null;
+
+    public ?OrderLineItemDownloadCollection $orderLineItemDownloads = null;
+
+    public ?UserCollection $avatarUsers = null;
 
     public ?MediaFolderEntity $mediaFolder = null;
 

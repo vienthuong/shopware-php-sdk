@@ -33,19 +33,27 @@ class CountryEntity extends Entity
 
     public ?bool $forceStateInRegistration = null;
 
-    public ?bool $companyTaxFree = null;
-
     public ?bool $checkVatIdPattern = null;
 
     public ?bool $vatIdRequired = null;
-
-    public ?bool $taxFree = null;
 
     public ?string $vatIdPattern = null;
 
     public ?array $customerTax = null;
 
     public ?array $companyTax = null;
+
+    public ?bool $postalCodeRequired = null;
+
+    public ?bool $checkPostalCodePattern = null;
+
+    public ?bool $checkAdvancedPostalCodePattern = null;
+
+    public ?string $advancedPostalCodePattern = null;
+
+    public ?array $addressFormat = null;
+
+    public ?string $defaultPostalCodePattern = null;
 
     public ?CountryStateCollection $states = null;
 

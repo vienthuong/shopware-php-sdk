@@ -10,6 +10,7 @@ use Vin\ShopwareSdk\Data\Entity\AppTemplate\AppTemplateCollection;
 use Vin\ShopwareSdk\Data\Entity\Script\ScriptCollection;
 use Vin\ShopwareSdk\Data\Entity\Webhook\WebhookCollection;
 use Vin\ShopwareSdk\Data\Entity\AppPaymentMethod\AppPaymentMethodCollection;
+use Vin\ShopwareSdk\Data\Entity\TaxProvider\TaxProviderCollection;
 use Vin\ShopwareSdk\Data\Entity\AppScriptCondition\AppScriptConditionCollection;
 use Vin\ShopwareSdk\Data\Entity\AppCmsBlock\AppCmsBlockCollection;
 use Vin\ShopwareSdk\Data\Entity\AppFlowAction\AppFlowActionCollection;
@@ -87,6 +88,8 @@ class AppEntity extends Entity
     public ?WebhookCollection $webhooks = null;
 
     public ?AppPaymentMethodCollection $paymentMethods = null;
+
+    public ?TaxProviderCollection $taxProviders = null;
 
     public ?AppScriptConditionCollection $scriptConditions = null;
 

@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Vin\ShopwareSdk\Data\Entity\MessageQueueStats;
+namespace Vin\ShopwareSdk\Data\Entity\FlowTemplate;
 
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
@@ -8,9 +8,9 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
  *
  * This class is generated dynamically following SW entities schema
  */
-class MessageQueueStatsEntity extends Entity
+class FlowTemplateEntity extends Entity
 {
     public ?string $name = null;
 
-    public ?int $size = null;
+    public ?array $config = null;
 }

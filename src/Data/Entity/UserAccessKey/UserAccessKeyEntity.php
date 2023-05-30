@@ -17,8 +17,6 @@ class UserAccessKeyEntity extends Entity
 
     public ?string $secretAccessKey = null;
 
-    public ?bool $writeAccess = null;
-
     public ?\DateTimeInterface$lastUsageAt = null;
 
     public ?UserEntity $user = null;

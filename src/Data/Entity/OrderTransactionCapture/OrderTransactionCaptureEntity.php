@@ -27,7 +27,5 @@ class OrderTransactionCaptureEntity extends Entity
 
     public ?string $externalReference = null;
 
-    public ?float $totalAmount = null;
-
     public ?array $amount = null;
 }

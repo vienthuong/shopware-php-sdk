@@ -11,6 +11,7 @@ use Vin\ShopwareSdk\Data\Entity\ImportExportLog\ImportExportLogCollection;
 use Vin\ShopwareSdk\Data\Entity\AclRole\AclRoleCollection;
 use Vin\ShopwareSdk\Data\Entity\UserRecovery\UserRecoveryEntity;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderCollection;
+use Vin\ShopwareSdk\Data\Entity\Customer\CustomerCollection;
 use Vin\ShopwareSdk\Data\Entity\Notification\NotificationCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
@@ -22,8 +23,6 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
 class UserEntity extends Entity
 {
     public ?string $localeId = null;
-
-    public ?string $avatarId = null;
 
     public ?string $username = null;
 
@@ -47,6 +46,8 @@ class UserEntity extends Entity
 
     public ?LocaleEntity $locale = null;
 
+    public ?string $avatarId = null;
+
     public ?MediaEntity $avatarMedia = null;
 
     public ?MediaCollection $media = null;
@@ -68,6 +69,10 @@ class UserEntity extends Entity
     public ?OrderCollection $createdOrders = null;
 
     public ?OrderCollection $updatedOrders = null;
+
+    public ?CustomerCollection $createdCustomers = null;
+
+    public ?CustomerCollection $updatedCustomers = null;
 
     public ?NotificationCollection $createdNotifications = null;
 }

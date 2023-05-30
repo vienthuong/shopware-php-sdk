@@ -7,6 +7,7 @@ use Vin\ShopwareSdk\Data\Entity\Product\ProductEntity;
 use Vin\ShopwareSdk\Data\Entity\Promotion\PromotionEntity;
 use Vin\ShopwareSdk\Data\Entity\OrderDeliveryPosition\OrderDeliveryPositionCollection;
 use Vin\ShopwareSdk\Data\Entity\OrderTransactionCaptureRefundPosition\OrderTransactionCaptureRefundPositionCollection;
+use Vin\ShopwareSdk\Data\Entity\OrderLineItemDownload\OrderLineItemDownloadCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -52,6 +53,8 @@ class OrderLineItemEntity extends Entity
 
     public ?int $position = null;
 
+    public ?array $states = null;
+
     public ?array $price = null;
 
     public ?array $priceDefinition = null;
@@ -73,6 +76,8 @@ class OrderLineItemEntity extends Entity
     public ?OrderDeliveryPositionCollection $orderDeliveryPositions = null;
 
     public ?OrderTransactionCaptureRefundPositionCollection $orderTransactionCaptureRefundPositions = null;
+
+    public ?OrderLineItemDownloadCollection $downloads = null;
 
     public ?OrderLineItemEntity $parent = null;
 

@@ -54,6 +54,7 @@ use Vin\ShopwareSdk\Data\Entity\AppCmsBlockTranslation\AppCmsBlockTranslationCol
 use Vin\ShopwareSdk\Data\Entity\AppScriptConditionTranslation\AppScriptConditionTranslationCollection;
 use Vin\ShopwareSdk\Data\Entity\ProductSearchConfig\ProductSearchConfigEntity;
 use Vin\ShopwareSdk\Data\Entity\AppFlowActionTranslation\AppFlowActionTranslationCollection;
+use Vin\ShopwareSdk\Data\Entity\TaxProviderTranslation\TaxProviderTranslationCollection;
 use Vin\ShopwareSdk\Data\Entity\ThemeTranslation\ThemeTranslationCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
@@ -185,6 +186,8 @@ class LanguageEntity extends Entity
     public ?ProductSearchConfigEntity $productSearchConfig = null;
 
     public ?AppFlowActionTranslationCollection $appFlowActionTranslations = null;
+
+    public ?TaxProviderTranslationCollection $taxProviderTranslations = null;
 
     public ?ThemeTranslationCollection $themeTranslations = null;
 }

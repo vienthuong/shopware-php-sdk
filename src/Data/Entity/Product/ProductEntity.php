@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace Vin\ShopwareSdk\Data\Entity\Product;
 
+use Vin\ShopwareSdk\Data\Entity\ProductDownload\ProductDownloadCollection;
 use Vin\ShopwareSdk\Data\Entity\DeliveryTime\DeliveryTimeEntity;
 use Vin\ShopwareSdk\Data\Entity\Tax\TaxEntity;
 use Vin\ShopwareSdk\Data\Entity\ProductManufacturer\ProductManufacturerEntity;
@@ -83,12 +84,6 @@ class ProductEntity extends Entity
 
     public ?string $displayGroup = null;
 
-    public ?array $configuratorGroupConfig = null;
-
-    public ?string $mainVariantId = null;
-
-    public ?bool $displayParent = null;
-
     public ?array $variantListingConfig = null;
 
     public ?array $variantRestrictions = null;
@@ -142,6 +137,10 @@ class ProductEntity extends Entity
     public ?bool $customFieldSetSelectionActive = null;
 
     public ?int $sales = null;
+
+    public ?array $states = null;
+
+    public ?ProductDownloadCollection $downloads = null;
 
     public ?string $metaDescription = null;
 
@@ -220,6 +219,4 @@ class ProductEntity extends Entity
     public ?CustomFieldSetCollection $customFieldSets = null;
 
     public ?ProductTranslationCollection $translations = null;
-
-    public ?array $cheapestPrice = null;
 }

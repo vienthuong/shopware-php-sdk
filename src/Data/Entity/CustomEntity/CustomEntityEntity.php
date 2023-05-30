@@ -14,5 +14,13 @@ class CustomEntityEntity extends Entity
 
     public ?array $fields = null;
 
+    public ?array $flags = null;
+
     public ?string $appId = null;
+
+    public ?string $pluginId = null;
+
+    public ?bool $cmsAware = null;
+
+    public ?bool $storeApiAware = null;
 }

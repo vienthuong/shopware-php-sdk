@@ -17,6 +17,13 @@ If you're familiar with Shopware 6 DAL syntax and how to retrieve it you might s
 Or sending notification from external server
 ![image](https://i.imgur.com/26LdTab.png)
 
+| SDK version | SW schema |
+|-------------|:---------:|
+| 2.x         |    6.5    |
+| 1.x         |    6.4    |
+
+You can use 1.x to connect to a sw 6.5 but for up-to-date schema and new 6.5 features, you should use 2.x version instead.
+
 ## Installation
 Install with Composer
 ```shell

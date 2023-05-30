@@ -31,6 +31,8 @@ class CurrencyEntity extends Entity
 
     public ?bool $isSystemDefault = null;
 
+    public ?float $taxFreeFrom = null;
+
     public ?CurrencyTranslationCollection $translations = null;
 
     public ?SalesChannelCollection $salesChannelDefaultAssignments = null;
@@ -50,6 +52,4 @@ class CurrencyEntity extends Entity
     public ?array $totalRounding = null;
 
     public ?CurrencyCountryRoundingCollection $countryRoundings = null;
-
-    public ?float $taxFreeFrom = null;
 }

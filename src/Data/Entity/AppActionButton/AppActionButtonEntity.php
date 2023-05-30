@@ -20,8 +20,6 @@ class AppActionButtonEntity extends Entity
 
     public ?string $action = null;
 
-    public ?bool $openNewTab = null;
-
     public ?string $label = null;
 
     public ?AppActionButtonTranslationCollection $translations = null;

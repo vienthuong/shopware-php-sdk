@@ -35,4 +35,6 @@ class SeoUrlEntity extends Entity
     public ?LanguageEntity $language = null;
 
     public ?SalesChannelEntity $salesChannel = null;
+
+    public ?bool $isValid = null;
 }
