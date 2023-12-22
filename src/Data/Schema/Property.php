@@ -16,6 +16,12 @@ class Property extends Struct
 
     public ?string $relation;
 
+    public ?string $reference;
+
+    public ?string $mapping;
+
+    public ?string $local;
+
     public ?string $localField;
 
     public ?string $referenceField;
@@ -35,9 +41,12 @@ class Property extends Struct
         $this->type = $type;
         $this->flags = $flags;
         $this->relation = $properties['relation'] ?? null;
+        $this->local = $properties['local'] ?? null;
         $this->localField = $properties['localField'] ?? null;
+        $this->reference = $properties['reference'] ?? null;
         $this->referenceField = $properties['referenceField'] ?? null;
         $this->entity = $properties['entity'] ?? null;
+        $this->mapping = $properties['mapping'] ?? null;
         $this->properties = $properties['properties'] ?? null;
         $this->name = $name;
     }
