@@ -28,6 +28,11 @@ class SyncOperator extends Struct implements ParseAware
         $this->payload = $payload;
     }
 
+    public function getEntity(): string
+    {
+        return $this->entity;
+    }
+
     public function addPayload(array $item): void
     {
         $this->payload[] = $item;
