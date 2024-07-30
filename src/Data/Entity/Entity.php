@@ -4,6 +4,7 @@ namespace Vin\ShopwareSdk\Data\Entity;
 
 use Vin\ShopwareSdk\Data\Struct;
 
+#[\AllowDynamicProperties]
 class Entity extends Struct
 {
     use EntityCustomFieldsTrait;

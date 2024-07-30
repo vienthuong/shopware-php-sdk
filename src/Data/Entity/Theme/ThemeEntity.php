@@ -12,6 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
  *
  * This class is generated dynamically following SW entities schema
  */
+#[\AllowDynamicProperties]
 class ThemeEntity extends Entity
 {
     public ?string $technicalName = null;

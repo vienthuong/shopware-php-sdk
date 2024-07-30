@@ -4,6 +4,7 @@ namespace Vin\Script;
 
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
+#[\AllowDynamicProperties]
 class DummyEntityClass extends Entity
 {
 

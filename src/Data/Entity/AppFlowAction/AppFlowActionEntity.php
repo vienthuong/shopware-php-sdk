@@ -11,6 +11,7 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
  *
  * This class is generated dynamically following SW entities schema
  */
+#[\AllowDynamicProperties]
 class AppFlowActionEntity extends Entity
 {
     public ?string $appId = null;

@@ -32,6 +32,7 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
  *
  * This class is generated dynamically following SW entities schema
  */
+#[\AllowDynamicProperties]
 class MediaEntity extends Entity
 {
     public ?string $userId = null;

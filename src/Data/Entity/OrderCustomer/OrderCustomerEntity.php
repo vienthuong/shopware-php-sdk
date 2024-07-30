@@ -11,6 +11,7 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
  *
  * This class is generated dynamically following SW entities schema
  */
+#[\AllowDynamicProperties]
 class OrderCustomerEntity extends Entity
 {
     public ?string $customerId = null;
@@ -44,5 +45,5 @@ class OrderCustomerEntity extends Entity
     /**
      * @var mixed
      */
-    public $remoteAddress = null;
+    public string $remoteAddress = null;
 }

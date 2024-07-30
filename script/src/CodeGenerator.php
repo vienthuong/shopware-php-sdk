@@ -6,6 +6,7 @@ use Laminas\Code\Generator\ClassGenerator;
 use Laminas\Code\Generator\DocBlock\Tag\MethodTag;
 use Laminas\Code\Generator\DocBlockGenerator;
 use Laminas\Code\Generator\PropertyGenerator;
+use Laminas\Code\Generator\TypeGenerator;
 use Laminas\Code\Reflection\ClassReflection;
 use Laminas\Code\Reflection\PropertyReflection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
@@ -89,7 +90,7 @@ class CodeGenerator
             $dummyProperty->setName($property->name);
 
             if ($type) {
-                $dummyProperty->setType($type);
+                $dummyProperty->setType(TypeGenerator::fromTypeString($type));
             } else {
                 $dummyProperty->setDocBlock('@var mixed');
             }
@@ -98,10 +99,10 @@ class CodeGenerator
             $properties[] = $dummyProperty;
         }
 
-        $docblock = DocBlockGenerator::fromArray([
-            'shortDescription' => 'Shopware Entity Mapping Class',
-            'longDescription' => 'This class is generated dynamically following SW entities schema',
-        ]);
+        $docblock = new DocBlockGenerator(
+            'Shopware Entity Mapping Class',
+            'This class is generated dynamically following SW entities schema'
+        );
 
         $foo->setName($entityName . 'Entity')
             ->setNamespaceName($entityNamespace . "\\". $entityName)
@@ -109,7 +110,11 @@ class CodeGenerator
             ->addProperties($properties);
         $foo->addUse(Entity::class);
 
-        return '<?php declare(strict_types=1);' . PHP_EOL . $foo->generate();
+        // Due to lack of https://github.com/laminas/laminas-code/pull/145/files
+        $fileContent = '<?php declare(strict_types=1);' . PHP_EOL . $foo->generate();
+        $fileContent = str_replace("\nclass ", "\n#[\AllowDynamicProperties]\nclass ", $fileContent);
+
+        return $fileContent;
     }
 
     private static function generateCollectionClass(string $entityNamespace, string $entityName): string

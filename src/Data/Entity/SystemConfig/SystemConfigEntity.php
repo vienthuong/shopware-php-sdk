@@ -9,6 +9,7 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
  *
  * This class is generated dynamically following SW entities schema
  */
+#[\AllowDynamicProperties]
 class SystemConfigEntity extends Entity
 {
     public ?string $configurationKey = null;
@@ -16,7 +17,7 @@ class SystemConfigEntity extends Entity
     /**
      * @var mixed
      */
-    public $configurationValue = null;
+    public string $configurationValue = null;
 
     public ?string $salesChannelId = null;
 

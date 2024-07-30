@@ -22,6 +22,7 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
  *
  * This class is generated dynamically following SW entities schema
  */
+#[\AllowDynamicProperties]
 class CustomerEntity extends Entity
 {
     public ?string $groupId = null;
@@ -123,7 +124,7 @@ class CustomerEntity extends Entity
     /**
      * @var mixed
      */
-    public $remoteAddress = null;
+    public string $remoteAddress = null;
 
     public ?array $tagIds = null;
 
