@@ -13,6 +13,7 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
  *
  * This class is generated dynamically following SW entities schema
  */
+#[\AllowDynamicProperties]
 class PropertyGroupOptionEntity extends Entity
 {
     public ?string $groupId = null;

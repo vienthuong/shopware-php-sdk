@@ -9,6 +9,7 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
  *
  * This class is generated dynamically following SW entities schema
  */
+#[\AllowDynamicProperties]
 class CustomFieldSetRelationEntity extends Entity
 {
     public ?string $customFieldSetId = null;

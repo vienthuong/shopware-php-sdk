@@ -35,7 +35,6 @@ class Criteria implements ParseAware
      */
     public const TOTAL_COUNT_MODE_NEXT_PAGES = 2;
 
-
     /**
      * page and limit should be mixed to allow null also
      * this would prevent from generating pagination problems

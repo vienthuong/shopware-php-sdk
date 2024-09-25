@@ -20,6 +20,7 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
  *
  * This class is generated dynamically following SW entities schema
  */
+#[\AllowDynamicProperties]
 class UserEntity extends Entity
 {
     public ?string $localeId = null;

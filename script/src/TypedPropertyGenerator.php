@@ -25,16 +25,14 @@ class TypedPropertyGenerator extends PropertyGenerator
         }
     }
 
-    public function setType(string $type): TypedPropertyGenerator
+    public function setType(?TypeGenerator $type): void
     {
-        $this->type = TypeGenerator::fromTypeString($type);
-
-        return $this;
+        $this->type = $type;
     }
 
-    public function getType(): ?string
+    public function getType(): ?TypeGenerator
     {
-        return $this->type ? (string) $this->type : null;
+        return $this->type;
     }
 
     public function generate(): string

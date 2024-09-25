@@ -9,6 +9,7 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
  *
  * This class is generated dynamically following SW entities schema
  */
+#[\AllowDynamicProperties]
 class MediaThumbnailSizeEntity extends Entity
 {
     public ?int $width = null;

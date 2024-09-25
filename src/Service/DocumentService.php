@@ -1,10 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
 class DocumentService extends ApiService
 {
     private const DOCUMENT_DOWNLOAD_ENDPOINT = '/api/_action/document/%s/%s?download=1';
+
     private const INVOICE_DOCUMENT_CREATE_ENDPOINT = '/api/_action/document/invoice/create';
 
     public function downloadDocumentPdfByIdAndDeepLink($documentId, $documentDeeplink)

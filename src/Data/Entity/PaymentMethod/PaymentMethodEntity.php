@@ -16,6 +16,7 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
  *
  * This class is generated dynamically following SW entities schema
  */
+#[\AllowDynamicProperties]
 class PaymentMethodEntity extends Entity
 {
     public ?string $pluginId = null;

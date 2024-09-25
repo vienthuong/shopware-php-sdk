@@ -10,6 +10,7 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
  *
  * This class is generated dynamically following SW entities schema
  */
+#[\AllowDynamicProperties]
 class ProductSearchKeywordEntity extends Entity
 {
     public ?string $languageId = null;
