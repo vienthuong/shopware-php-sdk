@@ -17,6 +17,12 @@ class ProductVisibilityDefinition implements EntityDefinition
 {
     public const ENTITY_NAME = 'product_visibility';
 
+    final public const VISIBILITY_LINK = 10;
+
+    final public const VISIBILITY_SEARCH = 20;
+
+    final public const VISIBILITY_ALL = 30;
+
     public function getEntityName() : string
     {
         return self::ENTITY_NAME;
