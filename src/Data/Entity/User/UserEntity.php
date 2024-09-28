@@ -12,8 +12,8 @@ use Vin\ShopwareSdk\Data\Entity\AclRole\AclRoleCollection;
 use Vin\ShopwareSdk\Data\Entity\UserRecovery\UserRecoveryEntity;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderCollection;
 use Vin\ShopwareSdk\Data\Entity\Customer\CustomerCollection;
-use Vin\ShopwareSdk\Data\Entity\Notification\NotificationCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
+use Vin\ShopwareSdk\Service\Struct\NotificationCollection;
 
 /**
  * Shopware Entity Mapping Class
