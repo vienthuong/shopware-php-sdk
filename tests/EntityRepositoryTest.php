@@ -44,7 +44,9 @@ class EntityRepositoryTest extends TestCase
 
         $client = Client::create(['handler' => $handlerStack]);
 
-        $this->productRepository = RepositoryFactory::create(ProductDefinition::ENTITY_NAME);
+        /** @var EntityRepository $productRepository */
+        $productRepository = RepositoryFactory::create(ProductDefinition::ENTITY_NAME);
+        $this->productRepository = $productRepository;
 
         $this->productRepository->setHttpClient($client);
     }
