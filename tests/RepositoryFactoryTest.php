@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdkTest;
 
 use PHPUnit\Framework\TestCase;
-use Vin\ShopwareSdk\Data\Entity\Custom\CustomCollection;
-use Vin\ShopwareSdk\Data\Entity\Custom\CustomDefinition;
-use Vin\ShopwareSdk\Data\Entity\Custom\CustomEntity;
 use Vin\ShopwareSdk\Data\Entity\Customer\CustomerCollection;
 use Vin\ShopwareSdk\Data\Entity\Customer\CustomerDefinition;
 use Vin\ShopwareSdk\Data\Entity\Customer\CustomerEntity;
@@ -35,17 +32,6 @@ class RepositoryFactoryTest extends TestCase
         static::assertEquals(ProductCollection::class, $repository->getDefinition()->getEntityCollection());
     }
 
-    public function testCreateCustomEntity(): void
-    {
-        $repository = RepositoryFactory::create('my_custom_entity');
-
-        static::assertInstanceOf(EntityRepository::class, $repository);
-        static::assertInstanceOf(CustomDefinition::class, $repository->getDefinition());
-        static::assertEquals('my_custom_entity', $repository->getDefinition()->getEntityName());
-        static::assertEquals(CustomEntity::class, $repository->getDefinition()->getEntityClass());
-        static::assertEquals(CustomCollection::class, $repository->getDefinition()->getEntityCollection());
-    }
-
     public function testCreateFromCustomDefinition(): void
     {
         $repository = RepositoryFactory::createFromDefinition(new CustomerDefinition());
@@ -65,12 +51,6 @@ class RepositoryFactoryTest extends TestCase
 
         foreach ($entityMapping as $entity => $definition) {
             $repository = RepositoryFactory::create($entity);
-
-            static::assertInstanceOf(EntityRepository::class, $repository);
-
-            if (!class_exists($definition)) {
-                $definition = CustomDefinition::class;
-            }
 
             static::assertInstanceOf(EntityRepository::class, $repository);
             static::assertInstanceOf($definition, $repository->getDefinition());

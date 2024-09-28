@@ -13,17 +13,12 @@ use PHPUnit\Framework\TestCase;
 use Vin\ShopwareSdk\Data\AccessToken;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Criteria;
-use Vin\ShopwareSdk\Data\Entity\Custom\CustomDefinition;
-use Vin\ShopwareSdk\Data\Entity\Custom\CustomEntity;
 use Vin\ShopwareSdk\Data\Entity\Product\ProductCollection;
 use Vin\ShopwareSdk\Data\Entity\Product\ProductDefinition;
 use Vin\ShopwareSdk\Data\Entity\Product\ProductEntity;
-use Vin\ShopwareSdk\Data\Schema\PropertyCollection;
-use Vin\ShopwareSdk\Data\Schema\Schema;
 use Vin\ShopwareSdk\Data\Uuid\Uuid;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 use Vin\ShopwareSdk\Factory\RepositoryFactory;
-use Vin\ShopwareSdk\Hydrate\EntityHydrator;
 use Vin\ShopwareSdk\Repository\EntityRepository;
 use Vin\ShopwareSdk\Repository\Struct\EntitySearchResult;
 use Vin\ShopwareSdk\Repository\Struct\IdSearchResult;
@@ -35,7 +30,9 @@ use Vin\ShopwareSdk\Client\Client;
 class EntityRepositoryTest extends TestCase
 {
     private EntityRepository $productRepository;
+
     private MockHandler $mock;
+
     private Context $context;
 
     protected function setUp(): void
@@ -98,33 +95,6 @@ class EntityRepositoryTest extends TestCase
         static::assertEquals('NEW PRODUCT', $result->first()->name);
         static::assertEquals('53280fa43009419ca3b0f2d9193dcdd0', $result->last()->id);
         static::assertEquals('Gorgeous Plastic FaceField', $result->last()->name);
-    }
-
-    public function testSearchCustom(): void
-    {
-        $customId = '6bfa486a2c4c4e0db32c6a252baf6b3a';
-        $this->mock->append(new Response(200, ['test'=> 324], file_get_contents(__DIR__ . '/stubs/custom.json')));
-
-        $handlerStack = HandlerStack::create($this->mock);
-
-        $client = Client::create(['handler' => $handlerStack]);
-
-        $hydrator = $this->getMockBuilder(EntityHydrator::class)->onlyMethods(['schema'])->getMock();
-        $repository = new EntityRepository(
-            'custom',
-            new CustomDefinition('custom'),
-            '/',
-            $hydrator
-        );
-
-        $hydrator->method('schema')->willReturn(new Schema('custom', new PropertyCollection()));
-        $repository->setHttpClient($client);
-
-        /** @var CustomEntity $result */
-        $result = $repository->get($customId, new Criteria(), $this->context);
-
-        static::assertEquals('custom', $result->getEntityName());
-        static::assertInstanceOf(CustomEntity::class, $result);
     }
 
     public function testSearchIds(): void
