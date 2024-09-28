@@ -17,7 +17,7 @@ class SystemConfigEntity extends Entity
     /**
      * @var mixed
      */
-    public string $configurationValue = null;
+    public ?string $configurationValue = null;
 
     public ?string $salesChannelId = null;
 

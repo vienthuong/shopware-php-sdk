@@ -124,7 +124,7 @@ class CustomerEntity extends Entity
     /**
      * @var mixed
      */
-    public string $remoteAddress = null;
+    public ?string $remoteAddress = null;
 
     public ?array $tagIds = null;
 
