@@ -35,7 +35,7 @@ return static function (ECSConfig $ecsConfig): void {
     );
     $ecsConfig->ruleWithConfiguration(
         MethodArgumentSpaceFixer::class,
-        [['on_multiline' => 'ensure_fully_multiline']]
+        ['on_multiline' => 'ensure_fully_multiline']
     );
     $ecsConfig->rule(NullableTypeDeclarationForDefaultNullValueFixer::class);
     $ecsConfig->rule(VoidReturnFixer::class);

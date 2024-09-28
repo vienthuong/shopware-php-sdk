@@ -2,7 +2,6 @@
 
 namespace Vin\ShopwareSdk\Hydrate;
 
-use Exception;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Entity\Custom\CustomDefinition;
 use Vin\ShopwareSdk\Data\Entity\Entity;
@@ -44,7 +43,7 @@ class EntityHydrator implements HydratorInterface
             $schema = $schemas->get($entity);
 
             if ($schema === null) {
-                throw new Exception('Schema for entity: ' . $entity . ' not found');
+                throw new \Exception('Schema for entity: ' . $entity . ' not found');
             }
         }
         
@@ -95,7 +94,7 @@ class EntityHydrator implements HydratorInterface
 
     private function hydrateEntity(string $entityName, array $entityRaw, array $data, Context $context): Entity
     {
-        if($this->useCache) {
+        if ($this->useCache) {
             $cacheKey = $entityRaw['type'] . '-' . $entityRaw['id'];
 
             if (array_key_exists($cacheKey, $this->cache)) {
@@ -121,7 +120,7 @@ class EntityHydrator implements HydratorInterface
         $relationships = $entityRaw['relationships'] ?? [];
 
         // reserve cache before relationships hydration. This prevents circular references to fail
-        if($this->useCache) {
+        if ($this->useCache) {
             $this->cache[$cacheKey] = $entity;
         }
 

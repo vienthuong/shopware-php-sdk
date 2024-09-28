@@ -168,8 +168,7 @@ class EntityRepository implements RepositoryInterface
             $data = array_map(function (string $id) {
                 return ['id' => $id];
             }, $ids);
-        } else
-        {
+        } else {
             $data = $ids;
         }
 
