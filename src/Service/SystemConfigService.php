@@ -143,7 +143,7 @@ class SystemConfigService extends ApiService
 
         /** @var KeyValuePair $item */
         foreach ($configs as $item) {
-            $parsed[$salesChannelId === null ? 'null' : $salesChannelId] = [$item->getKey() => $item->getValue()];
+            $parsed[$salesChannelId ?? 'null'] = [$item->getKey() => $item->getValue()];
         }
 
         try {

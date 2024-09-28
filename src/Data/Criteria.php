@@ -36,20 +36,6 @@ class Criteria implements ParseAware
     public const TOTAL_COUNT_MODE_NEXT_PAGES = 2;
 
     /**
-     * page and limit should be mixed to allow null also
-     * this would prevent from generating pagination problems
-     * 
-     * @var mixed
-     */
-    private $page;
-
-    /**
-     * see above
-     * @var mixed
-     */
-    private $limit;
-
-    /**
      * Don't use term parameters together with query parameters.
      */
     private ?string $term = null;
@@ -100,10 +86,18 @@ class Criteria implements ParseAware
      * @param $page
      * @param $limit
      */
-    public function __construct($page = null, $limit = null)
+    public function __construct(
+        /**
+         * page and limit should be mixed to allow null also
+         * this would prevent from generating pagination problems
+         */
+        private mixed $page = null,
+        /**
+         * see above
+         */
+        private mixed $limit = null
+    )
     {
-        $this->page = $page;
-        $this->limit = $limit;
     }
 
     public function addFilter(Filter ...$filters): self
@@ -298,10 +292,7 @@ class Criteria implements ParseAware
         return new RangeFilter($field, $range);
     }
 
-    /**
-     * @param mixed $value
-     */
-    public static function equals(string $field, $value): EqualsFilter
+    public static function equals(string $field, mixed $value): EqualsFilter
     {
         return new EqualsFilter($field, $value);
     }

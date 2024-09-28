@@ -91,7 +91,7 @@ class Struct
     {
         $extension = $this->getExtension($name);
 
-        return $extension !== null && \get_class($extension) === $type;
+        return $extension !== null && $extension::class === $type;
     }
 
     public function getExtensions(): array

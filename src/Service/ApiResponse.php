@@ -5,17 +5,8 @@ namespace Vin\ShopwareSdk\Service;
 
 class ApiResponse
 {
-    private array $headers;
-
-    private array $contents;
-
-    private int $statusCode;
-
-    public function __construct(array $contents, array $headers, int $statusCode)
+    public function __construct(private readonly array $contents, private readonly array $headers, private readonly int $statusCode)
     {
-        $this->headers = $headers;
-        $this->contents = $contents;
-        $this->statusCode = $statusCode;
     }
 
     public function getHeaders(): array

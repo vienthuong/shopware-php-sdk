@@ -4,20 +4,8 @@ namespace Vin\ShopwareSdk\Data;
 
 class AccessToken
 {
-    public string $accessToken;
-
-    public int $expiresIn;
-
-    public string $tokenType;
-
-    public ?string $refreshToken;
-
-    public function __construct(string $accessToken, int $expiresIn = 600, string $tokenType = 'Bearer', ?string $refreshToken = null)
+    public function __construct(public string $accessToken, public int $expiresIn = 600, public string $tokenType = 'Bearer', public ?string $refreshToken = null)
     {
-        $this->accessToken = $accessToken;
-        $this->expiresIn = $expiresIn;
-        $this->tokenType = $tokenType;
-        $this->refreshToken = $refreshToken;
     }
 
     public function isExpired() : bool

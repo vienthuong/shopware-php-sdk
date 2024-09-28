@@ -6,12 +6,9 @@ use Vin\ShopwareSdk\Data\Collection;
 
 class NotificationCollection extends Collection
 {
-    private ?string $latestTimestamp;
-
-    public function __construct(iterable $elements = [], ?string $latestTimestamp = null)
+    public function __construct(iterable $elements = [], private readonly ?string $latestTimestamp = null)
     {
         parent::__construct($elements);
-        $this->latestTimestamp = $latestTimestamp;
     }
 
     public function getLatestTimestamp(): ?string

@@ -9,34 +9,10 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
 
 class EntitySearchResult
 {
-    public SearchResultMeta $meta;
-
-    public Criteria $criteria;
-
-    public Context $context;
-
     public array $data = [];
 
-    public string $entityName;
-
-    public EntityCollection $entities;
-
-    public AggregationResultCollection $aggregations;
-
-    public function __construct(
-        string $entityName,
-        SearchResultMeta $meta,
-        EntityCollection $entities,
-        AggregationResultCollection $aggregations,
-        Criteria $criteria,
-        Context $context
-    ) {
-        $this->meta = $meta;
-        $this->criteria = $criteria;
-        $this->context = $context;
-        $this->entityName = $entityName;
-        $this->entities = $entities;
-        $this->aggregations = $aggregations;
+    public function __construct(public string $entityName, public SearchResultMeta $meta, public EntityCollection $entities, public AggregationResultCollection $aggregations, public Criteria $criteria, public Context $context)
+    {
     }
 
     public function getMeta(): SearchResultMeta

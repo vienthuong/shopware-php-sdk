@@ -8,23 +8,11 @@ use Vin\ShopwareSdk\Data\Utils\StringFormatter;
 
 class IdSearchResult
 {
-    private int $total;
-
-    private Criteria $criteria;
-
-    private Context $context;
-
-    private array $ids = [];
-
     private array $data = [];
 
-    public function __construct(int $total, array $ids, Criteria $criteria, Context $context)
+    public function __construct(private int $total, private array $ids, private Criteria $criteria, private Context $context)
     {
-        $this->total = $total;
-        $this->ids = $ids;
-        $this->data = $this->transformData($ids);
-        $this->criteria = $criteria;
-        $this->context = $context;
+        $this->data = $this->transformData($this->ids);
     }
 
     public function getTotal(): int
@@ -93,9 +81,7 @@ class IdSearchResult
         }
 
         if (is_string($data[0])) {
-            return array_map(function ($id) {
-                return ['id' => $id];
-            }, $data);
+            return array_map(fn($id) => ['id' => $id], $data);
         }
 
         return array_map(function ($value) {

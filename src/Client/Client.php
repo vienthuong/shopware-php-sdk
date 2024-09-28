@@ -24,11 +24,8 @@ class Client implements ClientInterface
 {
     use GuzzleClientTrait;
 
-    private GuzzleClientInterface $guzzleClient;
-
-    private function __construct(GuzzleClientInterface $guzzleClient)
+    private function __construct(private GuzzleClientInterface $guzzleClient)
     {
-        $this->guzzleClient = $guzzleClient;
     }
 
     public static function create(array $config = []): self

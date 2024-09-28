@@ -13,18 +13,12 @@ use Vin\ShopwareSdk\Service\InfoService;
 
 class EntityHydrator implements HydratorInterface
 {
-    // using cache is recommended if you want to use circular references
-    protected bool $useCache;
-
     protected array $cache = [];
 
     protected array $cacheSchema = [];
 
-    public function __construct(
-        bool $useCache = false
-    )
+    public function __construct(protected bool $useCache = false)
     {
-        $this->useCache = $useCache;
     }
 
     public function schema(string $entity, Context $context): Schema

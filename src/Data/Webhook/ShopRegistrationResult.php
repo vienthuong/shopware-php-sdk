@@ -6,14 +6,8 @@ use Vin\ShopwareSdk\Data\Struct;
 
 class ShopRegistrationResult extends Struct
 {
-    protected string $proof;
-
-    protected Shop $shop;
-
-    public function __construct(string $proof, Shop $shop)
+    public function __construct(protected string $proof, protected Shop $shop)
     {
-        $this->proof = $proof;
-        $this->shop = $shop;
     }
 
     public function getProof(): string

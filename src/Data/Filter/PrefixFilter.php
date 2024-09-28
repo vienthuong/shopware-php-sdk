@@ -6,14 +6,8 @@ namespace Vin\ShopwareSdk\Data\Filter;
 
 class PrefixFilter extends Filter
 {
-    private string $field;
-
-    private string $value;
-
-    public function __construct(string $field, string $value)
+    public function __construct(private readonly string $field, private readonly string $value)
     {
-        $this->field = $field;
-        $this->value = $value;
     }
 
     public function parse(): array

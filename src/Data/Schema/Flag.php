@@ -6,19 +6,7 @@ use Vin\ShopwareSdk\Data\Struct;
 
 class Flag extends Struct
 {
-    public string $flag;
-
-    /**
-     * @var mixed
-     */
-    public $value;
-
-    /**
-     * @param mixed $value
-     */
-    public function __construct(string $flag, $value)
+    public function __construct(public string $flag, public mixed $value)
     {
-        $this->flag = $flag;
-        $this->value = $value;
     }
 }

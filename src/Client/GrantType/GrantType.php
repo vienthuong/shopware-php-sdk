@@ -18,15 +18,12 @@ abstract class GrantType
 
     public string $grantType;
 
-    public string $clientId;
-
-    public function __construct(string $grantType, string $clientId)
+    public function __construct(string $grantType, public string $clientId)
     {
         if (!\in_array($grantType, self::ALLOWED_GRANTS)) {
             throw new \InvalidArgumentException('Grant type ' . $grantType . ' is not supported', 400);
         }
         $this->grantType = $grantType;
-        $this->clientId = $clientId;
     }
 
     public static function createFromConfig(array $config): GrantType
@@ -37,15 +34,11 @@ abstract class GrantType
 
         $grantType = $config['grant_type'];
 
-        switch ($grantType) {
-            case self::REFRESH_TOKEN:
-                return new RefreshTokenGrantType($config['refresh_token']);
-            case self::CLIENT_CREDENTIALS:
-                return new ClientCredentialsGrantType($config['client_id'], $config['client_secret']);
-            case self::PASSWORD:
-                return new PasswordGrantType($config['username'], $config['password'], $config['scopes'] ?? 'write');
-            default:
-                throw new \InvalidArgumentException('Grant type ' . $grantType . ' is not supported', 400);
-        }
+        return match ($grantType) {
+            self::REFRESH_TOKEN => new RefreshTokenGrantType($config['refresh_token']),
+            self::CLIENT_CREDENTIALS => new ClientCredentialsGrantType($config['client_id'], $config['client_secret']),
+            self::PASSWORD => new PasswordGrantType($config['username'], $config['password'], $config['scopes'] ?? 'write'),
+            default => throw new \InvalidArgumentException('Grant type ' . $grantType . ' is not supported', 400),
+        };
     }
 }

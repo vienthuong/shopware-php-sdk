@@ -6,14 +6,8 @@ use Vin\ShopwareSdk\Data\Struct;
 
 class App extends Struct
 {
-    protected string $appSecret;
-
-    protected string $appName;
-
-    public function __construct(string $appName, string $appSecret)
+    public function __construct(protected string $appName, protected string $appSecret)
     {
-        $this->appSecret = $appSecret;
-        $this->appName = $appName;
     }
 
     public function getAppName(): string
