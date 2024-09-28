@@ -243,18 +243,15 @@ class CriteriaTest extends TestCase
             ],
             "associations" => [
                 "assoc1" => [
-                    "page" => 1,
-                    "limit" => 25,
+                    "limit" => null,
                     "total-count-mode" => 1
                 ],
                 "assoc2" => [
-                    "page" => 1,
-                    "limit" => 25,
+                    "limit" => null,
                     "total-count-mode" => 1
                 ],
                 "assoc3" => [
-                    "page" => 1,
-                    "limit" => 25,
+                    "limit" => null,
                     "total-count-mode" => 1
                 ]
             ],
