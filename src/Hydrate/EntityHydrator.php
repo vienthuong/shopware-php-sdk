@@ -3,7 +3,6 @@
 namespace Vin\ShopwareSdk\Hydrate;
 
 use Vin\ShopwareSdk\Data\Context;
-use Vin\ShopwareSdk\Data\Entity\Custom\CustomDefinition;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
 use Vin\ShopwareSdk\Data\Entity\EntityDefinition;
@@ -107,7 +106,7 @@ class EntityHydrator implements HydratorInterface
         $entity = new $entityClass;
         $entity->internalSetEntityName($definition->getEntityName());
 
-        $entitySchema = $definition instanceof CustomDefinition ? $this->schema($entityName, $context) : $definition->getSchema();
+        $entitySchema = $definition->getSchema();
 
         $entity = $this->hydrateEmptyJsonFields($entity, $attributes, $entitySchema);
 

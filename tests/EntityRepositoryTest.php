@@ -44,7 +44,9 @@ class EntityRepositoryTest extends TestCase
 
         $client = Client::create(['handler' => $handlerStack]);
 
-        $this->productRepository = RepositoryFactory::create(ProductDefinition::ENTITY_NAME);
+        /** @var EntityRepository $productRepository */
+        $productRepository = RepositoryFactory::create(ProductDefinition::ENTITY_NAME);
+        $this->productRepository = $productRepository;
 
         $this->productRepository->setHttpClient($client);
     }
@@ -63,6 +65,7 @@ class EntityRepositoryTest extends TestCase
     public function testGet(): void
     {
         $productId = '6bfa486a2c4c4e0db32c6a252baf6b3a';
+        /** @phpstan-ignore argument.type */
         $this->mock->append(new Response(200, [], file_get_contents(__DIR__ . '/stubs/' . $productId . '.json')));
 
         /** @var ProductEntity $product */
@@ -77,6 +80,7 @@ class EntityRepositoryTest extends TestCase
 
     public function testSearch(): void
     {
+        /** @phpstan-ignore argument.type */
         $this->mock->append(new Response(200, [], file_get_contents(__DIR__ . '/stubs/products.json')));
 
         $result = $this->productRepository->search(new Criteria(), $this->context);
@@ -99,6 +103,7 @@ class EntityRepositoryTest extends TestCase
 
     public function testSearchIds(): void
     {
+        /** @phpstan-ignore argument.type */
         $this->mock->append(new Response(200, [], file_get_contents(__DIR__ . '/stubs/product-ids.json')));
 
         $result = $this->productRepository->searchIds(new Criteria(), $this->context);
@@ -122,6 +127,7 @@ class EntityRepositoryTest extends TestCase
 
     public function testCreateNew(): void
     {
+        /** @phpstan-ignore argument.type */
         $this->mock->append(new Response(200, [], file_get_contents(__DIR__ . '/stubs/product-ids.json')));
 
         $result = $this->productRepository->createNew([

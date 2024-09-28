@@ -2,7 +2,6 @@
 
 namespace Vin\ShopwareSdk\Factory;
 
-use Vin\ShopwareSdk\Data\Entity\Custom\CustomDefinition;
 use Vin\ShopwareSdk\Data\Entity\EntityDefinition;
 use Vin\ShopwareSdk\Repository\EntityRepository;
 use Vin\ShopwareSdk\Repository\RepositoryInterface;
@@ -61,7 +60,7 @@ class RepositoryFactory
         }
 
         if (!array_key_exists($entity, self::$mapping) || !class_exists(self::$mapping[$entity])) {
-            return new CustomDefinition($entity);
+            throw new \RuntimeException(sprintf('Could not find definition for entity %s', $entity));
         }
 
         $definitionClass = self::$mapping[$entity];

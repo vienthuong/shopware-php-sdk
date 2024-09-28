@@ -7,10 +7,10 @@ namespace Vin\ShopwareSdk\Data\Entity;
 use Vin\ShopwareSdk\Data\Collection;
 
 /**
- * @method void                add(Entity $entity)
- * @method void                set(string $key, Entity $entity)
- * @method EntityCollection    filter(\Closure $closure)()
- * @method EntityCollection    createNew(iterable $elements = [])
+ * @method void        add(Entity $entity)
+ * @method void        set(string $key, Entity $entity)
+ * @method static      filter(\Closure $closure)()
+ * @method static      createNew(iterable $elements = [])
  * @method Entity[]    getIterator()
  * @method Entity[]    getElements()
  * @method Entity|null get(string $key)
@@ -26,9 +26,7 @@ class EntityCollection extends Collection
 
     public function filterByProperty(string $property, mixed $value): self
     {
-        return $this->filter(
-            static fn(Entity $struct) => $struct->$property === $value
-        );
+        return static::filter(static fn(Entity $struct) => $struct->$property === $value);
     }
 
     public function filterAndReduceByProperty(string $property, mixed $value): self
@@ -43,12 +41,11 @@ class EntityCollection extends Collection
             $this->remove($key);
         }
 
-        return $this->createNew($filtered);
+        return static::createNew($filtered);
     }
 
     public function merge(self $collection): void
     {
-        /** @var Entity $entity */
         foreach ($collection as $entity) {
             if ($this->has($entity->id)) {
                 continue;
@@ -70,9 +67,9 @@ class EntityCollection extends Collection
         }
     }
 
-    public function filterInstance(string $class): self
+    public function filterInstance(string $class): static
     {
-        return $this->filter(static fn($item) => $item instanceof $class);
+        return static::filter(static fn($item) => $item instanceof $class);
     }
 
     public function getExpectedClass(): string

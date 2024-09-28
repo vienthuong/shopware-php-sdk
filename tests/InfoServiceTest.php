@@ -19,6 +19,7 @@ class InfoServiceTest extends TestCase
     {
         $entityMapping = file_get_contents(__DIR__ . '/../src/Resources/entity-mapping.json');
 
+        /** @phpstan-ignore argument.type */
         $entityMapping = json_decode($entityMapping, true);
 
         $accessToken = new AccessToken('fakeAccessToken');
