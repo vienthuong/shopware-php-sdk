@@ -9,18 +9,12 @@ class ApiService
 {
     use CreateClientTrait;
 
-    protected ?Context $context = null;
-
-    protected string $contentType;
-
     /**
      * @deprecated tag v2.0.0 - $context will be remove, use setContext method instead
      */
-    public function __construct(?Context $context = null, string $contentType = 'application/vnd.api+json')
+    public function __construct(protected ?Context $context = null, protected string $contentType = 'application/vnd.api+json')
     {
-        $this->httpClient = $this->httpClient ?? $this->createHttpClient();
-        $this->context = $context;
-        $this->contentType = $contentType;
+        $this->httpClient ??= $this->createHttpClient();
     }
 
     public function setContext(Context $context): self

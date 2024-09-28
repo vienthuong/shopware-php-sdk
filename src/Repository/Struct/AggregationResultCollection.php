@@ -13,10 +13,7 @@ class AggregationResultCollection
         }
     }
 
-    /**
-     * @param mixed $aggregation
-     */
-    public function add(string $key, $aggregation): void
+    public function add(string $key, mixed $aggregation): void
     {
         $this->elements[$key] = $aggregation;
     }

@@ -11,21 +11,14 @@ class SyncOperator extends Struct implements ParseAware
 
     public const DELETE_OPERATOR = 'delete';
 
-    protected string $entity;
-
     protected string $action;
 
-    protected array $payload;
-
-    public function __construct(string $entity, string $action, array $payload)
+    public function __construct(protected string $entity, string $action, protected array $payload)
     {
         if ($action !== self::UPSERT_OPERATOR && $action !== self::DELETE_OPERATOR) {
             throw new \InvalidArgumentException('Action ' . $action . ' is not allowed, allowed types: upsert, delete');
         }
-
-        $this->entity = $entity;
         $this->action = $action;
-        $this->payload = $payload;
     }
 
     public function getEntity(): string

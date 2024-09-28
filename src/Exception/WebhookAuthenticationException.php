@@ -7,15 +7,8 @@ use Vin\ShopwareSdk\Data\Webhook\Shop;
 
 class WebhookAuthenticationException extends \Exception
 {
-    private Shop $shop;
-
-    private App $app;
-
-    public function __construct(string $message, Shop $shop, App $app)
+    public function __construct(string $message, private readonly Shop $shop, private readonly App $app)
     {
-        $this->shop = $shop;
-        $this->app = $app;
-
         parent::__construct($message, 401);
     }
 

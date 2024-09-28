@@ -6,14 +6,8 @@ use Vin\ShopwareSdk\Data\Struct;
 
 class CloneBehaviour extends Struct
 {
-    protected bool $cloneChildren;
-
-    protected array $overwrites;
-
-    public function __construct(bool $cloneChildren = true, array $overwrites = [])
+    public function __construct(protected bool $cloneChildren = true, protected array $overwrites = [])
     {
-        $this->cloneChildren = $cloneChildren;
-        $this->overwrites = $overwrites;
     }
 
     public function isCloneChildren(): bool

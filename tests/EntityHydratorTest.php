@@ -24,7 +24,9 @@ use Vin\ShopwareSdk\Client\Client;
 class EntityHydratorTest extends TestCase
 {
     private EntityHydrator $entityHydrator;
+
     private MockHandler $mock;
+
     private Context $context;
 
     protected function setUp(): void

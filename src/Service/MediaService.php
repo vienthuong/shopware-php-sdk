@@ -18,7 +18,7 @@ class MediaService extends ApiService
      */
     public function uploadMediaById(string $mediaId, string $mimeType, $data, string $extension, ?string $fileName = null): ApiResponse
     {
-        $fileName = $fileName ?? $mediaId;
+        $fileName ??= $mediaId;
         $params = [
             'fileName' => $fileName,
             'extension' => $extension,

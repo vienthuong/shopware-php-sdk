@@ -6,14 +6,8 @@ namespace Vin\ShopwareSdk\Data\Filter;
 
 class EqualsAnyFilter extends Filter
 {
-    private string $field;
-
-    private array $value;
-
-    public function __construct(string $field, array $value)
+    public function __construct(private readonly string $field, private readonly array $value)
     {
-        $this->field = $field;
-        $this->value = $value;
     }
 
     public function parse(): array

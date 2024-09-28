@@ -7,23 +7,11 @@ use Vin\ShopwareSdk\Data\Webhook\Source;
 
 class AppAction extends Struct
 {
-    protected ?Source $source;
-
-    protected ?ActionData $data;
-
-    protected ?ActionMeta $meta;
-
-    protected array $headers;
-
     /**
      * Create the event from Event::createFromPayload.
      */
-    private function __construct(?Source $source, ?ActionData $data, ?ActionMeta $meta, array $headers)
+    private function __construct(protected ?Source $source, protected ?ActionData $data, protected ?ActionMeta $meta, protected array $headers)
     {
-        $this->source = $source;
-        $this->data = $data;
-        $this->meta = $meta;
-        $this->headers = $headers;
     }
     
     public function getSource(): ?Source

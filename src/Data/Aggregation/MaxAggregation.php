@@ -6,14 +6,8 @@ namespace Vin\ShopwareSdk\Data\Aggregation;
 
 class MaxAggregation extends Aggregation
 {
-    public string $name;
-
-    public string $field;
-
-    public function __construct(string $name, string $field)
+    public function __construct(public string $name, public string $field)
     {
-        $this->name = $name;
-        $this->field = $field;
     }
 
     public function parse(): array

@@ -6,60 +6,8 @@ use Vin\ShopwareSdk\Data\Struct;
 
 class Mail extends Struct
 {
-    protected string $salesChannelId;
-
-    protected string $subject;
-
-    protected string $contentHtml;
-
-    protected string $contentPlain;
-
-    protected string $senderName;
-
-    protected array $recipients;
-
-    protected array $mediaIds;
-
-    protected array $binAttachments;
-
-    protected array $recipientsBcc;
-
-    protected array $recipientsCc;
-
-    protected array $replyTo;
-
-    protected ?string $senderEmail;
-
-    protected ?string $returnPath;
-
-    public function __construct(
-        string $salesChannelId,
-        string $subject,
-        string $contentHtml,
-        string $contentPlain,
-        string $senderName,
-        array $recipients = [],
-        array $mediaIds = [],
-        array $binAttachments = [],
-        array $recipientsBcc = [],
-        array $recipientsCc = [],
-        array $replyTo = [],
-        ?string $senderEmail = null,
-        ?string $returnPath = null
-    ) {
-        $this->salesChannelId = $salesChannelId;
-        $this->subject = $subject;
-        $this->contentHtml = $contentHtml;
-        $this->contentPlain = $contentPlain;
-        $this->senderName = $senderName;
-        $this->recipients = $recipients;
-        $this->mediaIds = $mediaIds;
-        $this->binAttachments = $binAttachments;
-        $this->recipientsBcc = $recipientsBcc;
-        $this->recipientsCc = $recipientsCc;
-        $this->replyTo = $replyTo;
-        $this->senderEmail = $senderEmail;
-        $this->returnPath = $returnPath;
+    public function __construct(protected string $salesChannelId, protected string $subject, protected string $contentHtml, protected string $contentPlain, protected string $senderName, protected array $recipients = [], protected array $mediaIds = [], protected array $binAttachments = [], protected array $recipientsBcc = [], protected array $recipientsCc = [], protected array $replyTo = [], protected ?string $senderEmail = null, protected ?string $returnPath = null)
+    {
     }
 
     public function getSalesChannelId(): string

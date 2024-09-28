@@ -8,20 +8,8 @@ class FieldSorting implements ParseAware
 
     public const DESCENDING = 'DESC';
 
-    public string $field;
-
-    public string $order;
-
-    public bool $naturalSorting;
-
-    public function __construct(
-        string $field,
-        string $order = self::ASCENDING,
-        bool $naturalSorting = false
-    ) {
-        $this->field = $field;
-        $this->order = $order;
-        $this->naturalSorting = $naturalSorting;
+    public function __construct(public string $field, public string $order = self::ASCENDING, public bool $naturalSorting = false)
+    {
     }
 
     public function parse(): array

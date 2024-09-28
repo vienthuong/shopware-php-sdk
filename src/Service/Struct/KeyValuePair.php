@@ -6,8 +6,6 @@ use Vin\ShopwareSdk\Data\ParseAware;
 
 class KeyValuePair implements ParseAware
 {
-    private string $key;
-
     /**
      * @var mixed|null
      */
@@ -17,9 +15,8 @@ class KeyValuePair implements ParseAware
      * @param  string  $key
      * @param mixed|null $value
      */
-    private function __construct(string $key, $value)
+    private function __construct(private readonly string $key, $value)
     {
-        $this->key = $key;
         $this->value = $value ?? null;
     }
 

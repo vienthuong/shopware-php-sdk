@@ -22,33 +22,13 @@ class HistogramAggregation extends Aggregation
 
     public const PER_YEAR = 'year';
 
-    public string $name;
-
     /**
      * @var Filter[]
      */
     public array $filter;
 
-    public ?Aggregation $aggregation = null;
-
-    public string $field;
-
-    public string $interval;
-
-    public ?string $format;
-
-    public function __construct(
-        string $name,
-        string $field,
-        string $interval,
-        ?string $format = null,
-        ?Aggregation $aggregation = null
-    ) {
-        $this->name = $name;
-        $this->aggregation = $aggregation;
-        $this->field = $field;
-        $this->interval = $interval;
-        $this->format = $format;
+    public function __construct(public string $name, public string $field, public string $interval, public ?string $format = null, public ?Aggregation $aggregation = null)
+    {
     }
 
     public function parse(): array

@@ -49,7 +49,7 @@ class RepositoryFactory
         try {
             $mapping = (string) file_get_contents(self::RESOURCES_PATH);
             self::$mapping = json_decode($mapping, true);
-        } catch (\JsonException $e) {
+        } catch (\JsonException) {
             throw new \RuntimeException('Could not load default entity mapping');
         }
     }

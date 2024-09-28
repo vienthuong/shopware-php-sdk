@@ -6,20 +6,11 @@ use Vin\ShopwareSdk\Data\Struct;
 
 class Source extends Struct
 {
-    private string $shopUrl;
-
-    private string $shopId;
-
-    private string $appVersion;
-
     /**
      * Create the event from Event::createFromPayload.
      */
-    public function __construct(string $shopUrl, string $shopId, string $appVersion)
+    public function __construct(private readonly string $shopUrl, private readonly string $shopId, private readonly string $appVersion)
     {
-        $this->shopUrl = $shopUrl;
-        $this->shopId = $shopId;
-        $this->appVersion = $appVersion;
     }
 
     public function getShopUrl(): string

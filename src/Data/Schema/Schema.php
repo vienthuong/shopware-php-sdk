@@ -6,14 +6,8 @@ use Vin\ShopwareSdk\Data\Struct;
 
 class Schema extends Struct
 {
-    public string $entity;
-
-    public PropertyCollection $properties;
-
-    public function __construct(string $entity, PropertyCollection $properties)
+    public function __construct(public string $entity, public PropertyCollection $properties)
     {
-        $this->entity = $entity;
-        $this->properties = $properties;
     }
 
     public static function createFromRaw(string $entity, array $properties): self

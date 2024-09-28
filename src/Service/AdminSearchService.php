@@ -18,7 +18,7 @@ class AdminSearchService extends ApiService
 {
     private const ADMIN_SEARCH_ENDPOINT = '/api/_admin/search';
 
-    private HydratorInterface $hydrator;
+    private readonly HydratorInterface $hydrator;
 
     public function __construct(
         ?Context $context = null,
@@ -74,17 +74,15 @@ class AdminSearchService extends ApiService
 
                 $rawData = $itemResponse['data'] ?? [];
 
-                $rawData = array_map(function ($item) use ($entityName, $itemResponse) {
-                    return [
-                        'type' => $entityName,
-                        'id' => $item['id'],
-                        'attributes' => $item,
-                        'meta' => [
-                            'total' => $itemResponse['total'],
-                            'totalCountMode' => Criteria::TOTAL_COUNT_MODE_EXACT
-                        ],
-                    ];
-                }, $rawData);
+                $rawData = array_map(fn($item) => [
+                    'type' => $entityName,
+                    'id' => $item['id'],
+                    'attributes' => $item,
+                    'meta' => [
+                        'total' => $itemResponse['total'],
+                        'totalCountMode' => Criteria::TOTAL_COUNT_MODE_EXACT
+                    ],
+                ], $rawData);
 
                 $itemResponse['data'] = $rawData;
 

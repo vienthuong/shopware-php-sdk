@@ -26,14 +26,8 @@ class RangeFilter extends Filter
 
     public const GT = 'gt';
 
-    private string $field;
-
-    private array $range;
-
-    public function __construct(string $field, array $range)
+    public function __construct(private readonly string $field, private readonly array $range)
     {
-        $this->field = $field;
-        $this->range = $range;
     }
 
     public function parse(): array

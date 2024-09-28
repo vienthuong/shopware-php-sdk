@@ -10,10 +10,6 @@ class Property extends Struct
 
     private const JSON_TYPES = ['json_list', 'json_object'];
 
-    public string $type;
-
-    public FlagCollection $flags;
-
     public ?string $relation;
 
     public ?string $reference;
@@ -30,16 +26,12 @@ class Property extends Struct
 
     public ?array $properties;
 
-    public string $name;
-
     public function __construct(
-        string $name,
-        string $type,
-        FlagCollection $flags,
+        public string $name,
+        public string $type,
+        public FlagCollection $flags,
         array $properties = []
     ) {
-        $this->type = $type;
-        $this->flags = $flags;
         $this->relation = $properties['relation'] ?? null;
         $this->local = $properties['local'] ?? null;
         $this->localField = $properties['localField'] ?? null;
@@ -48,7 +40,6 @@ class Property extends Struct
         $this->entity = $properties['entity'] ?? null;
         $this->mapping = $properties['mapping'] ?? null;
         $this->properties = $properties['properties'] ?? null;
-        $this->name = $name;
     }
 
     public function isScalarField(): bool

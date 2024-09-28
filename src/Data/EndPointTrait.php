@@ -6,7 +6,7 @@ trait EndPointTrait
 {
     private function removeLastSlashes(string $endpoint): string
     {
-        while (substr($endpoint, -1) === '/') {
+        while (str_ends_with($endpoint, '/')) {
             $endpoint = rtrim($endpoint, '/');
         }
 

@@ -7,16 +7,10 @@ use Vin\ShopwareSdk\Data\Uuid\Uuid;
 
 class Shop extends Struct
 {
-    protected string $shopId;
-
-    protected string $shopUrl;
-
     protected string $shopSecret;
 
-    public function __construct(string $shopId, string $shopUrl, ?string $shopSecret = null)
+    public function __construct(protected string $shopId, protected string $shopUrl, ?string $shopSecret = null)
     {
-        $this->shopId = $shopId;
-        $this->shopUrl = $shopUrl;
         $this->shopSecret = $shopSecret ?? Uuid::randomHex();
     }
 

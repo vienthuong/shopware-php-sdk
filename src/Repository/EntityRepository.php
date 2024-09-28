@@ -36,21 +36,12 @@ class EntityRepository implements RepositoryInterface
 
     private const SEARCH_IDS_API_ENDPOINT = '/api/search-ids';
 
-    public string $entityName;
-
-    public string $route;
-
     private HydratorInterface $hydrator;
 
-    private EntityDefinition $definition;
-
-    public function __construct(string $entityName, EntityDefinition $definition, string $route, ?HydratorInterface $hydrator = null)
+    public function __construct(public string $entityName, private EntityDefinition $definition, public string $route, ?HydratorInterface $hydrator = null)
     {
-        $this->entityName = $entityName;
-        $this->httpClient = $this->httpClient ?? $this->createHttpClient();
+        $this->httpClient ??= $this->createHttpClient();
         $this->hydrator = $hydrator ?: HydratorFactory::create();
-        $this->definition = $definition;
-        $this->route = $route;
     }
 
     public function getDefinition(): EntityDefinition
@@ -165,11 +156,8 @@ class EntityRepository implements RepositoryInterface
 
         if (!\is_array($ids[array_key_first($ids)]))
         {
-            $data = array_map(function (string $id) {
-                return ['id' => $id];
-            }, $ids);
-        } else
-        {
+            $data = array_map(fn(string $id) => ['id' => $id], $ids);
+        } else {
             $data = $ids;
         }
 

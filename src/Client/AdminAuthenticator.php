@@ -31,11 +31,9 @@ class AdminAuthenticator
 
     private array $config;
 
-    private GrantType $grantType;
-
     private string $endpoint;
 
-    public function __construct(GrantType $grantType, string $endpoint, array $config = [])
+    public function __construct(private GrantType $grantType, string $endpoint, array $config = [])
     {
         $this->config = array_merge([
             'sec_before_refresh' => 30,
@@ -43,8 +41,7 @@ class AdminAuthenticator
             'sec_before_attempt' => 1,
         ], $config);
 
-        $this->httpClient = $this->httpClient ?? $this->createHttpClient($this->config);
-        $this->grantType = $grantType;
+        $this->httpClient ??= $this->createHttpClient($this->config);
         $this->endpoint = $this->removeLastSlashes($endpoint);
     }
 

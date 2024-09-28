@@ -22,6 +22,7 @@ use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
 class AdminAuthenticatorTest extends TestCase
 {
     private AdminAuthenticator $authenticator;
+
     private MockHandler $mock;
 
     protected function setUp(): void
@@ -77,7 +78,7 @@ class AdminAuthenticatorTest extends TestCase
 
         $accessToken = null;
 
-        $this->authenticator->setTokenCallback(function (AccessToken $response) use (&$accessToken) {
+        $this->authenticator->setTokenCallback(function (AccessToken $response) use (&$accessToken): void {
             $accessToken = $response;
         });
 

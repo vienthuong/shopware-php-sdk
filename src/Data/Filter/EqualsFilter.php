@@ -6,20 +6,8 @@ namespace Vin\ShopwareSdk\Data\Filter;
 
 class EqualsFilter extends Filter
 {
-    private string $field;
-
-    /**
-     * @var mixed
-     */
-    private $value;
-
-    /**
-     * @param mixed $value
-     */
-    public function __construct(string $field, $value)
+    public function __construct(private readonly string $field, private readonly mixed $value)
     {
-        $this->field = $field;
-        $this->value = $value;
     }
 
     public function parse(): array

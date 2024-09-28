@@ -11,17 +11,17 @@ class Entity extends Struct
 
     public string $_uniqueIdentifier;
 
-    public ?string $versionId;
+    public ?string $versionId = null;
 
     protected array $translated = [];
 
-    public ?\DateTimeInterface $createdAt;
+    public ?\DateTimeInterface $createdAt = null;
 
-    public ?\DateTimeInterface $updatedAt;
+    public ?\DateTimeInterface $updatedAt = null;
 
-    private ?string $_entityName;
+    private ?string $_entityName = null;
 
-    public ?string $apiAlias;
+    public ?string $apiAlias = null;
 
     private const NON_STRUCT_PROPERTY_TYPES = ['string', 'array', 'object', 'resource', 'bool', 'int', 'float', 'double'];
 
@@ -32,10 +32,7 @@ class Entity extends Struct
         return property_exists($this, $property);
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function setProperty(string $property, $value): void
+    public function setProperty(string $property, mixed $value): void
     {
         if (!$this->has($property)) {
             $this->$property = $value;
@@ -81,9 +78,7 @@ class Entity extends Struct
                 $this->$property = self::createFromArray($typeName, $value);
                 break;
             case $dummyType instanceof EntityCollection:
-                $value = array_map(function (array $item) use ($dummyType) {
-                    return self::createFromArray($dummyType->getExpectedClass(), $item);
-                }, $value);
+                $value = array_map(fn(array $item) => self::createFromArray($dummyType->getExpectedClass(), $item), $value);
                 $this->$property = new $dummyType($value);
                 break;
             case $reflectionClass->implementsInterface(\DateTimeInterface::class):
@@ -139,10 +134,7 @@ class Entity extends Struct
         $this->translated = $translated;
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function addTranslated(string $key, $value): void
+    public function addTranslated(string $key, mixed $value): void
     {
         $this->translated[$key] = $value;
     }
@@ -170,7 +162,7 @@ class Entity extends Struct
 
             try {
                 $this->setProperty($key, $value);
-            } catch (\Error | \Exception $error) {
+            } catch (\Error | \Exception) {
                 // nth
             }
         }
