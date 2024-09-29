@@ -18,7 +18,7 @@ class UserConfigService extends ApiService
                 'headers' => $this->getBasicHeaders($additionalHeaders),
                 'query' => [
                     'keys' => $keys,
-                ]
+                ],
             ]);
 
             $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
@@ -34,7 +34,9 @@ class UserConfigService extends ApiService
             }
             return $data;
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }
@@ -51,14 +53,16 @@ class UserConfigService extends ApiService
         try {
             $response = $this->httpClient->post($this->getFullUrl(self::USER_CONFIG_ENDPOINT), [
                 'headers' => $this->getBasicHeaders($additionalHeaders),
-                'body' => json_encode(array_merge($parsed, $additionalParams))
+                'body' => json_encode(array_merge($parsed, $additionalParams)),
             ]);
 
             $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
 
             return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }

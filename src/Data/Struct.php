@@ -22,7 +22,6 @@ class Struct
             $self->$property = $value;
         }
 
-        /* @var static $self */
         return $self;
     }
 
@@ -56,7 +55,7 @@ class Struct
     public function addExtensions(array $extensions): void
     {
         foreach ($extensions as $key => $extension) {
-            if (!$extension instanceof Struct) {
+            if (! $extension instanceof Struct) {
                 continue;
             }
 

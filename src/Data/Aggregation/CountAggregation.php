@@ -6,8 +6,10 @@ namespace Vin\ShopwareSdk\Data\Aggregation;
 
 class CountAggregation extends Aggregation
 {
-    public function __construct(public string $name, public string $field)
-    {
+    public function __construct(
+        public string $name,
+        public string $field
+    ) {
     }
 
     public function parse(): array
@@ -15,7 +17,7 @@ class CountAggregation extends Aggregation
         return [
             'type' => self::TYPE_COUNT,
             'name' => $this->name,
-            'field' => $this->field
+            'field' => $this->field,
         ];
     }
 }

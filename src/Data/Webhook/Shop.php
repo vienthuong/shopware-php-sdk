@@ -9,8 +9,11 @@ class Shop extends Struct
 {
     protected string $shopSecret;
 
-    public function __construct(protected string $shopId, protected string $shopUrl, ?string $shopSecret = null)
-    {
+    public function __construct(
+        protected string $shopId,
+        protected string $shopUrl,
+        ?string $shopSecret = null
+    ) {
         $this->shopSecret = $shopSecret ?? Uuid::randomHex();
     }
 

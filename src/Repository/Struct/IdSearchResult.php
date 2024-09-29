@@ -10,8 +10,12 @@ class IdSearchResult
 {
     private array $data = [];
 
-    public function __construct(private int $total, private array $ids, private Criteria $criteria, private Context $context)
-    {
+    public function __construct(
+        private int $total,
+        private array $ids,
+        private Criteria $criteria,
+        private Context $context
+    ) {
         $this->data = $this->transformData($this->ids);
     }
 
@@ -81,7 +85,9 @@ class IdSearchResult
         }
 
         if (is_string($data[0])) {
-            return array_map(fn($id) => ['id' => $id], $data);
+            return array_map(fn ($id) => [
+                'id' => $id,
+            ], $data);
         }
 
         return array_map(function ($value) {

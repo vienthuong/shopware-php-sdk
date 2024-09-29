@@ -6,8 +6,21 @@ use Vin\ShopwareSdk\Data\Struct;
 
 class Mail extends Struct
 {
-    public function __construct(protected string $salesChannelId, protected string $subject, protected string $contentHtml, protected string $contentPlain, protected string $senderName, protected array $recipients = [], protected array $mediaIds = [], protected array $binAttachments = [], protected array $recipientsBcc = [], protected array $recipientsCc = [], protected array $replyTo = [], protected ?string $senderEmail = null, protected ?string $returnPath = null)
-    {
+    public function __construct(
+        protected string $salesChannelId,
+        protected string $subject,
+        protected string $contentHtml,
+        protected string $contentPlain,
+        protected string $senderName,
+        protected array $recipients = [],
+        protected array $mediaIds = [],
+        protected array $binAttachments = [],
+        protected array $recipientsBcc = [],
+        protected array $recipientsCc = [],
+        protected array $replyTo = [],
+        protected ?string $senderEmail = null,
+        protected ?string $returnPath = null
+    ) {
     }
 
     public function getSalesChannelId(): string

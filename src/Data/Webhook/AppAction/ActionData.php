@@ -6,8 +6,11 @@ use Vin\ShopwareSdk\Data\Struct;
 
 class ActionData extends Struct
 {
-    public function __construct(protected array $ids, protected string $entity, protected string $action)
-    {
+    public function __construct(
+        protected array $ids,
+        protected string $entity,
+        protected string $action
+    ) {
     }
 
     public function getAction(): string

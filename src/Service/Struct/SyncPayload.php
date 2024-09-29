@@ -7,11 +7,6 @@ use Vin\ShopwareSdk\Data\ParseAware;
 
 class SyncPayload extends Collection implements ParseAware
 {
-    protected function getExpectedClass(): ?string
-    {
-        return SyncOperator::class;
-    }
-
     public function parse(): array
     {
         $payload = [];
@@ -21,5 +16,10 @@ class SyncPayload extends Collection implements ParseAware
         }
 
         return $payload;
+    }
+
+    protected function getExpectedClass(): ?string
+    {
+        return SyncOperator::class;
     }
 }

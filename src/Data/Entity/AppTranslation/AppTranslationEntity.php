@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\AppTranslation;
 
 use Vin\ShopwareSdk\Data\Entity\App\AppEntity;

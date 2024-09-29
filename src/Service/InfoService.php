@@ -57,7 +57,8 @@ class InfoService extends ApiService
     {
         $url = $this->getFullUrl(self::VERSION_PATH);
 
-        return $this->get($url)->getContents()['version'];
+        return $this->get($url)
+            ->getContents()['version'];
     }
 
     public function getSchema(string $entity): ?Schema
@@ -73,7 +74,9 @@ class InfoService extends ApiService
         /** @var string|false $localSchema */
         $localSchema = \file_get_contents(self::SCHEMA_FILE_PATH);
 
-        $this->schema = $localSchema === false ? $this->refreshSchema() : $this->parseSchema(self::handleResponse($localSchema, ['content-type' => 'application/vnd.api+json']));
+        $this->schema = $localSchema === false ? $this->refreshSchema() : $this->parseSchema(self::handleResponse($localSchema, [
+            'content-type' => 'application/vnd.api+json',
+        ]));
 
         return $this->cache[$entity] = $this->schema->get($entity);
     }

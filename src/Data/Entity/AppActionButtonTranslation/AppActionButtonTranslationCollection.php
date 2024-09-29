@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\AppActionButtonTranslation;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -18,7 +19,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class AppActionButtonTranslationCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return AppActionButtonTranslationEntity::class;
     }

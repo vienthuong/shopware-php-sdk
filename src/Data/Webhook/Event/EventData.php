@@ -6,8 +6,10 @@ use Vin\ShopwareSdk\Data\Struct;
 
 class EventData extends Struct
 {
-    public function __construct(protected string $event, protected array $payload)
-    {
+    public function __construct(
+        protected string $event,
+        protected array $payload
+    ) {
     }
 
     public function getEvent(): string

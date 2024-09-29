@@ -10,8 +10,9 @@ class RefreshTokenGrantType extends GrantType
 
     public string $scopes;
 
-    public function __construct(public string $refreshToken)
-    {
+    public function __construct(
+        public string $refreshToken
+    ) {
         parent::__construct(self::REFRESH_TOKEN, self::ADMINISTRATION_CLIENT_ID);
     }
 }

@@ -13,10 +13,12 @@ class RegistrationResponse extends SdkResponse
 
         $json = (string) json_encode([
             'proof' => $result->getProof(),
-            'secret' => $result->getShop()->getShopSecret(),
-            'confirmation_url' => $confirmationUrl
+            'secret' => $result->getShop()
+                ->getShopSecret(),
+            'confirmation_url' => $confirmationUrl,
         ]);
 
-        $this->getBody()->write($json);
+        $this->getBody()
+            ->write($json);
     }
 }

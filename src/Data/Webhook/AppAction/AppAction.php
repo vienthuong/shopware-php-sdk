@@ -10,10 +10,14 @@ class AppAction extends Struct
     /**
      * Create the event from Event::createFromPayload.
      */
-    private function __construct(protected ?Source $source, protected ?ActionData $data, protected ?ActionMeta $meta, protected array $headers)
-    {
+    private function __construct(
+        protected ?Source $source,
+        protected ?ActionData $data,
+        protected ?ActionMeta $meta,
+        protected array $headers
+    ) {
     }
-    
+
     public function getSource(): ?Source
     {
         return $this->source;
@@ -41,7 +45,6 @@ class AppAction extends Struct
         if ($rawSource = $payload['source']) {
             $source = new Source($rawSource['url'], $rawSource['shopId'], (string) $rawSource['appVersion']);
         }
-
 
         if ($rawData = $payload['data']) {
             $action = new ActionData($rawData['ids'], $rawData['entity'], $rawData['action']);

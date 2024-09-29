@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\UserAccessKey;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -18,7 +19,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class UserAccessKeyCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return UserAccessKeyEntity::class;
     }

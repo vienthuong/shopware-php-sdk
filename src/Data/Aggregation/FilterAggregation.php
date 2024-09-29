@@ -15,8 +15,7 @@ class FilterAggregation extends Aggregation
          */
         public array $filter,
         public Aggregation $aggregation
-    )
-    {
+    ) {
     }
 
     public function parse(): array
@@ -24,8 +23,8 @@ class FilterAggregation extends Aggregation
         return [
             'type' => self::TYPE_FILTER,
             'name' => $this->name,
-            'filter' => array_map(fn(Filter $filter) => $filter->parse(), $this->filter),
-            'aggregation' => $this->aggregation->parse()
+            'filter' => array_map(fn (Filter $filter) => $filter->parse(), $this->filter),
+            'aggregation' => $this->aggregation->parse(),
         ];
     }
 }

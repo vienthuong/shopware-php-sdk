@@ -31,10 +31,7 @@ class AdminSearchService extends ApiService
     }
 
     /**
-     * @param  KeyValuePairs $criteriaCollection
-     * @param  array  $additionalHeaders
      * @throws ShopwareResponseException
-     * @return KeyValuePairs
      */
     public function search(KeyValuePairs $criteriaCollection, array $additionalHeaders = []): KeyValuePairs
     {
@@ -43,7 +40,7 @@ class AdminSearchService extends ApiService
         foreach ($criteriaCollection as $part) {
             $partCriteria = $part->getValue();
 
-            if (!$partCriteria instanceof Criteria) {
+            if (! $partCriteria instanceof Criteria) {
                 throw new \InvalidArgumentException('Parameter $criteria must be array of Criteria');
             }
 
@@ -74,13 +71,13 @@ class AdminSearchService extends ApiService
 
                 $rawData = $itemResponse['data'] ?? [];
 
-                $rawData = array_map(fn($item) => [
+                $rawData = array_map(fn ($item) => [
                     'type' => $entityName,
                     'id' => $item['id'],
                     'attributes' => $item,
                     'meta' => [
                         'total' => $itemResponse['total'],
-                        'totalCountMode' => Criteria::TOTAL_COUNT_MODE_EXACT
+                        'totalCountMode' => Criteria::TOTAL_COUNT_MODE_EXACT,
                     ],
                 ], $rawData);
 
@@ -99,7 +96,9 @@ class AdminSearchService extends ApiService
 
             return $pairs;
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }

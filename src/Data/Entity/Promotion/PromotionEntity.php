@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\Promotion;
 
 use Vin\ShopwareSdk\Data\Entity\PromotionSetgroup\PromotionSetgroupCollection;
@@ -23,9 +24,9 @@ class PromotionEntity extends Entity
 
     public ?bool $active = null;
 
-    public ?\DateTimeInterface$validFrom = null;
+    public ?\DateTimeInterface $validFrom = null;
 
-    public ?\DateTimeInterface$validUntil = null;
+    public ?\DateTimeInterface $validUntil = null;
 
     public ?int $maxRedemptionsGlobal = null;
 

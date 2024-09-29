@@ -16,8 +16,9 @@ class EntityHydrator implements HydratorInterface
 
     protected array $cacheSchema = [];
 
-    public function __construct(protected bool $useCache = false)
-    {
+    public function __construct(
+        protected bool $useCache = false
+    ) {
     }
 
     public function schema(string $entity, Context $context): Schema
@@ -39,7 +40,7 @@ class EntityHydrator implements HydratorInterface
                 throw new \Exception('Schema for entity: ' . $entity . ' not found');
             }
         }
-        
+
         $this->cacheSchema[$entity] = $schema;
 
         return $schema;
@@ -51,7 +52,7 @@ class EntityHydrator implements HydratorInterface
     public function hydrateSearchResult(array $response, Context $context, ?string $entityName = null): EntityCollection
     {
         // Deprecated - Remove this block on next major version 2.0.0
-        if ($entityName === null && !empty($response) && !empty($response['data'])) {
+        if ($entityName === null && ! empty($response) && ! empty($response['data'])) {
             $data = $response['data'];
             $first = current($data);
 
@@ -62,7 +63,8 @@ class EntityHydrator implements HydratorInterface
 
         if ($entityName !== null) {
             $repository = RepositoryFactory::create($entityName);
-            $collectionClass = $repository->getDefinition()->getEntityCollection();
+            $collectionClass = $repository->getDefinition()
+                ->getEntityCollection();
         }
 
         if (empty($response) || empty($response['data'])) {
@@ -103,7 +105,7 @@ class EntityHydrator implements HydratorInterface
         $attributes['id'] = $entityRaw['id'];
 
         /** @var Entity $entity */
-        $entity = new $entityClass;
+        $entity = new $entityClass();
         $entity->internalSetEntityName($definition->getEntityName());
 
         $entitySchema = $definition->getSchema();
@@ -128,7 +130,7 @@ class EntityHydrator implements HydratorInterface
                 $entity->addExtensions($this->hydrateExtensions($entity, $entitySchema, $data, $context));
             }
 
-            if (!$entitySchema->properties->has($property)) {
+            if (! $entitySchema->properties->has($property)) {
                 continue;
             }
 
@@ -139,7 +141,7 @@ class EntityHydrator implements HydratorInterface
             }
 
             if ($field->isToManyAssociation()) {
-                $type = !empty($relationship['data'][0]['type']) ? $relationship['data'][0]['type'] : '';
+                $type = ! empty($relationship['data'][0]['type']) ? $relationship['data'][0]['type'] : '';
                 if ($type) {
                     $repository = RepositoryFactory::create($type);
                     $definition = $repository->getDefinition();
@@ -150,7 +152,7 @@ class EntityHydrator implements HydratorInterface
                 continue;
             }
 
-            if ($field->isToOneAssociation() && !empty($relationship['data'])) {
+            if ($field->isToOneAssociation() && ! empty($relationship['data'])) {
                 $nestedEntity = $this->hydrateToOne($relationship, $data, $context);
 
                 if ($nestedEntity) {
@@ -170,7 +172,7 @@ class EntityHydrator implements HydratorInterface
         $relationships = $extension['relationships'] ?? [];
 
         foreach ($relationships as $property => $relationship) {
-            if (!$entitySchema->properties->has($property)) {
+            if (! $entitySchema->properties->has($property)) {
                 continue;
             }
 
@@ -181,7 +183,7 @@ class EntityHydrator implements HydratorInterface
             }
 
             if ($field->isToManyAssociation()) {
-                $type = !empty($relationship['data'][0]['type']) ? $relationship['data'][0]['type'] : null;
+                $type = ! empty($relationship['data'][0]['type']) ? $relationship['data'][0]['type'] : null;
                 if ($type) {
                     $repository = RepositoryFactory::create($type);
                     $definition = $repository->getDefinition();
@@ -192,7 +194,7 @@ class EntityHydrator implements HydratorInterface
                 continue;
             }
 
-            if ($field->isToOneAssociation() && array_key_exists('data', $relationship) && !empty($relationship['data'])) {
+            if ($field->isToOneAssociation() && array_key_exists('data', $relationship) && ! empty($relationship['data'])) {
                 $nestedEntity = $this->hydrateToOne($relationship, $data, $context);
 
                 if ($nestedEntity) {
@@ -221,7 +223,7 @@ class EntityHydrator implements HydratorInterface
                 $nestedEntity = $this->hydrateEntity($datum['type'], $nestedRaw, $rawData, $context);
             }
 
-            if (!empty($nestedEntity)) {
+            if (! empty($nestedEntity)) {
                 $collection->add($nestedEntity);
             }
         }
@@ -243,7 +245,7 @@ class EntityHydrator implements HydratorInterface
     private function hydrateEmptyJsonFields(Entity $entity, array $attributes, Schema $entitySchema): Entity
     {
         foreach ($attributes as $attributeKey => $attributeValue) {
-            if (!$entitySchema->properties->has($attributeKey)) {
+            if (! $entitySchema->properties->has($attributeKey)) {
                 $entity->setProperty($attributeKey, $attributeValue);
 
                 continue;
@@ -255,7 +257,7 @@ class EntityHydrator implements HydratorInterface
                 continue;
             }
 
-            if (!$field->isJsonField()) {
+            if (! $field->isJsonField()) {
                 $entity->setProperty($attributeKey, $attributeValue);
 
                 continue;

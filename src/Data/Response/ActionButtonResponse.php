@@ -15,7 +15,7 @@ abstract class ActionButtonResponse extends SdkResponse
 
     public function __construct(string $appSecret, array $contents = [])
     {
-        if (array_key_exists('actionType', $contents) && !array_key_exists('payload', $contents)) {
+        if (array_key_exists('actionType', $contents) && ! array_key_exists('payload', $contents)) {
             $contents['payload'] = [];
         }
 
@@ -23,7 +23,8 @@ abstract class ActionButtonResponse extends SdkResponse
 
         parent::__construct(200, $this->withAppSecret($appSecret, $contentEncoded));
 
-        $this->getBody()->write($contentEncoded);
+        $this->getBody()
+            ->write($contentEncoded);
     }
 
     private function withAppSecret(string $appSecret, string $contents): array

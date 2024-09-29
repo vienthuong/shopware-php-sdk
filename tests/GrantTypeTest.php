@@ -22,7 +22,7 @@ class GrantTypeTest extends TestCase
 
         GrantType::createFromConfig([
             'username' => 'admin',
-            'password' => 'password'
+            'password' => 'password',
         ]);
     }
 
@@ -35,7 +35,7 @@ class GrantTypeTest extends TestCase
         GrantType::createFromConfig([
             'grant_type' => $grantType,
             'username' => 'admin',
-            'password' => 'password'
+            'password' => 'password',
         ]);
     }
 
@@ -44,7 +44,7 @@ class GrantTypeTest extends TestCase
         $grantType = GrantType::createFromConfig([
             'grant_type' => GrantType::PASSWORD,
             'username' => 'admin',
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         static::assertInstanceOf(PasswordGrantType::class, $grantType);
@@ -55,7 +55,7 @@ class GrantTypeTest extends TestCase
         $grantType = GrantType::createFromConfig([
             'grant_type' => GrantType::CLIENT_CREDENTIALS,
             'client_id' => 'SWIAD0HGZGVRRZF1T2TUWNDVMG',
-            'client_secret' => 'QnpublNSVE40Y1VEbk56WXVtVWU3aXFYZ2oyRXdvem82Tk5JNVI'
+            'client_secret' => 'QnpublNSVE40Y1VEbk56WXVtVWU3aXFYZ2oyRXdvem82Tk5JNVI',
         ]);
 
         static::assertInstanceOf(ClientCredentialsGrantType::class, $grantType);

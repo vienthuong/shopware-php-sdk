@@ -15,14 +15,16 @@ class SyncService extends ApiService
         try {
             $response = $this->httpClient->post($this->getFullUrl(self::SYNC_ENDPOINT), [
                 'headers' => $this->getBasicHeaders($additionalHeaders),
-                'body' => json_encode(array_merge($payload->parse(), $additionalParams))
+                'body' => json_encode(array_merge($payload->parse(), $additionalParams)),
             ]);
 
             $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
 
             return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }

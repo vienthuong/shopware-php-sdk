@@ -27,8 +27,13 @@ class HistogramAggregation extends Aggregation
      */
     public array $filter;
 
-    public function __construct(public string $name, public string $field, public string $interval, public ?string $format = null, public ?Aggregation $aggregation = null)
-    {
+    public function __construct(
+        public string $name,
+        public string $field,
+        public string $interval,
+        public ?string $format = null,
+        public ?Aggregation $aggregation = null
+    ) {
     }
 
     public function parse(): array

@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\RuleTag;
 
 use Vin\ShopwareSdk\Data\Entity\Rule\RuleEntity;

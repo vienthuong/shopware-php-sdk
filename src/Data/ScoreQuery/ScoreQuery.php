@@ -6,8 +6,11 @@ use Vin\ShopwareSdk\Data\Filter\Filter;
 
 class ScoreQuery extends Filter
 {
-    public function __construct(protected Filter $query, protected float $score, protected ?string $scoreField = null)
-    {
+    public function __construct(
+        protected Filter $query,
+        protected float $score,
+        protected ?string $scoreField = null
+    ) {
     }
 
     public function getScore(): float
@@ -30,7 +33,7 @@ class ScoreQuery extends Filter
         return array_filter([
             'score' => $this->score,
             'query' => $this->query->parse(),
-            'scoreField' => $this->scoreField
+            'scoreField' => $this->scoreField,
         ]);
     }
 }

@@ -42,7 +42,9 @@ class EntityRepositoryTest extends TestCase
 
         $handlerStack = HandlerStack::create($this->mock);
 
-        $client = Client::create(['handler' => $handlerStack]);
+        $client = Client::create([
+            'handler' => $handlerStack,
+        ]);
 
         /** @var EntityRepository $productRepository */
         $productRepository = RepositoryFactory::create(ProductDefinition::ENTITY_NAME);
@@ -132,7 +134,7 @@ class EntityRepositoryTest extends TestCase
 
         $result = $this->productRepository->createNew([
             'id' => Uuid::randomHex(),
-            'name' => 'New Product'
+            'name' => 'New Product',
         ]);
 
         static::assertInstanceOf(ProductEntity::class, $result);

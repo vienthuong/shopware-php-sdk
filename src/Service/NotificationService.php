@@ -18,14 +18,16 @@ class NotificationService extends ApiService
         try {
             $response = $this->httpClient->post($this->getFullUrl(self::NOTIFICATION_ENDPOINT), [
                 'headers' => $this->getBasicHeaders($additionalHeaders),
-                'body' => json_encode(array_merge($notification->parse(), $additionalParams))
+                'body' => json_encode(array_merge($notification->parse(), $additionalParams)),
             ]);
 
             $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
 
             return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }
@@ -38,7 +40,7 @@ class NotificationService extends ApiService
                 'body' => json_encode(array_merge([
                     'latestTimestamp' => $latestTimestamp,
                     'limit' => $limit,
-                ], $additionalParams))
+                ], $additionalParams)),
             ]);
 
             $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
@@ -55,7 +57,9 @@ class NotificationService extends ApiService
 
             return $collection;
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }

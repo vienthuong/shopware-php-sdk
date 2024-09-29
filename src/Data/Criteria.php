@@ -82,9 +82,6 @@ class Criteria implements ParseAware
 
     /**
      * Default should be null to not limit artificily
-     *
-     * @param $page
-     * @param $limit
      */
     public function __construct(
         /**
@@ -96,8 +93,7 @@ class Criteria implements ParseAware
          * see above
          */
         private mixed $limit = null
-    )
-    {
+    ) {
     }
 
     public function addFilter(Filter ...$filters): self
@@ -156,7 +152,7 @@ class Criteria implements ParseAware
         $criteria = $this;
 
         foreach ($parts as $part) {
-            if (!$criteria->hasAssociation($part)) {
+            if (! $criteria->hasAssociation($part)) {
                 $criteria->associations[] = new Association($part, new Criteria());
             }
 
@@ -375,7 +371,7 @@ class Criteria implements ParseAware
             }
         }
 
-        if (!empty($this->includes)) {
+        if (! empty($this->includes)) {
             $params['includes'] = $this->includes;
         }
 

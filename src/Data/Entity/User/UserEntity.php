@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\User;
 
 use Vin\ShopwareSdk\Data\Entity\Locale\LocaleEntity;
@@ -41,7 +42,7 @@ class UserEntity extends Entity
 
     public ?bool $admin = null;
 
-    public ?\DateTimeInterface$lastUpdatedPasswordAt = null;
+    public ?\DateTimeInterface $lastUpdatedPasswordAt = null;
 
     public ?string $timeZone = null;
 

@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\AclRole;
 
 use Vin\ShopwareSdk\Data\Entity\User\UserCollection;
@@ -20,7 +21,7 @@ class AclRoleEntity extends Entity
 
     public ?array $privileges = null;
 
-    public ?\DateTimeInterface$deletedAt = null;
+    public ?\DateTimeInterface $deletedAt = null;
 
     public ?UserCollection $users = null;
 

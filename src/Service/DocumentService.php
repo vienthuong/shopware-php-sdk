@@ -17,6 +17,7 @@ class DocumentService extends ApiService
             ]
         );
 
-        return $response->getBody()->getContents();
+        return $response->getBody()
+            ->getContents();
     }
 }

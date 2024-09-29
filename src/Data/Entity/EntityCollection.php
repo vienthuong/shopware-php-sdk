@@ -21,12 +21,12 @@ class EntityCollection extends Collection
 {
     public function getIds(): array
     {
-        return $this->fmap(static fn(Entity $entity) => $entity->id);
+        return $this->fmap(static fn (Entity $entity) => $entity->id);
     }
 
     public function filterByProperty(string $property, mixed $value): self
     {
-        return static::filter(static fn(Entity $struct) => $struct->$property === $value);
+        return static::filter(static fn (Entity $struct) => $value === $struct->$property);
     }
 
     public function filterAndReduceByProperty(string $property, mixed $value): self
@@ -34,7 +34,7 @@ class EntityCollection extends Collection
         $filtered = [];
 
         foreach ($this->getIterator() as $key => $struct) {
-            if ($struct->$property !== $value) {
+            if ($value !== $struct->$property) {
                 continue;
             }
             $filtered[] = $struct;
@@ -69,7 +69,7 @@ class EntityCollection extends Collection
 
     public function filterInstance(string $class): static
     {
-        return static::filter(static fn($item) => $item instanceof $class);
+        return static::filter(static fn ($item) => $item instanceof $class);
     }
 
     public function getExpectedClass(): string

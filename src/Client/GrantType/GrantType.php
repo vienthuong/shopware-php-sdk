@@ -6,21 +6,23 @@ namespace Vin\ShopwareSdk\Client\GrantType;
 
 abstract class GrantType
 {
-    protected const ADMINISTRATION_CLIENT_ID = 'administration';
-
     public const CLIENT_CREDENTIALS = 'client_credentials';
 
     public const PASSWORD = 'password';
 
     public const REFRESH_TOKEN = 'refresh_token';
 
+    protected const ADMINISTRATION_CLIENT_ID = 'administration';
+
     private const ALLOWED_GRANTS = ['refresh_token', 'password', 'client_credentials'];
 
     public string $grantType;
 
-    public function __construct(string $grantType, public string $clientId)
-    {
-        if (!\in_array($grantType, self::ALLOWED_GRANTS)) {
+    public function __construct(
+        string $grantType,
+        public string $clientId
+    ) {
+        if (! \in_array($grantType, self::ALLOWED_GRANTS)) {
             throw new \InvalidArgumentException('Grant type ' . $grantType . ' is not supported', 400);
         }
         $this->grantType = $grantType;

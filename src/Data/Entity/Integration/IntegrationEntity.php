@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\Integration;
 
 use Vin\ShopwareSdk\Data\Entity\App\AppEntity;
@@ -22,11 +23,11 @@ class IntegrationEntity extends Entity
 
     public ?bool $writeAccess = null;
 
-    public ?\DateTimeInterface$lastUsageAt = null;
+    public ?\DateTimeInterface $lastUsageAt = null;
 
     public ?bool $admin = null;
 
-    public ?\DateTimeInterface$deletedAt = null;
+    public ?\DateTimeInterface $deletedAt = null;
 
     public ?AppEntity $app = null;
 

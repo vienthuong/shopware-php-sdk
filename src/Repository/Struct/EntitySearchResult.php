@@ -11,8 +11,14 @@ class EntitySearchResult
 {
     public array $data = [];
 
-    public function __construct(public string $entityName, public SearchResultMeta $meta, public EntityCollection $entities, public AggregationResultCollection $aggregations, public Criteria $criteria, public Context $context)
-    {
+    public function __construct(
+        public string $entityName,
+        public SearchResultMeta $meta,
+        public EntityCollection $entities,
+        public AggregationResultCollection $aggregations,
+        public Criteria $criteria,
+        public Context $context
+    ) {
     }
 
     public function getMeta(): SearchResultMeta

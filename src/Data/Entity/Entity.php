@@ -9,23 +9,23 @@ class Entity extends Struct
 {
     use EntityCustomFieldsTrait;
 
+    private const NON_STRUCT_PROPERTY_TYPES = ['string', 'array', 'object', 'resource', 'bool', 'int', 'float', 'double'];
+
     public string $_uniqueIdentifier;
 
     public ?string $versionId = null;
-
-    protected array $translated = [];
 
     public ?\DateTimeInterface $createdAt = null;
 
     public ?\DateTimeInterface $updatedAt = null;
 
-    private ?string $_entityName = null;
-
     public ?string $apiAlias = null;
 
-    private const NON_STRUCT_PROPERTY_TYPES = ['string', 'array', 'object', 'resource', 'bool', 'int', 'float', 'double'];
-
     public string $id;
+
+    protected array $translated = [];
+
+    private ?string $_entityName = null;
 
     public function has(string $property): bool
     {
@@ -34,7 +34,7 @@ class Entity extends Struct
 
     public function setProperty(string $property, mixed $value): void
     {
-        if (!$this->has($property)) {
+        if (! $this->has($property)) {
             $this->$property = $value;
             return;
         }
@@ -71,14 +71,14 @@ class Entity extends Struct
 
         $reflectionClass = new \ReflectionClass($typeName);
 
-        $dummyType = $reflectionClass->isInstantiable() ? new $typeName : null;
+        $dummyType = $reflectionClass->isInstantiable() ? new $typeName() : null;
 
         switch (true) {
             case $dummyType instanceof Entity:
                 $this->$property = self::createFromArray($typeName, $value);
                 break;
             case $dummyType instanceof EntityCollection:
-                $value = array_map(fn(array $item) => self::createFromArray($dummyType->getExpectedClass(), $item), $value);
+                $value = array_map(fn (array $item) => self::createFromArray($dummyType->getExpectedClass(), $item), $value);
                 $this->$property = new $dummyType($value);
                 break;
             case $reflectionClass->implementsInterface(\DateTimeInterface::class):
@@ -91,8 +91,6 @@ class Entity extends Struct
     }
 
     /**
-     * @param string $property
-     *
      * @return mixed
      */
     public function getProperty(string $property)
@@ -107,7 +105,7 @@ class Entity extends Struct
     public static function createFromArray(string $expectedEntityClass, array $attributes = []): Entity
     {
         /** @var Entity $expectedEntity */
-        $expectedEntity = new $expectedEntityClass;
+        $expectedEntity = new $expectedEntityClass();
 
         foreach ($attributes as $attributeKey => $attributeValue) {
             $expectedEntity->setProperty($attributeKey, $attributeValue);

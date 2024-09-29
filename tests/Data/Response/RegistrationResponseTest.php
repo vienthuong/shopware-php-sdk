@@ -30,7 +30,7 @@ class RegistrationResponseTest extends TestCase
         static::assertEquals([
             'proof' => $proof,
             'secret' => $shop->getShopSecret(),
-            'confirmation_url' => $confirmationUrl
+            'confirmation_url' => $confirmationUrl,
         ], $jsonResponse);
         static::assertEquals(200, $response->getStatusCode());
     }

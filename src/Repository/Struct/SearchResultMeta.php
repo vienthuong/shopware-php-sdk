@@ -6,8 +6,10 @@ use Vin\ShopwareSdk\Data\Struct;
 
 class SearchResultMeta extends Struct
 {
-    public function __construct(private int $total, private int $totalCountMode)
-    {
+    public function __construct(
+        private int $total,
+        private int $totalCountMode
+    ) {
     }
 
     public function getTotalCountMode(): int

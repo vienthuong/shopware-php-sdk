@@ -6,7 +6,9 @@ namespace Vin\ShopwareSdk\Data;
 
 class Association
 {
-    public function __construct(public string $association, public Criteria $criteria)
-    {
+    public function __construct(
+        public string $association,
+        public Criteria $criteria
+    ) {
     }
 }

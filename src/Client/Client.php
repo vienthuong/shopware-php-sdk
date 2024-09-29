@@ -24,8 +24,9 @@ class Client implements ClientInterface
 {
     use GuzzleClientTrait;
 
-    private function __construct(private GuzzleClientInterface $guzzleClient)
-    {
+    private function __construct(
+        private GuzzleClientInterface $guzzleClient
+    ) {
     }
 
     public static function create(array $config = []): self
@@ -37,7 +38,9 @@ class Client implements ClientInterface
             ?Response $response = null,
             ?TransferException $exception = null
         ) use ($config) {
-            $config = array_key_exists('max_attempt', $config) ? $config : ['max_attempt' => 3];
+            $config = array_key_exists('max_attempt', $config) ? $config : [
+                'max_attempt' => 3,
+            ];
 
             // Limit the number of retries to 5
             if ($retries >= $config['max_attempt']) {
@@ -56,12 +59,14 @@ class Client implements ClientInterface
 
             return false;
         }, function ($numberOfRetries) use ($config) {
-            $config = array_key_exists('sec_before_attempt', $config) ? $config : ['sec_before_attempt' => 2];
+            $config = array_key_exists('sec_before_attempt', $config) ? $config : [
+                'sec_before_attempt' => 2,
+            ];
 
             return $config['sec_before_attempt'] * 1000 * $numberOfRetries;
         }));
 
-        $client =  new GuzzleClient(array_merge([
+        $client = new GuzzleClient(array_merge([
             'handler' => $handlerStack,
         ], $config));
 
@@ -79,7 +84,8 @@ class Client implements ClientInterface
         $options[RequestOptions::ALLOW_REDIRECTS] = false;
         $options[RequestOptions::HTTP_ERRORS] = false;
 
-        return $this->sendAsync($request, $options)->wait();
+        return $this->sendAsync($request, $options)
+            ->wait();
     }
 
     public function sendAsync(RequestInterface $request, array $options = []): PromiseInterface

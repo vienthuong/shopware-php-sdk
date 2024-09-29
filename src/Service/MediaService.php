@@ -28,7 +28,7 @@ class MediaService extends ApiService
         try {
             $response = $this->httpClient->post($this->buildQueryUrl($path, $params), [
                 'headers' => $this->getBasicHeaders([
-                    'Content-Type' => $mimeType
+                    'Content-Type' => $mimeType,
                 ]),
                 'body' => is_array($data) ? json_encode($data) : $data,
             ]);
@@ -37,7 +37,9 @@ class MediaService extends ApiService
 
             return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }
@@ -58,14 +60,18 @@ class MediaService extends ApiService
         try {
             $response = $this->httpClient->post($this->getFullUrl($path), [
                 'headers' => $this->getBasicHeaders(),
-                'body' => json_encode([ 'fileName' => $fileName ]),
+                'body' => json_encode([
+                    'fileName' => $fileName,
+                ]),
             ]);
 
             $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
 
             return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }
@@ -76,7 +82,7 @@ class MediaService extends ApiService
         $params = array_filter([
             'extension' => $extension,
             'fileName' => $fileName,
-            'mediaId' => $mediaId
+            'mediaId' => $mediaId,
         ]);
 
         try {
@@ -88,7 +94,9 @@ class MediaService extends ApiService
 
             return (new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode()))->getContents()['fileName'];
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }

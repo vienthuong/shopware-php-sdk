@@ -40,7 +40,7 @@ class CriteriaTest extends TestCase
         $criteria->addAssociation('assoc1');
         $criteria->addAssociations([
             'assoc2',
-            'assoc3'
+            'assoc3',
         ]);
         $criteria->addPostFilter(new EqualsFilter('field1', 'value1'));
         $criteria->addAggregation(new SumAggregation('sum-field-2', 'field-2'));
@@ -73,7 +73,7 @@ class CriteriaTest extends TestCase
             new EqualsFilter('title', 'title-value'),
         ]));
         $criteria->addFilter(new NotFilter(NotFilter::OP_OR, [
-            new EqualsFilter('stock', 0)
+            new EqualsFilter('stock', 0),
         ]));
         $criteria->addFilter(new RangeFilter('stock', [
             RangeFilter::GT => 0,
@@ -85,183 +85,183 @@ class CriteriaTest extends TestCase
         $parsed = $criteria->parse();
 
         $expectedParsed = [
-            "page" => 5,
-            "limit" => 50,
-            "query" => [
+            'page' => 5,
+            'limit' => 50,
+            'query' => [
                 [
-                    "score" => 100,
-                    "query" => [
-                        "type" => "equalsAny",
-                        "field" => "score-field",
-                        "value" => "value-1|value-2"
+                    'score' => 100,
+                    'query' => [
+                        'type' => 'equalsAny',
+                        'field' => 'score-field',
+                        'value' => 'value-1|value-2',
                     ],
-                    "scoreField" => "score-field"
-                ]
+                    'scoreField' => 'score-field',
+                ],
             ],
-            "filter" => [
+            'filter' => [
                 [
-                    "type" => "equals",
-                    "field" => "field-1",
-                    "value" => "value-1"
+                    'type' => 'equals',
+                    'field' => 'field-1',
+                    'value' => 'value-1',
                 ],
                 [
-                    "type" => "equalsAny",
-                    "field" => "field-1",
-                    "value" => "value-1|value-2"
+                    'type' => 'equalsAny',
+                    'field' => 'field-1',
+                    'value' => 'value-1|value-2',
                 ],
                 [
-                    "type" => "contains",
-                    "field" => "field-1",
-                    "value" => "contain-field-1"
+                    'type' => 'contains',
+                    'field' => 'field-1',
+                    'value' => 'contain-field-1',
                 ],
                 [
-                    "type" => "multi",
-                    "operator" => "and",
-                    "queries" => [
+                    'type' => 'multi',
+                    'operator' => 'and',
+                    'queries' => [
                         [
-                            "type" => "equals",
-                            "field" => "description",
-                            "value" => "description-value"
+                            'type' => 'equals',
+                            'field' => 'description',
+                            'value' => 'description-value',
                         ],
                         [
-                            "type" => "equals",
-                            "field" => "title",
-                            "value" => "title-value"
-                        ]
-                    ]
-                ],
-                [
-                    "type" => "not",
-                    "operator" => "or",
-                    "queries" => [
-                        [
-                            "type" => "equals",
-                            "field" => "stock",
-                            "value" => 0
-                        ]
-                    ]
-                ],
-                [
-                    "type" => "range",
-                    "field" => "stock",
-                    "parameters" => [
-                        "gt" => 0,
-                        "lt" => 10
-                    ]
-                ],
-                [
-                    "type" => "prefix",
-                    "field" => "title",
-                    "value" => "awesome"
-                ],
-                [
-                    "type" => "suffix",
-                    "field" => "description",
-                    "value" => "bronze"
-                ]
-            ],
-            "post-filter" => [
-                [
-                    "type" => "equals",
-                    "field" => "field1",
-                    "value" => "value1"
-                ]
-            ],
-            "sort" => [
-                [
-                    "field" => "field-sort-1",
-                    "order" => "DESC",
-                    "naturalSorting" => false
-                ],
-                [
-                    "field" => "field-sort-2",
-                    "order" => "ASC",
-                    "naturalSorting" => false
-                ]
-            ],
-            "aggregations" => [
-                [
-                    "type" => "sum",
-                    "name" => "sum-field-2",
-                    "field" => "field-2"
-                ],
-                [
-                    "type" => "count",
-                    "name" => "count-field-3",
-                    "field" => "field-3"
-                ],
-                [
-                    "type" => "filter",
-                    "name" => "filter-field-4",
-                    "filter" => [
-                        [
-                            "type" => "equals",
-                            "field" => "field-4",
-                            "value" => "value-4"
-                        ]
+                            'type' => 'equals',
+                            'field' => 'title',
+                            'value' => 'title-value',
+                        ],
                     ],
-                    "aggregation" => [
-                        "type" => "sum",
-                        "name" => "sum-field-2",
-                        "field" => "field-2"
-                    ]
                 ],
                 [
-                    "type" => "stats",
-                    "name" => "field-stat",
-                    "field" => "value-stat"
+                    'type' => 'not',
+                    'operator' => 'or',
+                    'queries' => [
+                        [
+                            'type' => 'equals',
+                            'field' => 'stock',
+                            'value' => 0,
+                        ],
+                    ],
                 ],
                 [
-                    "type" => "terms",
-                    "name" => "field-term",
-                    "field" => "value-term"
+                    'type' => 'range',
+                    'field' => 'stock',
+                    'parameters' => [
+                        'gt' => 0,
+                        'lt' => 10,
+                    ],
                 ],
                 [
-                    "type" => "min",
-                    "name" => "field-min",
-                    "field" => "field-min"
+                    'type' => 'prefix',
+                    'field' => 'title',
+                    'value' => 'awesome',
                 ],
                 [
-                    "type" => "max",
-                    "name" => "field-max",
-                    "field" => "field-max"
+                    'type' => 'suffix',
+                    'field' => 'description',
+                    'value' => 'bronze',
                 ],
-                [
-                    "type" => "avg",
-                    "name" => "field-avg",
-                    "field" => "field-avg"
-                ],
-                [
-                    "type" => "histogram",
-                    "name" => "field-histogram",
-                    "field" => "field-histogram",
-                    "interval" => 'day'
-                ]
             ],
-            "grouping" => [
-                "field-grouping"
-            ],
-            "associations" => [
-                "assoc1" => [
-                    "limit" => null,
-                    "total-count-mode" => 1
+            'post-filter' => [
+                [
+                    'type' => 'equals',
+                    'field' => 'field1',
+                    'value' => 'value1',
                 ],
-                "assoc2" => [
-                    "limit" => null,
-                    "total-count-mode" => 1
+            ],
+            'sort' => [
+                [
+                    'field' => 'field-sort-1',
+                    'order' => 'DESC',
+                    'naturalSorting' => false,
                 ],
-                "assoc3" => [
-                    "limit" => null,
-                    "total-count-mode" => 1
-                ]
+                [
+                    'field' => 'field-sort-2',
+                    'order' => 'ASC',
+                    'naturalSorting' => false,
+                ],
             ],
-            "includes" => [
-                "product-alias" => [
-                    "name",
-                    "description"
-                ]
+            'aggregations' => [
+                [
+                    'type' => 'sum',
+                    'name' => 'sum-field-2',
+                    'field' => 'field-2',
+                ],
+                [
+                    'type' => 'count',
+                    'name' => 'count-field-3',
+                    'field' => 'field-3',
+                ],
+                [
+                    'type' => 'filter',
+                    'name' => 'filter-field-4',
+                    'filter' => [
+                        [
+                            'type' => 'equals',
+                            'field' => 'field-4',
+                            'value' => 'value-4',
+                        ],
+                    ],
+                    'aggregation' => [
+                        'type' => 'sum',
+                        'name' => 'sum-field-2',
+                        'field' => 'field-2',
+                    ],
+                ],
+                [
+                    'type' => 'stats',
+                    'name' => 'field-stat',
+                    'field' => 'value-stat',
+                ],
+                [
+                    'type' => 'terms',
+                    'name' => 'field-term',
+                    'field' => 'value-term',
+                ],
+                [
+                    'type' => 'min',
+                    'name' => 'field-min',
+                    'field' => 'field-min',
+                ],
+                [
+                    'type' => 'max',
+                    'name' => 'field-max',
+                    'field' => 'field-max',
+                ],
+                [
+                    'type' => 'avg',
+                    'name' => 'field-avg',
+                    'field' => 'field-avg',
+                ],
+                [
+                    'type' => 'histogram',
+                    'name' => 'field-histogram',
+                    'field' => 'field-histogram',
+                    'interval' => 'day',
+                ],
             ],
-            "total-count-mode" => 1
+            'grouping' => [
+                'field-grouping',
+            ],
+            'associations' => [
+                'assoc1' => [
+                    'limit' => null,
+                    'total-count-mode' => 1,
+                ],
+                'assoc2' => [
+                    'limit' => null,
+                    'total-count-mode' => 1,
+                ],
+                'assoc3' => [
+                    'limit' => null,
+                    'total-count-mode' => 1,
+                ],
+            ],
+            'includes' => [
+                'product-alias' => [
+                    'name',
+                    'description',
+                ],
+            ],
+            'total-count-mode' => 1,
         ];
 
         static::assertEquals($parsed, $expectedParsed);
