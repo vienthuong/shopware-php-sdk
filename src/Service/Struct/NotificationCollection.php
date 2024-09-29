@@ -6,8 +6,10 @@ use Vin\ShopwareSdk\Data\Collection;
 
 class NotificationCollection extends Collection
 {
-    public function __construct(iterable $elements = [], private readonly ?string $latestTimestamp = null)
-    {
+    public function __construct(
+        iterable $elements = [],
+        private readonly ?string $latestTimestamp = null
+    ) {
         parent::__construct($elements);
     }
 

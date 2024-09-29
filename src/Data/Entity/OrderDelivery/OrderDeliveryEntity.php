@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\OrderDelivery;
 
 use Vin\ShopwareSdk\Data\Entity\StateMachineState\StateMachineStateEntity;
@@ -32,9 +33,9 @@ class OrderDeliveryEntity extends Entity
 
     public ?array $trackingCodes = null;
 
-    public ?\DateTimeInterface$shippingDateEarliest = null;
+    public ?\DateTimeInterface $shippingDateEarliest = null;
 
-    public ?\DateTimeInterface$shippingDateLatest = null;
+    public ?\DateTimeInterface $shippingDateLatest = null;
 
     public ?array $shippingCosts = null;
 

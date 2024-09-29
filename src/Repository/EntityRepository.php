@@ -38,8 +38,12 @@ class EntityRepository implements RepositoryInterface
 
     private HydratorInterface $hydrator;
 
-    public function __construct(public string $entityName, private EntityDefinition $definition, public string $route, ?HydratorInterface $hydrator = null)
-    {
+    public function __construct(
+        public string $entityName,
+        private EntityDefinition $definition,
+        public string $route,
+        ?HydratorInterface $hydrator = null
+    ) {
         $this->httpClient ??= $this->createHttpClient();
         $this->hydrator = $hydrator ?: HydratorFactory::create();
     }
@@ -53,7 +57,8 @@ class EntityRepository implements RepositoryInterface
     {
         $criteria->setIds([$id]);
 
-        return $this->search($criteria, $context)->get($id);
+        return $this->search($criteria, $context)
+            ->get($id);
     }
 
     public function search(Criteria $criteria, Context $context): EntitySearchResult
@@ -61,10 +66,13 @@ class EntityRepository implements RepositoryInterface
         try {
             $response = $this->httpClient->post($this->getSearchApiUrl($context->apiEndpoint), [
                 'headers' => $this->buildHeaders($context),
-                'body' => json_encode($criteria->parse())
-            ])->getBody()->getContents();
+                'body' => json_encode($criteria->parse()),
+            ])->getBody()
+                ->getContents();
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
 
             throw new ShopwareSearchResponseException($message, $exception->getResponse()->getStatusCode(), $criteria, $exception);
         }
@@ -85,10 +93,13 @@ class EntityRepository implements RepositoryInterface
         try {
             $response = $this->httpClient->post($this->getSearchIdsApiUrl($context->apiEndpoint), [
                 'headers' => $this->buildHeaders($context),
-                'body' => json_encode($criteria->parse())
-            ])->getBody()->getContents();
+                'body' => json_encode($criteria->parse()),
+            ])->getBody()
+                ->getContents();
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
 
             throw new ShopwareSearchResponseException($message, $exception->getResponse()->getStatusCode(), $criteria, $exception);
         }
@@ -106,10 +117,13 @@ class EntityRepository implements RepositoryInterface
         try {
             $this->httpClient->post($this->getEntityEndpoint($context->apiEndpoint), [
                 'headers' => $this->buildHeaders($context),
-                'body' => json_encode($data)
-            ])->getBody()->getContents();
+                'body' => json_encode($data),
+            ])->getBody()
+                ->getContents();
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }
@@ -128,10 +142,13 @@ class EntityRepository implements RepositoryInterface
         try {
             $this->httpClient->patch($this->getEntityEndpoint($context->apiEndpoint, $id), [
                 'headers' => $this->buildHeaders($context),
-                'body' => json_encode($data)
-            ])->getBody()->getContents();
+                'body' => json_encode($data),
+            ])->getBody()
+                ->getContents();
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }
@@ -141,9 +158,12 @@ class EntityRepository implements RepositoryInterface
         try {
             $this->httpClient->delete($this->getEntityEndpoint($context->apiEndpoint, $id), [
                 'headers' => $this->buildHeaders($context),
-            ])->getBody()->getContents();
+            ])->getBody()
+                ->getContents();
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }
@@ -152,11 +172,14 @@ class EntityRepository implements RepositoryInterface
     {
         $syncService = new SyncService($context);
 
-        $headers = ['fail-on-error' => true];
+        $headers = [
+            'fail-on-error' => true,
+        ];
 
-        if (!\is_array($ids[array_key_first($ids)]))
-        {
-            $data = array_map(fn(string $id) => ['id' => $id], $ids);
+        if (! \is_array($ids[array_key_first($ids)])) {
+            $data = array_map(fn (string $id) => [
+                'id' => $id,
+            ], $ids);
         } else {
             $data = $ids;
         }
@@ -183,14 +206,17 @@ class EntityRepository implements RepositoryInterface
         try {
             $response = $this->httpClient->post($this->getCreateVersionEndpoint($context->apiEndpoint, $id), [
                 'headers' => $this->buildHeaders($context),
-                'body' => json_encode($data)
-            ])->getBody()->getContents();
+                'body' => json_encode($data),
+            ])->getBody()
+                ->getContents();
 
             $response = $this->decodeResponse($response);
 
             return new VersionResponse($response);
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }
@@ -200,11 +226,14 @@ class EntityRepository implements RepositoryInterface
         try {
             $this->httpClient->post($this->getMergeVersionEndpoint($context->apiEndpoint, $versionId), [
                 'headers' => $this->buildHeaders($context, [
-                    'sw-version-id' => $versionId
+                    'sw-version-id' => $versionId,
                 ]),
-            ])->getBody()->getContents();
+            ])->getBody()
+                ->getContents();
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }
@@ -214,9 +243,12 @@ class EntityRepository implements RepositoryInterface
         try {
             $this->httpClient->post($this->getDeleteVersionEndpoint($context->apiEndpoint, $id, $versionId), [
                 'headers' => $this->buildHeaders($context),
-            ])->getBody()->getContents();
+            ])->getBody()
+                ->getContents();
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }
@@ -232,21 +264,25 @@ class EntityRepository implements RepositoryInterface
         try {
             $response = $this->httpClient->post($this->getCloneEndpoint($context->apiEndpoint, $id), [
                 'headers' => $this->buildHeaders($context),
-                'body' => json_encode($data)
-            ])->getBody()->getContents();
+                'body' => json_encode($data),
+            ])->getBody()
+                ->getContents();
 
             $response = $this->decodeResponse($response);
 
             return $response['id'];
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }
 
     public function createNew(array $data): Entity
     {
-        $entityClass = $this->getDefinition()->getEntityClass();
+        $entityClass = $this->getDefinition()
+            ->getEntityClass();
 
         /** @var Entity $entity */
         $entity = new $entityClass($data);

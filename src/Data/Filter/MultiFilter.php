@@ -18,8 +18,7 @@ class MultiFilter extends Filter
          * @var Filter[]
          */
         public array $queries
-    )
-    {
+    ) {
     }
 
     public function parse(): array
@@ -27,7 +26,7 @@ class MultiFilter extends Filter
         return [
             'type' => self::TYPE_MULTI,
             'operator' => $this->operator,
-            'queries' => array_map(fn(Filter $filter) => $filter->parse(), $this->queries)
+            'queries' => array_map(fn (Filter $filter) => $filter->parse(), $this->queries),
         ];
     }
 }

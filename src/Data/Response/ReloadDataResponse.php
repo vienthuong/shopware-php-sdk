@@ -7,6 +7,8 @@ class ReloadDataResponse extends ActionButtonResponse
 {
     public function __construct(string $appSecret)
     {
-        parent::__construct($appSecret, ['actionType' => self::ACTION_RELOAD_DATA]);
+        parent::__construct($appSecret, [
+            'actionType' => self::ACTION_RELOAD_DATA,
+        ]);
     }
 }

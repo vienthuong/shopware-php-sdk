@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\ProductExport;
 
 use Vin\ShopwareSdk\Data\Entity\ProductStream\ProductStreamEntity;
@@ -37,7 +38,7 @@ class ProductExportEntity extends Entity
 
     public ?bool $generateByCronjob = null;
 
-    public ?\DateTimeInterface$generatedAt = null;
+    public ?\DateTimeInterface $generatedAt = null;
 
     public ?int $interval = null;
 

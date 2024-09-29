@@ -14,8 +14,13 @@ class TermsAggregation extends Aggregation
      */
     public array $filter;
 
-    public function __construct(public string $name, public string $field, public ?int $limit = null, public ?FieldSorting $sort = null, public ?Aggregation $aggregation = null)
-    {
+    public function __construct(
+        public string $name,
+        public string $field,
+        public ?int $limit = null,
+        public ?FieldSorting $sort = null,
+        public ?Aggregation $aggregation = null
+    ) {
     }
 
     public function parse(): array

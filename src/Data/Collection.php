@@ -106,7 +106,7 @@ abstract class Collection extends Struct implements \IteratorAggregate, \Countab
      */
     public function filterInstance(string $class)
     {
-        return $this->filter(static fn($item) => $item instanceof $class);
+        return $this->filter(static fn ($item) => $item instanceof $class);
     }
 
     /**
@@ -132,7 +132,7 @@ abstract class Collection extends Struct implements \IteratorAggregate, \Countab
 
     public function jsonSerialize(): array
     {
-        return array_values(array_map(fn(Struct $element) => $element->jsonSerialize(), $this->elements));
+        return array_values(array_map(fn (Struct $element) => $element->jsonSerialize(), $this->elements));
     }
 
     public function first(): ?Struct
@@ -181,7 +181,7 @@ abstract class Collection extends Struct implements \IteratorAggregate, \Countab
             return;
         }
 
-        if (!$element instanceof $expectedClass) {
+        if (! $element instanceof $expectedClass) {
             $elementClass = $element::class;
 
             throw new \InvalidArgumentException(

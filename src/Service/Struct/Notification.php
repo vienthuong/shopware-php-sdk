@@ -15,8 +15,12 @@ class Notification extends Struct implements ParseAware
 
     public const INFO = 'info';
 
-    private function __construct(private readonly string $status, private readonly string $message, private readonly bool $adminOnly = false, private readonly array $requiredPrivileges = [])
-    {
+    private function __construct(
+        private readonly string $status,
+        private readonly string $message,
+        private readonly bool $adminOnly = false,
+        private readonly array $requiredPrivileges = []
+    ) {
     }
 
     public static function createNotificationSuccess(string $message, bool $adminOnly = false, array $requiredPrivileges = []): self

@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\Product;
 
 use Vin\ShopwareSdk\Data\Entity\ProductDownload\ProductDownloadCollection;
@@ -117,7 +118,7 @@ class ProductEntity extends Entity
 
     public ?float $length = null;
 
-    public ?\DateTimeInterface$releaseDate = null;
+    public ?\DateTimeInterface $releaseDate = null;
 
     public ?float $ratingAverage = null;
 

@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\UserAccessKey;
 
 use Vin\ShopwareSdk\Data\Entity\User\UserEntity;
@@ -18,7 +19,7 @@ class UserAccessKeyEntity extends Entity
 
     public ?string $secretAccessKey = null;
 
-    public ?\DateTimeInterface$lastUsageAt = null;
+    public ?\DateTimeInterface $lastUsageAt = null;
 
     public ?UserEntity $user = null;
 }

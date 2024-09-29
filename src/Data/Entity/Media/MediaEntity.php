@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\Media;
 
 use Vin\ShopwareSdk\Data\Entity\MediaTranslation\MediaTranslationCollection;
@@ -43,7 +44,7 @@ class MediaEntity extends Entity
 
     public ?string $fileExtension = null;
 
-    public ?\DateTimeInterface$uploadedAt = null;
+    public ?\DateTimeInterface $uploadedAt = null;
 
     public ?string $fileName = null;
 

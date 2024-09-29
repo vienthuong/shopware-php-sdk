@@ -6,8 +6,10 @@ use Vin\ShopwareSdk\Data\Struct;
 
 class App extends Struct
 {
-    public function __construct(protected string $appName, protected string $appSecret)
-    {
+    public function __construct(
+        protected string $appName,
+        protected string $appSecret
+    ) {
     }
 
     public function getAppName(): string

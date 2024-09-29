@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\Order;
 
 use Vin\ShopwareSdk\Data\Entity\StateMachineState\StateMachineStateEntity;
@@ -38,9 +39,9 @@ class OrderEntity extends Entity
 
     public ?string $salesChannelId = null;
 
-    public ?\DateTimeInterface$orderDateTime = null;
+    public ?\DateTimeInterface $orderDateTime = null;
 
-    public ?\DateTimeInterface$orderDate = null;
+    public ?\DateTimeInterface $orderDate = null;
 
     public ?array $price = null;
 

@@ -12,8 +12,10 @@ class ApiService
     /**
      * @deprecated tag v2.0.0 - $context will be remove, use setContext method instead
      */
-    public function __construct(protected ?Context $context = null, protected string $contentType = 'application/vnd.api+json')
-    {
+    public function __construct(
+        protected ?Context $context = null,
+        protected string $contentType = 'application/vnd.api+json'
+    ) {
         $this->httpClient ??= $this->createHttpClient();
     }
 
@@ -27,7 +29,7 @@ class ApiService
     protected function get(string $endpoint, array $additionalHeaders = []): ApiResponse
     {
         $response = $this->httpClient->get($endpoint, [
-            'headers' => $this->getBasicHeaders($additionalHeaders)
+            'headers' => $this->getBasicHeaders($additionalHeaders),
         ]);
 
         $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
@@ -39,7 +41,7 @@ class ApiService
     {
         $response = $this->httpClient->post($endpoint, [
             'form_params' => $data,
-            'headers' => $this->getBasicHeaders($additionalHeaders)
+            'headers' => $this->getBasicHeaders($additionalHeaders),
         ]);
 
         $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
@@ -59,7 +61,7 @@ class ApiService
         $basicHeaders = array_merge([
             'Accept' => $this->contentType,
             'Authorization' => 'Bearer ' . $context->accessToken->accessToken,
-            'Content-Type' => 'application/json'
+            'Content-Type' => 'application/json',
         ], $context->additionalHeaders);
 
         return array_merge($basicHeaders, $additionalHeaders);
@@ -96,6 +98,8 @@ class ApiService
 
     protected static function getVersionHeader(string $versionId): array
     {
-        return ['sw-version-id' => $versionId];
+        return [
+            'sw-version-id' => $versionId,
+        ];
     }
 }

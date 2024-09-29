@@ -3,7 +3,6 @@
 namespace Vin\ShopwareSdk\Service;
 
 /**
- *
  * Class StateMachineService
  * @package Vin\ShopwareSdk\Service
  */
@@ -17,7 +16,7 @@ class StateMachineService extends ApiService
 
         $response = $this->httpClient->get($this->getFullUrl($path), [
             'body' => json_encode($data),
-            'headers' => $this->getBasicHeaders($headers)
+            'headers' => $this->getBasicHeaders($headers),
         ]);
 
         $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
@@ -33,7 +32,7 @@ class StateMachineService extends ApiService
 
         $this->httpClient->post($this->getFullUrl($path), [
             'body' => json_encode($data),
-            'headers' => $this->getBasicHeaders($headers)
+            'headers' => $this->getBasicHeaders($headers),
         ]);
     }
 }

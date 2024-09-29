@@ -12,18 +12,17 @@ class KeyValuePair implements ParseAware
     private $value;
 
     /**
-     * @param  string  $key
      * @param mixed|null $value
      */
-    private function __construct(private readonly string $key, $value)
-    {
+    private function __construct(
+        private readonly string $key,
+        $value
+    ) {
         $this->value = $value ?? null;
     }
 
     /**
-     * @param  string  $key
      * @param mixed|null $value
-     * @return self
      */
     public static function create(string $key, $value): self
     {
@@ -32,7 +31,9 @@ class KeyValuePair implements ParseAware
 
     public function parse(): array
     {
-        return [$this->key => $this->value];
+        return [
+            $this->key => $this->value,
+        ];
     }
 
     public function getKey(): string

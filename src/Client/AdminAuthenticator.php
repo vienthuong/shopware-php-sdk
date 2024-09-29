@@ -21,7 +21,7 @@ class AdminAuthenticator
     public const OAUTH_TOKEN_ENDPOINT = '/api/oauth/token';
 
     public static array $headers = [
-        'Content-Type' => 'application/x-www-form-urlencoded'
+        'Content-Type' => 'application/x-www-form-urlencoded',
     ];
 
     /**
@@ -33,8 +33,11 @@ class AdminAuthenticator
 
     private string $endpoint;
 
-    public function __construct(private GrantType $grantType, string $endpoint, array $config = [])
-    {
+    public function __construct(
+        private GrantType $grantType,
+        string $endpoint,
+        array $config = []
+    ) {
         $this->config = array_merge([
             'sec_before_refresh' => 30,
             'max_attempt' => 1,
@@ -52,11 +55,14 @@ class AdminAuthenticator
         try {
             $response = $this->httpClient->post($this->getFullUrl(self::OAUTH_TOKEN_ENDPOINT), [
                 'headers' => self::$headers,
-                'form_params' => $formParams
-            ])->getBody()->getContents();
+                'form_params' => $formParams,
+            ])->getBody()
+                ->getContents();
         } catch (BadResponseException $exception) {
             throw new AuthorizationFailedException(
-                $exception->getResponse()->getBody()->getContents(),
+                $exception->getResponse()
+                    ->getBody()
+                    ->getContents(),
                 $exception->getCode(),
                 $exception
             );
@@ -87,37 +93,6 @@ class AdminAuthenticator
     public function setTokenCallback(callable $callback): void
     {
         $this->tokenCallback = $callback;
-    }
-
-    private function buildFormParams(): array
-    {
-        $grantType = $this->grantType;
-
-        $formParams = [
-            'grant_type' => $grantType->grantType,
-            'client_id' => $grantType->clientId,
-        ];
-
-        switch (true) {
-            case $grantType instanceof ClientCredentialsGrantType:
-                $formParams['client_secret'] = $grantType->clientSecret;
-                return $formParams;
-            case $grantType instanceof PasswordGrantType:
-                $formParams['password'] = $grantType->password;
-                $formParams['username'] = $grantType->username;
-                $formParams['scope'] = $grantType->scopes;
-                return $formParams;
-            case $grantType instanceof RefreshTokenGrantType:
-                $formParams['refresh_token'] = $grantType->refreshToken;
-                return $formParams;
-            default:
-                throw new \InvalidArgumentException('Grant type ' . $grantType->grantType . ' is not supported', 400);
-        }
-    }
-
-    private function getFullUrl(string $path): string
-    {
-        return $this->endpoint . $path;
     }
 
     public function getTokenCallback(): ?callable
@@ -153,5 +128,36 @@ class AdminAuthenticator
     public function setGrantType(GrantType $grantType): void
     {
         $this->grantType = $grantType;
+    }
+
+    private function buildFormParams(): array
+    {
+        $grantType = $this->grantType;
+
+        $formParams = [
+            'grant_type' => $grantType->grantType,
+            'client_id' => $grantType->clientId,
+        ];
+
+        switch (true) {
+            case $grantType instanceof ClientCredentialsGrantType:
+                $formParams['client_secret'] = $grantType->clientSecret;
+                return $formParams;
+            case $grantType instanceof PasswordGrantType:
+                $formParams['password'] = $grantType->password;
+                $formParams['username'] = $grantType->username;
+                $formParams['scope'] = $grantType->scopes;
+                return $formParams;
+            case $grantType instanceof RefreshTokenGrantType:
+                $formParams['refresh_token'] = $grantType->refreshToken;
+                return $formParams;
+            default:
+                throw new \InvalidArgumentException('Grant type ' . $grantType->grantType . ' is not supported', 400);
+        }
+    }
+
+    private function getFullUrl(string $path): string
+    {
+        return $this->endpoint . $path;
     }
 }

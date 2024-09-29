@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\Plugin;
 
 use Vin\ShopwareSdk\Data\Entity\PluginTranslation\PluginTranslationCollection;
@@ -37,9 +38,9 @@ class PluginEntity extends Entity
 
     public ?string $upgradeVersion = null;
 
-    public ?\DateTimeInterface$installedAt = null;
+    public ?\DateTimeInterface $installedAt = null;
 
-    public ?\DateTimeInterface$upgradedAt = null;
+    public ?\DateTimeInterface $upgradedAt = null;
 
     public ?string $iconRaw = null;
 

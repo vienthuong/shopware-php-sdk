@@ -51,7 +51,7 @@ class Uuid
         }
         $uuid = bin2hex($bytes);
 
-        if (!self::isValid($uuid)) {
+        if (! self::isValid($uuid)) {
             throw new InvalidUuidException($uuid);
         }
 
@@ -92,7 +92,7 @@ class Uuid
 
     public static function isValid(string $id): bool
     {
-        if (!preg_match('/' . self::VALID_PATTERN . '/', $id)) {
+        if (! preg_match('/' . self::VALID_PATTERN . '/', $id)) {
             return false;
         }
 

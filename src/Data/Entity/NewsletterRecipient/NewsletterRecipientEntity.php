@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\NewsletterRecipient;
 
 use Vin\ShopwareSdk\Data\Entity\Tag\TagCollection;
@@ -33,7 +34,7 @@ class NewsletterRecipientEntity extends Entity
 
     public ?string $hash = null;
 
-    public ?\DateTimeInterface$confirmedAt = null;
+    public ?\DateTimeInterface $confirmedAt = null;
 
     public ?TagCollection $tags = null;
 

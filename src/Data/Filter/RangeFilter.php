@@ -26,8 +26,10 @@ class RangeFilter extends Filter
 
     public const GT = 'gt';
 
-    public function __construct(private readonly string $field, private readonly array $range)
-    {
+    public function __construct(
+        private readonly string $field,
+        private readonly array $range
+    ) {
     }
 
     public function parse(): array
@@ -35,7 +37,7 @@ class RangeFilter extends Filter
         return [
             'type' => self::TYPE_RANGE,
             'field' => $this->field,
-            'parameters' => $this->range
+            'parameters' => $this->range,
         ];
     }
 }

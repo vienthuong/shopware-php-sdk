@@ -21,7 +21,7 @@ class MailSendService extends ApiService
                 $this->getFullUrl(self::SEND_PATH),
                 [
                     'headers' => $this->getBasicHeaders($additionalHeaders),
-                    'body' => json_encode(array_filter($mail->jsonSerialize()))
+                    'body' => json_encode(array_filter($mail->jsonSerialize())),
                 ]
             );
 
@@ -29,7 +29,9 @@ class MailSendService extends ApiService
 
             return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }
@@ -45,8 +47,12 @@ class MailSendService extends ApiService
                 [
                     'headers' => $this->getBasicHeaders($additionalHeaders),
                     'body' => json_encode([
-                        'mailTemplate' => ['contentHtml' => $content],
-                        'mailTemplateType' => ['templateData' => $templateData],
+                        'mailTemplate' => [
+                            'contentHtml' => $content,
+                        ],
+                        'mailTemplateType' => [
+                            'templateData' => $templateData,
+                        ],
                     ]),
                 ]
             );
@@ -55,7 +61,9 @@ class MailSendService extends ApiService
 
             return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
         } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
             throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
     }

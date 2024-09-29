@@ -15,7 +15,7 @@ class UserService extends ApiService
     public function me(array $headers = []): UserEntity
     {
         $response = $this->httpClient->get($this->getFullUrl(self::USER_INFO_ENDPOINT), [
-            'headers' => $this->getBasicHeaders($headers)
+            'headers' => $this->getBasicHeaders($headers),
         ]);
 
         $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
@@ -34,14 +34,14 @@ class UserService extends ApiService
     public function updateMe(array $headers = []): void
     {
         $this->httpClient->patch($this->getFullUrl(self::USER_INFO_ENDPOINT), [
-            'headers' => $this->getBasicHeaders($headers)
+            'headers' => $this->getBasicHeaders($headers),
         ]);
     }
 
     public function status(array $headers = []): void
     {
         $this->httpClient->post($this->getFullUrl('/api/_info/ping'), [
-            'headers' => $this->getBasicHeaders($headers)
+            'headers' => $this->getBasicHeaders($headers),
         ]);
     }
 
@@ -51,23 +51,27 @@ class UserService extends ApiService
 
         $this->httpClient->post($this->getFullUrl('/api/user'), [
             'body' => json_encode($data),
-            'headers' => $this->getBasicHeaders($headers)
+            'headers' => $this->getBasicHeaders($headers),
         ]);
     }
 
     public function deleteUser(string $userId, array $headers = []): void
     {
-        $data = ['user-verified' => true];
+        $data = [
+            'user-verified' => true,
+        ];
 
         $this->httpClient->delete($this->getFullUrl('/api/user/' . $userId), [
             'body' => json_encode($data),
-            'headers' => $this->getBasicHeaders($headers)
+            'headers' => $this->getBasicHeaders($headers),
         ]);
     }
 
     public function upsertRole(array $headers = [], ?string $roleId = null): void
     {
-        $data = ['user-verified' => true];
+        $data = [
+            'user-verified' => true,
+        ];
 
         if ($roleId) {
             $data['id'] = $roleId;
@@ -75,27 +79,31 @@ class UserService extends ApiService
 
         $this->httpClient->post($this->getFullUrl('/api/acl-role'), [
             'body' => json_encode($data),
-            'headers' => $this->getBasicHeaders($headers)
+            'headers' => $this->getBasicHeaders($headers),
         ]);
     }
 
     public function deleteUserRole(string $userId, string $roleId, array $headers = []): void
     {
-        $data = ['user-verified' => true];
+        $data = [
+            'user-verified' => true,
+        ];
 
         $this->httpClient->delete($this->getFullUrl(sprintf('/api/user/%s/acl-role/%s', $userId, $roleId)), [
             'body' => json_encode($data),
-            'headers' => $this->getBasicHeaders($headers)
+            'headers' => $this->getBasicHeaders($headers),
         ]);
     }
 
     public function deleteRole(string $roleId, array $headers = []): void
     {
-        $data = ['user-verified' => true];
+        $data = [
+            'user-verified' => true,
+        ];
 
         $this->httpClient->delete($this->getFullUrl(sprintf('/api/acl-role/%s', $roleId)), [
             'body' => json_encode($data),
-            'headers' => $this->getBasicHeaders($headers)
+            'headers' => $this->getBasicHeaders($headers),
         ]);
     }
 }

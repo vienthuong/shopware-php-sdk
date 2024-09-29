@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\Customer;
 
 use Vin\ShopwareSdk\Data\Entity\Language\LanguageEntity;
@@ -67,23 +68,23 @@ class CustomerEntity extends Entity
 
     public ?bool $doubleOptInRegistration = null;
 
-    public ?\DateTimeInterface$doubleOptInEmailSentDate = null;
+    public ?\DateTimeInterface $doubleOptInEmailSentDate = null;
 
-    public ?\DateTimeInterface$doubleOptInConfirmDate = null;
+    public ?\DateTimeInterface $doubleOptInConfirmDate = null;
 
     public ?string $hash = null;
 
     public ?bool $guest = null;
 
-    public ?\DateTimeInterface$firstLogin = null;
+    public ?\DateTimeInterface $firstLogin = null;
 
-    public ?\DateTimeInterface$lastLogin = null;
+    public ?\DateTimeInterface $lastLogin = null;
 
     public ?array $newsletterSalesChannelIds = null;
 
-    public ?\DateTimeInterface$birthday = null;
+    public ?\DateTimeInterface $birthday = null;
 
-    public ?\DateTimeInterface$lastOrderDate = null;
+    public ?\DateTimeInterface $lastOrderDate = null;
 
     public ?int $orderCount = null;
 

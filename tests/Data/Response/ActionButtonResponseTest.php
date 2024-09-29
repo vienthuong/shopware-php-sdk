@@ -33,7 +33,8 @@ class ActionButtonResponseTest extends TestCase
         $response = new NotificationResponse('appSecret', 'Success', 'error');
         static::assertInstanceOf(ResponseInterface::class, $response);
 
-        $stringResponse = $response->getBody()->__toString();
+        $stringResponse = $response->getBody()
+            ->__toString();
         $jsonResponse = json_decode($stringResponse, true);
         $signature = hash_hmac('sha256', $stringResponse, $appSecret);
 
@@ -55,7 +56,8 @@ class ActionButtonResponseTest extends TestCase
         $response = new ReloadDataResponse('appSecret');
         static::assertInstanceOf(ResponseInterface::class, $response);
 
-        $stringResponse = $response->getBody()->__toString();
+        $stringResponse = $response->getBody()
+            ->__toString();
         $jsonResponse = json_decode($stringResponse, true);
         $signature = hash_hmac('sha256', $stringResponse, $appSecret);
 
@@ -74,7 +76,8 @@ class ActionButtonResponseTest extends TestCase
         $response = new OpenModalResponse('appSecret', 'http://shopware.test');
         static::assertInstanceOf(ResponseInterface::class, $response);
 
-        $stringResponse = $response->getBody()->__toString();
+        $stringResponse = $response->getBody()
+            ->__toString();
         $jsonResponse = json_decode($stringResponse, true);
         $signature = hash_hmac('sha256', $stringResponse, $appSecret);
 
@@ -97,7 +100,8 @@ class ActionButtonResponseTest extends TestCase
         $response = new OpenNewTabResponse('appSecret', 'https://google.com');
         static::assertInstanceOf(ResponseInterface::class, $response);
 
-        $stringResponse = $response->getBody()->__toString();
+        $stringResponse = $response->getBody()
+            ->__toString();
         $jsonResponse = json_decode($stringResponse, true);
         $signature = hash_hmac('sha256', $stringResponse, $appSecret);
 

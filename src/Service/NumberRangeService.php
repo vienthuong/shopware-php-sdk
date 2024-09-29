@@ -3,7 +3,6 @@
 namespace Vin\ShopwareSdk\Service;
 
 /**
- *
  * Class NumberRangeService
  * @package Vin\ShopwareSdk\Service
  */
@@ -17,7 +16,7 @@ class NumberRangeService extends ApiService
             'query' => [
                 'preview' => $preview,
             ],
-            'headers' => $this->getBasicHeaders($headers)
+            'headers' => $this->getBasicHeaders($headers),
         ]);
 
         $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
@@ -33,7 +32,7 @@ class NumberRangeService extends ApiService
             'query' => [
                 'pattern' => $pattern,
             ],
-            'headers' => $this->getBasicHeaders($headers)
+            'headers' => $this->getBasicHeaders($headers),
         ]);
 
         $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());

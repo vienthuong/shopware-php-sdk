@@ -51,7 +51,7 @@ class EntityHydratorTest extends TestCase
                     ],
                     'type' => 'product',
                     'id' => $productId,
-                ]
+                ],
             ],
         ], $this->context, 'product');
 

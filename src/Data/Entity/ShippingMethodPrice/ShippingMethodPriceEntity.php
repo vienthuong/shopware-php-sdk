@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\ShippingMethodPrice;
 
 use Vin\ShopwareSdk\Data\Entity\ShippingMethod\ShippingMethodEntity;

@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\ImportExportFile;
 
 use Vin\ShopwareSdk\Data\Entity\ImportExportLog\ImportExportLogEntity;
@@ -16,7 +17,7 @@ class ImportExportFileEntity extends Entity
 
     public ?string $path = null;
 
-    public ?\DateTimeInterface$expireDate = null;
+    public ?\DateTimeInterface $expireDate = null;
 
     public ?int $size = null;
 

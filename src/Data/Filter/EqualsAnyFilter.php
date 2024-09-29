@@ -6,8 +6,10 @@ namespace Vin\ShopwareSdk\Data\Filter;
 
 class EqualsAnyFilter extends Filter
 {
-    public function __construct(private readonly string $field, private readonly array $value)
-    {
+    public function __construct(
+        private readonly string $field,
+        private readonly array $value
+    ) {
     }
 
     public function parse(): array
@@ -15,7 +17,7 @@ class EqualsAnyFilter extends Filter
         return [
             'type' => self::TYPE_EQUALS_ANY,
             'field' => $this->field,
-            'value' => \implode('|', $this->value)
+            'value' => \implode('|', $this->value),
         ];
     }
 }

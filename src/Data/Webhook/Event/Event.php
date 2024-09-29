@@ -10,8 +10,12 @@ class Event extends Struct
     /**
      * Create the event from Event::createFromPayload.
      */
-    private function __construct(protected ?Source $source, protected ?EventData $data, protected int $timestamp, protected array $headers)
-    {
+    private function __construct(
+        protected ?Source $source,
+        protected ?EventData $data,
+        protected int $timestamp,
+        protected array $headers
+    ) {
     }
 
     public function getSource(): ?Source
@@ -42,9 +46,8 @@ class Event extends Struct
             $source = new Source($rawSource['url'], $rawSource['shopId'], (string) $rawSource['appVersion']);
         }
 
-
         if ($rawData = $payload['data']) {
-            if (!empty($rawData['payload'])) {
+            if (! empty($rawData['payload'])) {
                 $data = new EventData($rawData['event'], $rawData['payload']);
             }
         }

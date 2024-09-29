@@ -18,8 +18,7 @@ class NotFilter extends Filter
          * @var Filter[]
          */
         public array $queries
-    )
-    {
+    ) {
     }
 
     public function parse(): array
@@ -27,7 +26,7 @@ class NotFilter extends Filter
         return [
             'type' => self::TYPE_NOT,
             'operator' => $this->operator,
-            'queries' => array_map(fn(Filter $filter) => $filter->parse(), $this->queries)
+            'queries' => array_map(fn (Filter $filter) => $filter->parse(), $this->queries),
         ];
     }
 }
