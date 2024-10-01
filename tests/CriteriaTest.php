@@ -63,6 +63,7 @@ class CriteriaTest extends TestCase
         $criteria->addQuery(new ScoreQuery(new EqualsAnyFilter('score-field', ['value-1', 'value-2']), 100, 'score-field'));
         $criteria->addInclude('product-alias', ['name', 'description']);
         $criteria->addGrouping('field-grouping');
+        $criteria->addField('productNumber');
 
         // Add multiple filter
         $criteria->addFilter(new EqualsFilter('field-1', 'value-1'));
@@ -260,6 +261,9 @@ class CriteriaTest extends TestCase
                     'name',
                     'description',
                 ],
+            ],
+            'fields' => [
+                'productNumber',
             ],
             'total-count-mode' => 1,
         ];
