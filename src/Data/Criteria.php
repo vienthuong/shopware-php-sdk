@@ -80,6 +80,8 @@ class Criteria implements ParseAware
 
     private array $includes = [];
 
+    private array $fields = [];
+
     /**
      * Default should be null to not limit artificily
      */
@@ -375,6 +377,10 @@ class Criteria implements ParseAware
             $params['includes'] = $this->includes;
         }
 
+        if (! empty($this->fields)) {
+            $params['fields'] = $this->fields;
+        }
+
         if ($this->totalCountMode !== null) {
             $params['total-count-mode'] = $this->totalCountMode;
         }
@@ -526,6 +532,34 @@ class Criteria implements ParseAware
     public function removeInclude(string $apiAlias): self
     {
         unset($this->includes[$apiAlias]);
+
+        return $this;
+    }
+
+    public function getFields(): array
+    {
+        return $this->fields;
+    }
+
+    public function setFields(array $fields): self
+    {
+        $this->fields = $fields;
+
+        return $this;
+    }
+
+    public function addField(string $field): self
+    {
+        $this->fields[] = $field;
+
+        return $this;
+    }
+
+    public function removeField(string $field): self
+    {
+        if (($key = array_search($field, $this->fields)) !== false) {
+            unset($this->fields[$key]);
+        }
 
         return $this;
     }
