@@ -18,6 +18,7 @@
         "psr/http-client": "^1.0"
     },
     "require-dev": {
+        "dms/phpunit-arraysubset-asserts": "^0.5.0",
         "kubawerlos/php-cs-fixer-custom-fixers": "^3.22",
         "phpstan/phpstan": "^1.12",
         "phpunit/phpunit": "*",

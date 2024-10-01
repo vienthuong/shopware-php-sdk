@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="vendor/autoload.php" colors="true">
+<!-- https://phpunit.readthedocs.io/en/latest/configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         colors="true"
+         bootstrap="vendor/autoload.php"
+>
+    <php>
+        <ini name="date.timezone" value="UTC"/>
+    </php>
+
     <testsuites>
         <testsuite name="Shopware SDK Test Suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
 
-    <php>
-        <ini name="date.timezone" value="UTC"/>
-    </php>
+    <source>
+        <include>
+            <directory>src</directory>
+        </include>
+    </source>
+
+    <coverage includeUncoveredFiles="true" pathCoverage="true">
+    </coverage>
 </phpunit>
