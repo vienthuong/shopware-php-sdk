@@ -18,7 +18,6 @@ use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
 use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
 use PhpCsFixer\Fixer\LanguageConstruct\ExplicitIndirectVariableFixer;
 use PhpCsFixer\Fixer\Operator\ConcatSpaceFixer;
-use PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer;
 use PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocOrderFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocSummaryFixer;
@@ -69,7 +68,6 @@ return static function (ECSConfig $ecsConfig): void {
 
     $ecsConfig->skip([
         AssignmentInConditionSniff::class,
-        BlankLineAfterOpeningTagFixer::class,
         ExplicitIndirectVariableFixer::class,
         ExplicitStringVariableFixer::class,
         LineLengthFixer::class,
