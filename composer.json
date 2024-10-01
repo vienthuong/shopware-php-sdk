@@ -1,16 +1,25 @@
 {
-    "name": "vin-sw/shopware-sdk",
-    "description": "A PHP SDK for Shopware 6 Platform",
+    "name": "it-bens/shopware-sdk",
+    "description": "A PHP SDK for Shopware 6 Platform (forked from vin-sw/shopware-sdk)",
     "type": "library",
     "license": "MIT",
     "version": "2.1.0",
     "authors": [
         {
             "name": "vin",
-            "email": "levienthuong@gmail.com"
+            "email": "levienthuong@gmail.com",
+            "role": "Original Developer"
+        },
+        {
+            "name": "Martin Bens",
+            "email": "martin.bens@it-bens.de",
+            "role": "Developer of this fork"
         }
     ],
     "minimum-stability": "stable",
+    "replace": {
+        "vin-sw/shopware-sdk": "*"
+    },
     "require": {
         "php": "^8.1 || ^8.2 || ^8.3",
         "ext-json": "*",
