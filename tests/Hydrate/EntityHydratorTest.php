@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Vin\ShopwareSdkTest;
+namespace Vin\ShopwareSdkTest\Hydrate;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Vin\ShopwareSdk\Data\AccessToken;
 use Vin\ShopwareSdk\Data\Context;
@@ -11,11 +12,10 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
 use Vin\ShopwareSdk\Data\Entity\Product\ProductCollection;
 use Vin\ShopwareSdk\Data\Entity\Product\ProductEntity;
 use Vin\ShopwareSdk\Data\Uuid\Uuid;
+use Vin\ShopwareSdk\Factory\HydratorFactory;
 use Vin\ShopwareSdk\Hydrate\EntityHydrator;
 
-/**
- * @covers \Vin\ShopwareSdk\Hydrate\EntityHydrator
- */
+#[CoversClass(EntityHydrator::class)]
 class EntityHydratorTest extends TestCase
 {
     private EntityHydrator $entityHydrator;
@@ -26,7 +26,7 @@ class EntityHydratorTest extends TestCase
     {
         $this->context = new Context('http://test.com', new AccessToken('mock-token'));
 
-        $this->entityHydrator = new EntityHydrator(false);
+        $this->entityHydrator = HydratorFactory::create();
     }
 
     public function testHydrateSearchResultWithEmptyResult(): void
