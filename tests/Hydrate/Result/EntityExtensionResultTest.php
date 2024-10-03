@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Vin\ShopwareSdk\Data\Entity\Entity;
-use Vin\ShopwareSdk\Data\Entity\ProductMedia\ProductMediaCollection;
+use Vin\ShopwareSdk\Data\Entity\v0000\ProductMedia\ProductMediaCollection;
 use Vin\ShopwareSdk\Definition\DefinitionProviderInterface;
 use Vin\ShopwareSdk\Factory\AttributeHydratorFactory;
 use Vin\ShopwareSdk\Factory\DefinitionProviderFactory;

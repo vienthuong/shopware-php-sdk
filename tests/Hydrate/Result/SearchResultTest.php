@@ -7,7 +7,7 @@ namespace Vin\ShopwareSdkTest\Hydrate\Result;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Vin\ShopwareSdk\Data\Entity\Product\ProductEntity;
+use Vin\ShopwareSdk\Data\Entity\v0000\Product\ProductEntity;
 use Vin\ShopwareSdk\Factory\AttributeHydratorFactory;
 use Vin\ShopwareSdk\Factory\DefinitionProviderFactory;
 use Vin\ShopwareSdk\Hydrate\Result\SearchResult;
