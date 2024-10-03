@@ -1,0 +1,5 @@
+services:
+  shopware:
+    build:
+      context: .
+      dockerfile: docker/shopware/Dockerfile

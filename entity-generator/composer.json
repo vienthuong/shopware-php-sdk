@@ -1,0 +1,68 @@
+{
+    "name": "it-bens/shopware-sdk-entity-generator",
+    "description": "An CLI application to generate Shopware 6 entities from an exported schema",
+    "type": "project",
+    "license": "MIT",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "vin",
+            "email": "levienthuong@gmail.com",
+            "role": "Original Developer"
+        },
+        {
+            "name": "Martin Bens",
+            "email": "martin.bens@it-bens.de",
+            "role": "Developer of this fork"
+        }
+    ],
+    "minimum-stability": "stable",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "it-bens/shopware-sdk": "*",
+        "symfony/maker-bundle": "^1.60",
+        "symfony/console": "^6.4",
+        "symfony/runtime": "^6.4",
+        "symfony/flex": "^2.4",
+        "symfony/yaml": "^6.4",
+        "symfony/filesystem": "^6.4",
+        "symfony/string": "^6.4",
+        "symfony/dotenv": "^6.4"
+    },
+    "require-dev": {
+        "kubawerlos/php-cs-fixer-custom-fixers": "^3.22",
+        "symplify/coding-standard": "^12.0",
+        "symplify/easy-coding-standard": "^12.1",
+        "phpstan/phpstan": "^1.12",
+        "rector/rector": "^1.2",
+        "squizlabs/php_codesniffer": "^3.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vin\\ShopwareSdkEntityGenerator\\": "src"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true,
+            "symfony/flex": true
+        }
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "style-check": "php vendor/bin/ecs check --config=../ecs.php src",
+        "style-fix": "php vendor/bin/ecs check --config=../ecs.php --fix src",
+        "code-check": "php vendor/bin/rector process --config=../rector.php --dry-run src",
+        "code-upgrade": "php vendor/bin/rector process --config=../rector.php src",
+        "static-analysis": "php vendor/bin/phpstan analyze --configuration=../phpstan.neon --memory-limit=-1 src"
+    }
+}
