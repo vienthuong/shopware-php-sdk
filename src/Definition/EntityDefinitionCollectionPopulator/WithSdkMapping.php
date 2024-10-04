@@ -17,7 +17,7 @@ final class WithSdkMapping implements DefinitionCollectionPopulator
 
     public function populateDefinitionCollection(DefinitionCollection $definitionCollection): void
     {
-        $entityMappingPath = __DIR__ . '/../../Resources/entity-mapping.json';
+        $entityMappingPath = __DIR__ . '/../../Resources/entity-mapping_0.0.0.0.json';
         $jsonEncodedMapping = (string) file_get_contents($entityMappingPath);
         /** @var array<string, class-string<EntityDefinition>> $mapping */
         $mapping = json_decode($jsonEncodedMapping, true);
