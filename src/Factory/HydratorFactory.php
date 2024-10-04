@@ -20,10 +20,11 @@ class HydratorFactory
         ?SchemaProviderInterface $schemaProvider = null,
         ?AttributeHydratorInterface $attributeHydrator = null,
         ?RelationshipsParserInterface $relationshipsParser = null,
-        ?ExtensionParserInterface $extensionParser = null
+        ?ExtensionParserInterface $extensionParser = null,
+        string $shopwareVersion = '0.0.0.0'
     ): EntityHydrator {
         if (! $definitionProvider instanceof DefinitionProviderInterface) {
-            $definitionProvider = DefinitionProviderFactory::create();
+            $definitionProvider = DefinitionProviderFactory::create(shopwareVersion: $shopwareVersion);
         }
 
         if (! $schemaProvider instanceof SchemaProviderInterface) {

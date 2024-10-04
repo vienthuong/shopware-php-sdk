@@ -15,7 +15,8 @@ final class RepositoryFactory
     public static function createFromDefinition(
         EntityDefinition $definition,
         ?string $route = null,
-        ?HydratorInterface $hydrator = null
+        ?HydratorInterface $hydrator = null,
+        string $shopwareVersion = '0.0.0.0'
     ): EntityRepository {
         if (! $route) {
             $route = str_replace('_', '-', $definition->getEntityName());
@@ -23,7 +24,7 @@ final class RepositoryFactory
         }
 
         if (! $hydrator instanceof HydratorInterface) {
-            HydratorFactory::create();
+            HydratorFactory::create(shopwareVersion: $shopwareVersion);
         }
 
         return new EntityRepository($definition->getEntityName(), $definition, $route, $hydrator);
@@ -33,20 +34,21 @@ final class RepositoryFactory
         string $entity,
         ?string $route = null,
         ?DefinitionProviderInterface $definitionProvider = null,
-        ?HydratorInterface $hydrator = null
+        ?HydratorInterface $hydrator = null,
+        string $shopwareVersion = '0.0.0.0'
     ): RepositoryInterface {
         if (! $route) {
             $route = sprintf('/%s', str_replace('_', '-', $entity));
         }
 
         if (! $definitionProvider instanceof DefinitionProviderInterface) {
-            $definitionProvider = DefinitionProviderFactory::create();
+            $definitionProvider = DefinitionProviderFactory::create(shopwareVersion: $shopwareVersion);
         }
 
         $definition = $definitionProvider->getDefinition($entity);
 
         if (! $hydrator instanceof HydratorInterface) {
-            HydratorFactory::create();
+            HydratorFactory::create(shopwareVersion: $shopwareVersion);
         }
 
         return new EntityRepository($entity, $definition, $route, $hydrator);

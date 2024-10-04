@@ -9,10 +9,10 @@ use Vin\ShopwareSdk\Definition\SchemaProvider;
 
 final class SchemaProviderFactory
 {
-    public static function create(?DefinitionProviderInterface $definitionProvider = null): SchemaProvider
+    public static function create(?DefinitionProviderInterface $definitionProvider = null, string $shopwareVersion = '0.0.0.0'): SchemaProvider
     {
         if (! $definitionProvider instanceof DefinitionProviderInterface) {
-            $definitionProvider = DefinitionProviderFactory::create();
+            $definitionProvider = DefinitionProviderFactory::create(shopwareVersion: $shopwareVersion);
         }
 
         return new SchemaProvider($definitionProvider);

@@ -15,11 +15,12 @@ final class DefinitionProvider implements DefinitionProviderInterface
      * @param iterable<DefinitionCollectionPopulator> $definitionCollectionPopulators
      */
     public function __construct(
-        private readonly iterable $definitionCollectionPopulators
+        private readonly iterable $definitionCollectionPopulators,
+        private readonly string $shopwareVersion
     ) {
         $this->definitionCollection = new DefinitionCollection();
         foreach ($this->definitionCollectionPopulators as $definitionCollectionPopulator) {
-            $definitionCollectionPopulator->populateDefinitionCollection($this->definitionCollection);
+            $definitionCollectionPopulator->populateDefinitionCollection($this->definitionCollection, $this->shopwareVersion);
         }
     }
 
