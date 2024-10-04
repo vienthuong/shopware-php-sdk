@@ -21,7 +21,7 @@ class InfoService extends ApiService
 
     private const OPEN_API_SCHEMA = '/api/_info/open-api-schema.json';
 
-    private const SCHEMA_FILE_PATH = __DIR__ . '/../Resources/schema.json';
+    private const SCHEMA_FILE_PATH = __DIR__ . '/../Resources/entity-schema_0.0.0.0.json';
 
     private ?SchemaCollection $schema = null;
 
