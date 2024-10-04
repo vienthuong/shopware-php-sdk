@@ -8,5 +8,5 @@ interface DefinitionCollectionPopulator
 {
     public static function priority(): int;
 
-    public function populateDefinitionCollection(DefinitionCollection $definitionCollection): void;
+    public function populateDefinitionCollection(DefinitionCollection $definitionCollection, string $shopwareVersion): void;
 }

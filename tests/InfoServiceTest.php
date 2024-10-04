@@ -17,7 +17,7 @@ class InfoServiceTest extends TestCase
 {
     public function testGetSchema(): void
     {
-        $entityMapping = file_get_contents(__DIR__ . '/../src/Resources/entity-mapping.json');
+        $entityMapping = file_get_contents(__DIR__ . '/../src/Resources/entity_mapping_0.0.0.0.json');
 
         /** @phpstan-ignore argument.type */
         $entityMapping = json_decode($entityMapping, true);

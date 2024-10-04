@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdkTest;
 
 use PHPUnit\Framework\TestCase;
-use Vin\ShopwareSdk\Data\Entity\Customer\CustomerCollection;
-use Vin\ShopwareSdk\Data\Entity\Customer\CustomerDefinition;
-use Vin\ShopwareSdk\Data\Entity\Customer\CustomerEntity;
+use Vin\ShopwareSdk\Data\Entity\v0000\Customer\CustomerCollection;
+use Vin\ShopwareSdk\Data\Entity\v0000\Customer\CustomerDefinition;
+use Vin\ShopwareSdk\Data\Entity\v0000\Customer\CustomerEntity;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
-use Vin\ShopwareSdk\Data\Entity\Product\ProductCollection;
-use Vin\ShopwareSdk\Data\Entity\Product\ProductDefinition;
-use Vin\ShopwareSdk\Data\Entity\Product\ProductEntity;
+use Vin\ShopwareSdk\Data\Entity\v0000\Product\ProductCollection;
+use Vin\ShopwareSdk\Data\Entity\v0000\Product\ProductDefinition;
+use Vin\ShopwareSdk\Data\Entity\v0000\Product\ProductEntity;
 use Vin\ShopwareSdk\Factory\RepositoryFactory;
 use Vin\ShopwareSdk\Repository\EntityRepository;
 
@@ -45,7 +45,7 @@ class RepositoryFactoryTest extends TestCase
 
     public function testAllEntitiesClassesAreCreated(): void
     {
-        $entityMapping = file_get_contents(__DIR__ . '/../src/Resources/entity-mapping.json');
+        $entityMapping = file_get_contents(__DIR__ . '/../src/Resources/entity_mapping_0.0.0.0.json');
 
         /** @phpstan-ignore argument.type */
         $entityMapping = json_decode($entityMapping, true);

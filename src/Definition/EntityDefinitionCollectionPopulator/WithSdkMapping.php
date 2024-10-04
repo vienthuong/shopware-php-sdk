@@ -15,9 +15,10 @@ final class WithSdkMapping implements DefinitionCollectionPopulator
         return 1000;
     }
 
-    public function populateDefinitionCollection(DefinitionCollection $definitionCollection): void
+    public function populateDefinitionCollection(DefinitionCollection $definitionCollection, string $shopwareVersion): void
     {
-        $entityMappingPath = __DIR__ . '/../../Resources/entity-mapping.json';
+        $entityMappingFileName = sprintf('entity_mapping_%s.json', $shopwareVersion);
+        $entityMappingPath = __DIR__ . '/../../Resources/' . $entityMappingFileName;
         $jsonEncodedMapping = (string) file_get_contents($entityMappingPath);
         /** @var array<string, class-string<EntityDefinition>> $mapping */
         $mapping = json_decode($jsonEncodedMapping, true);
