@@ -5,19 +5,56 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use GuzzleHttp\Exception\BadResponseException;
+use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 
-/**
- * Gateway for the API end point "media"
- *
- * Class AdminActionService
- * @package Vin\ShopwareSdk\Service
- */
-class MediaService extends ApiService
+final class MediaService implements MediaServiceInterface
 {
-    /**
-     * @param string|resource|array $data
-     */
+    public function __construct(
+        private readonly ApiServiceInterface $apiService,
+        private readonly Context $context
+    ) {
+    }
+
+    public function provideName(string $fileName, string $extension, ?string $mediaId = null): string
+    {
+        $path = '/api/_action/media/provide-name';
+        $params = array_filter([
+            'extension' => $extension,
+            'fileName' => $fileName,
+            'mediaId' => $mediaId,
+        ]);
+
+        try {
+            $apiResponse = $this->apiService->get($path, $params, [], $this->context);
+
+            return $apiResponse->getContents()['fileName'];
+        } catch (BadResponseException $exception) {
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
+            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
+        }
+    }
+
+    public function renameMedia(string $mediaId, string $fileName): ApiResponse
+    {
+        $path = sprintf('/api/_action/media/%s/rename', $mediaId);
+        /** @var string $data */
+        $data = json_encode([
+            'fileName' => $fileName,
+        ]);
+
+        try {
+            return $this->apiService->post($path, [], $data, [], $this->context);
+        } catch (BadResponseException $exception) {
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
+            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
+        }
+    }
+
     public function uploadMediaById(string $mediaId, string $mimeType, $data, string $extension, ?string $fileName = null): ApiResponse
     {
         $fileName ??= $mediaId;
@@ -26,18 +63,15 @@ class MediaService extends ApiService
             'extension' => $extension,
         ];
         $path = sprintf('/api/_action/media/%s/upload', $mediaId);
+        if (is_array($data)) {
+            /** @var string $data */
+            $data = json_encode($data);
+        }
 
         try {
-            $response = $this->httpClient->post($this->buildQueryUrl($path, $params), [
-                'headers' => $this->getBasicHeaders([
-                    'Content-Type' => $mimeType,
-                ]),
-                'body' => is_array($data) ? json_encode($data) : $data,
-            ]);
-
-            $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
-
-            return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
+            return $this->apiService->post($path, $params, $data, [
+                'Content-Type' => $mimeType,
+            ], $this->context);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()
@@ -53,53 +87,5 @@ class MediaService extends ApiService
         ];
 
         return $this->uploadMediaById($mediaId, 'application/json', $data, $extension, $fileName);
-    }
-
-    public function renameMedia(string $mediaId, string $fileName): ApiResponse
-    {
-        $path = sprintf('/api/_action/media/%s/rename', $mediaId);
-
-        try {
-            $response = $this->httpClient->post($this->getFullUrl($path), [
-                'headers' => $this->getBasicHeaders(),
-                'body' => json_encode([
-                    'fileName' => $fileName,
-                ]),
-            ]);
-
-            $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
-
-            return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
-    }
-
-    public function provideName(string $fileName, string $extension, ?string $mediaId = null): string
-    {
-        $path = '/api/_action/media/provide-name';
-        $params = array_filter([
-            'extension' => $extension,
-            'fileName' => $fileName,
-            'mediaId' => $mediaId,
-        ]);
-
-        try {
-            $response = $this->httpClient->get($this->buildQueryUrl($path, $params), [
-                'headers' => $this->getBasicHeaders(),
-            ]);
-
-            $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
-
-            return (new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode()))->getContents()['fileName'];
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
     }
 }

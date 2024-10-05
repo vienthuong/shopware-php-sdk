@@ -5,31 +5,37 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use GuzzleHttp\Exception\BadResponseException;
+use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Mail\Mail;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 
-class MailSendService extends ApiService
+final class MailSendService implements MailSendServiceInterface
 {
-    private const SEND_PATH = '/api/_action/mail-template/send';
-
     private const BUILD_PATH = '/api/_action/mail-template/build';
 
-    public function send(
-        Mail $mail,
-        array $additionalHeaders = []
-    ): ApiResponse {
+    private const SEND_PATH = '/api/_action/mail-template/send';
+
+    public function __construct(
+        private readonly ApiServiceInterface $apiService,
+        private readonly Context $context,
+    ) {
+    }
+
+    public function build(string $content, array $templateData, array $additionalHeaders = []): ApiResponse
+    {
+        $data = [
+            'mailTemplate' => [
+                'contentHtml' => $content,
+            ],
+            'mailTemplateType' => [
+                'templateData' => $templateData,
+            ],
+        ];
+        /** @var string $data */
+        $data = json_encode($data);
+
         try {
-            $response = $this->httpClient->post(
-                $this->getFullUrl(self::SEND_PATH),
-                [
-                    'headers' => $this->getBasicHeaders($additionalHeaders),
-                    'body' => json_encode(array_filter($mail->jsonSerialize())),
-                ]
-            );
-
-            $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
-
-            return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
+            return $this->apiService->post(self::BUILD_PATH, [], $data, $additionalHeaders, $this->context);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()
@@ -38,30 +44,13 @@ class MailSendService extends ApiService
         }
     }
 
-    public function build(
-        string $content,
-        array $templateData,
-        array $additionalHeaders = []
-    ): ApiResponse {
+    public function send(Mail $mail, array $additionalHeaders = []): ApiResponse
+    {
+        /** @var string $data */
+        $data = json_encode(array_filter($mail->jsonSerialize()));
+
         try {
-            $response = $this->httpClient->post(
-                $this->getFullUrl(self::BUILD_PATH),
-                [
-                    'headers' => $this->getBasicHeaders($additionalHeaders),
-                    'body' => json_encode([
-                        'mailTemplate' => [
-                            'contentHtml' => $content,
-                        ],
-                        'mailTemplateType' => [
-                            'templateData' => $templateData,
-                        ],
-                    ]),
-                ]
-            );
-
-            $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
-
-            return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
+            return $this->apiService->post(self::SEND_PATH, [], $data, $additionalHeaders, $this->context);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()

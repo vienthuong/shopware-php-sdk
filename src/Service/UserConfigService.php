@@ -5,35 +5,40 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use GuzzleHttp\Exception\BadResponseException;
+use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 use Vin\ShopwareSdk\Service\Struct\KeyValuePair;
 use Vin\ShopwareSdk\Service\Struct\KeyValuePairs;
 
-class UserConfigService extends ApiService
+final class UserConfigService implements UserConfigServiceInterface
 {
     private const USER_CONFIG_ENDPOINT = '/api/_info/config-me';
+
+    public function __construct(
+        private readonly ApiServiceInterface $apiService,
+        private readonly Context $context,
+    ) {
+    }
 
     public function getConfigMe(array $keys, array $additionalHeaders = []): KeyValuePairs
     {
         try {
-            $response = $this->httpClient->get($this->getFullUrl(self::USER_CONFIG_ENDPOINT), [
-                'headers' => $this->getBasicHeaders($additionalHeaders),
-                'query' => [
-                    'keys' => $keys,
-                ],
-            ]);
+            $params = [
+                'keys' => $keys,
+            ];
 
-            $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
+            $apiResponse = $this->apiService->get(self::USER_CONFIG_ENDPOINT, $params, $additionalHeaders, $this->context);
 
             $data = new KeyValuePairs();
 
-            if (empty($contents['data'])) {
+            if (empty($apiResponse->getContents()['data'])) {
                 return $data;
             }
 
-            foreach ($contents['data'] as $key => $value) {
+            foreach ($apiResponse->getContents()['data'] as $key => $value) {
                 $data->add(KeyValuePair::create($key, $value));
             }
+
             return $data;
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
@@ -46,21 +51,15 @@ class UserConfigService extends ApiService
     public function saveConfigMe(KeyValuePairs $configs, array $additionalParams = [], array $additionalHeaders = []): ApiResponse
     {
         $parsed = [];
-
-        /** @var KeyValuePair $item */
         foreach ($configs as $item) {
             $parsed[$item->getKey()] = $item->getValue();
         }
+        $data = array_merge($parsed, $additionalParams);
+        /** @var string $data */
+        $data = json_encode($data);
 
         try {
-            $response = $this->httpClient->post($this->getFullUrl(self::USER_CONFIG_ENDPOINT), [
-                'headers' => $this->getBasicHeaders($additionalHeaders),
-                'body' => json_encode(array_merge($parsed, $additionalParams)),
-            ]);
-
-            $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
-
-            return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
+            return $this->apiService->post(self::USER_CONFIG_ENDPOINT, [], $data, $additionalHeaders, $this->context);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()

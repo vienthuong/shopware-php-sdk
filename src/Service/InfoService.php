@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
+use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Schema\Schema;
 use Vin\ShopwareSdk\Data\Schema\SchemaCollection;
 
-class InfoService extends ApiService
+final class InfoService implements InfoServiceInterface
 {
     private const SCHEMA_PATH = '/api/_info/entity-schema.json';
 
@@ -27,40 +28,35 @@ class InfoService extends ApiService
 
     private array $cache = [];
 
-    public function getInfo(): ApiResponse
-    {
-        $url = $this->getFullUrl(self::INFO_PATH);
-
-        return $this->get($url);
+    public function __construct(
+        private readonly ApiServiceInterface $apiService,
+        private readonly Context $context
+    ) {
     }
 
-    public function getOpenApiSchema(): ApiResponse
+    public function fetchRawSchema(): ApiResponse
     {
-        $url = $this->getFullUrl(self::OPEN_API_SCHEMA);
-
-        return $this->get($url);
-    }
-
-    public function getEvents(): ApiResponse
-    {
-        $url = $this->getFullUrl(self::EVENTS_PATH);
-
-        return $this->get($url);
+        return $this->apiService->get(self::SCHEMA_PATH, [], [], $this->context);
     }
 
     public function getConfig(): ApiResponse
     {
-        $url = $this->getFullUrl(self::CONFIG_PATH);
-
-        return $this->get($url);
+        return $this->apiService->get(self::CONFIG_PATH, [], [], $this->context);
     }
 
-    public function getShopwareVersion(): string
+    public function getEvents(): ApiResponse
     {
-        $url = $this->getFullUrl(self::VERSION_PATH);
+        return $this->apiService->get(self::EVENTS_PATH, [], [], $this->context);
+    }
 
-        return $this->get($url)
-            ->getContents()['version'];
+    public function getInfo(): ApiResponse
+    {
+        return $this->apiService->get(self::INFO_PATH, [], [], $this->context);
+    }
+
+    public function getOpenApiSchema(): ApiResponse
+    {
+        return $this->apiService->get(self::OPEN_API_SCHEMA, [], [], $this->context);
     }
 
     public function getSchema(string $entity): ?Schema
@@ -74,13 +70,35 @@ class InfoService extends ApiService
         }
 
         /** @var string|false $localSchema */
-        $localSchema = \file_get_contents(self::SCHEMA_FILE_PATH);
+        $localSchema = file_get_contents(self::SCHEMA_FILE_PATH);
 
-        $this->schema = $localSchema === false ? $this->refreshSchema() : $this->parseSchema(self::handleResponse($localSchema, [
-            'content-type' => 'application/vnd.api+json',
-        ]));
+        if (is_bool($localSchema) && $localSchema === false) {
+            $this->schema = $this->refreshSchema();
+        }
+        if (is_string($localSchema)) {
+            $decodedResponse = \json_decode($localSchema, true) ?? [];
+            $this->schema = $this->parseSchema($decodedResponse);
+        }
 
         return $this->cache[$entity] = $this->schema->get($entity);
+    }
+
+    public function getShopwareVersion(): string
+    {
+        $apiResponse = $this->apiService->get(self::VERSION_PATH, [], [], $this->context);
+
+        return $apiResponse->getContents()['version'];
+    }
+
+    public function parseSchema(array $schema): SchemaCollection
+    {
+        $schemaCollection = [];
+
+        foreach ($schema as $keySchema => $item) {
+            $schemaCollection[$keySchema] = Schema::createFromRaw($item['entity'], $item['properties']);
+        }
+
+        return new SchemaCollection($schemaCollection);
     }
 
     public function refreshSchema(bool $persist = true): SchemaCollection
@@ -94,26 +112,6 @@ class InfoService extends ApiService
             \file_put_contents(self::SCHEMA_FILE_PATH, json_encode($rawSchema->getContents()));
         }
 
-        $schemas = $this->parseSchema($rawSchema->getContents());
-
-        return $schemas;
-    }
-
-    public function fetchRawSchema(): ApiResponse
-    {
-        $url = $this->getFullUrl(self::SCHEMA_PATH);
-
-        return $this->get($url);
-    }
-
-    public function parseSchema(array $schema): SchemaCollection
-    {
-        $schemaCollection = [];
-
-        foreach ($schema as $keySchema => $item) {
-            $schemaCollection[$keySchema] = Schema::createFromRaw($item['entity'], $item['properties']);
-        }
-
-        return new SchemaCollection($schemaCollection);
+        return $this->parseSchema($rawSchema->getContents());
     }
 }
