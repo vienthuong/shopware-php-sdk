@@ -5,27 +5,44 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use GuzzleHttp\Exception\BadResponseException;
+use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 use Vin\ShopwareSdk\Service\Struct\Notification;
 use Vin\ShopwareSdk\Service\Struct\NotificationCollection;
 
-class NotificationService extends ApiService
+final class NotificationService implements NotificationServiceInterface
 {
-    private const NOTIFICATION_ENDPOINT = '/api/notification';
-
     private const NOTIFICATION_MESSAGE_ENDPOINT = '/api/notification/message';
 
-    public function sendNotification(Notification $notification, array $additionalParams = [], array $additionalHeaders = []): ApiResponse
+    private const NOTIFICATION_ENDPOINT = '/api/notification';
+
+    public function __construct(
+        private readonly ApiServiceInterface $apiService,
+        private readonly Context $context
+    ) {
+    }
+
+    public function fetchNotifications(?string $latestTimestamp = null, ?int $limit = 5, array $additionalParams = [], array $additionalHeaders = []): NotificationCollection
     {
         try {
-            $response = $this->httpClient->post($this->getFullUrl(self::NOTIFICATION_ENDPOINT), [
-                'headers' => $this->getBasicHeaders($additionalHeaders),
-                'body' => json_encode(array_merge($notification->parse(), $additionalParams)),
-            ]);
+            $params = [
+                'latestTimestamp' => $latestTimestamp,
+                'limit' => $limit,
+            ];
+            $params = array_merge($params, $additionalParams);
+            $apiResponse = $this->apiService->get(self::NOTIFICATION_MESSAGE_ENDPOINT, $params, $additionalHeaders, $this->context);
 
-            $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
+            $collection = new NotificationCollection([], $apiResponse->getContents()['timestamp']);
 
-            return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
+            if (empty($apiResponse->getContents()['notifications'])) {
+                return $collection;
+            }
+
+            foreach ($apiResponse->getContents()['notifications'] as $notification) {
+                $collection->add(Notification::create($notification['status'], $notification['message'], $notification['adminOnly'], $notification['requiredPrivileges']));
+            }
+
+            return $collection;
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()
@@ -34,30 +51,13 @@ class NotificationService extends ApiService
         }
     }
 
-    public function fetchNotification(?string $latestTimestamp = null, ?int $limit = 5, array $additionalParams = [], array $additionalHeaders = []): NotificationCollection
+    public function sendNotification(Notification $notification, array $additionalParams = [], array $additionalHeaders = []): ApiResponse
     {
         try {
-            $response = $this->httpClient->get($this->getFullUrl(self::NOTIFICATION_MESSAGE_ENDPOINT), [
-                'headers' => $this->getBasicHeaders($additionalHeaders),
-                'body' => json_encode(array_merge([
-                    'latestTimestamp' => $latestTimestamp,
-                    'limit' => $limit,
-                ], $additionalParams)),
-            ]);
+            /** @var string $data */
+            $data = json_encode(array_merge($notification->parse(), $additionalParams));
 
-            $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
-
-            $collection = new NotificationCollection([], $contents['timestamp']);
-
-            if (empty($contents['notifications'])) {
-                return $collection;
-            }
-
-            foreach ($contents['notifications'] as $notification) {
-                $collection->add(Notification::create($notification['status'], $notification['message'], $notification['adminOnly'], $notification['requiredPrivileges']));
-            }
-
-            return $collection;
+            return $this->apiService->post(self::NOTIFICATION_ENDPOINT, [], $data, $additionalHeaders, $this->context);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()

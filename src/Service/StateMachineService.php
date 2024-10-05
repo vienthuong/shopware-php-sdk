@@ -4,37 +4,33 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
-/**
- * Class StateMachineService
- * @package Vin\ShopwareSdk\Service
- */
-class StateMachineService extends ApiService
+use Vin\ShopwareSdk\Data\Context;
+
+final class StateMachineService implements StateMachineServiceInterface
 {
-    public function getState(string $entity, string $entityId, array $data = [], array $headers = []): ApiResponse
-    {
-        $data['stateFieldName'] = array_key_exists('stateFieldName', $data) ? $data['stateFieldName'] : 'stateId';
-
-        $path = sprintf('/api/_action/state-machine/%s/%s/state', $entity, $entityId);
-
-        $response = $this->httpClient->get($this->getFullUrl($path), [
-            'body' => json_encode($data),
-            'headers' => $this->getBasicHeaders($headers),
-        ]);
-
-        $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
-
-        return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
+    public function __construct(
+        private readonly ApiServiceInterface $apiService,
+        private readonly Context $context
+    ) {
     }
 
-    public function transitionState(string $entity, string $entityId, string $actionName, array $data = [], array $headers = []): void
+    public function getState(string $entity, string $entityId, array $data = [], array $additionalHeaders = []): ApiResponse
     {
-        $data['stateFieldName'] = array_key_exists('stateFieldName', $data) ? $data['stateFieldName'] : 'stateId';
+        $path = sprintf('/api/_action/state-machine/%s/%s/state', $entity, $entityId);
+        $stateFieldName = array_key_exists('stateFieldName', $data) ? $data['stateFieldName'] : 'stateId';
 
+        return $this->apiService->get($path, [
+            'stateFieldName' => $stateFieldName,
+        ], $additionalHeaders, $this->context);
+    }
+
+    public function transitionState(string $entity, string $entityId, string $actionName, array $data = [], array $additionalHeaders = []): void
+    {
         $path = sprintf('/api/_action/state-machine/%s/%s/state/%s', $entity, $entityId, $actionName);
+        $stateFieldName = array_key_exists('stateFieldName', $data) ? $data['stateFieldName'] : 'stateId';
 
-        $this->httpClient->post($this->getFullUrl($path), [
-            'body' => json_encode($data),
-            'headers' => $this->getBasicHeaders($headers),
-        ]);
+        $this->apiService->post($path, [
+            'stateFieldName' => $stateFieldName,
+        ], null, $additionalHeaders, $this->context);
     }
 }

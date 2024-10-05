@@ -4,108 +4,89 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
-use Vin\ShopwareSdk\Data\Entity\User\UserEntity;
+use Vin\ShopwareSdk\Data\Context;
+use Vin\ShopwareSdk\Data\Entity\Entity;
+use Vin\ShopwareSdk\Definition\DefinitionProviderInterface;
 
-/**
- * Class UserService
- * @package Vin\ShopwareSdk\Service
- */
-class UserService extends ApiService
+final class UserService implements UserServiceInterface
 {
+    private const USER_ROLE_ENDPOINT = '/api/acl-role';
+
+    private const USER_ENDPOINT = '/api/user';
+
     private const USER_INFO_ENDPOINT = '/api/_info/me';
 
-    public function me(array $headers = []): UserEntity
+    private const USER_PING_ENDPOINT = '/api/_info/ping';
+
+    public function __construct(
+        private readonly ApiServiceInterface $apiService,
+        private readonly Context $context,
+        private readonly DefinitionProviderInterface $definitionProvider,
+    ) {
+    }
+
+    public function deleteRole(string $roleId, array $additionalHeaders = []): void
     {
-        $response = $this->httpClient->get($this->getFullUrl(self::USER_INFO_ENDPOINT), [
-            'headers' => $this->getBasicHeaders($headers),
-        ]);
+        $this->apiService->delete(self::USER_ROLE_ENDPOINT . '/' . $roleId, [], $additionalHeaders, $this->context);
+    }
 
-        $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
+    public function deleteUser(string $userId, array $additionalHeaders = []): void
+    {
+        $this->apiService->delete(self::USER_ENDPOINT . '/' . $userId, [], $additionalHeaders, $this->context);
+    }
 
-        $response = new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
+    public function deleteUserRole(string $userId, string $roleId, array $additionalHeaders = []): void
+    {
+        $this->apiService->delete(self::USER_ENDPOINT . '/' . $userId . '/acl-role/' . $roleId, [], $additionalHeaders, $this->context);
+    }
 
-        $data = $response->getContents()['data']['attributes'];
+    public function me(array $additionalHeaders = []): Entity
+    {
+        $apiResponse = $this->apiService->get(self::USER_INFO_ENDPOINT, [], $additionalHeaders, $this->context);
+        $data = $apiResponse->getContents()['data']['attributes'];
 
-        $entity = new UserEntity();
-
+        $userDefinition = $this->definitionProvider->getDefinition('user');
+        /** @var class-string<Entity> $entityClass */
+        $entityClass = $userDefinition->getEntityClass();
+        /** @var Entity $entity */
+        $entity = new $entityClass();
         $entity->assignProperties($data);
 
         return $entity;
     }
 
-    public function updateMe(array $headers = []): void
+    public function status(array $additionalHeaders = []): void
     {
-        $this->httpClient->patch($this->getFullUrl(self::USER_INFO_ENDPOINT), [
-            'headers' => $this->getBasicHeaders($headers),
-        ]);
+        $this->apiService->post(self::USER_PING_ENDPOINT, [], null, $additionalHeaders, $this->context);
     }
 
-    public function status(array $headers = []): void
+    public function updateMe(array $data, array $additionalHeaders = []): void
     {
-        $this->httpClient->post($this->getFullUrl('/api/_info/ping'), [
-            'headers' => $this->getBasicHeaders($headers),
-        ]);
+        /** @var string $data */
+        $data = json_encode($data);
+
+        $this->apiService->patch(self::USER_INFO_ENDPOINT, [], $data, $additionalHeaders, $this->context);
     }
 
-    public function upsertUser(string $userId, array $headers = []): void
-    {
-        $data['id'] = $userId;
-
-        $this->httpClient->post($this->getFullUrl('/api/user'), [
-            'body' => json_encode($data),
-            'headers' => $this->getBasicHeaders($headers),
-        ]);
-    }
-
-    public function deleteUser(string $userId, array $headers = []): void
+    public function upsertRole(string $roleId, array $additionalHeaders = []): void
     {
         $data = [
-            'user-verified' => true,
+            'id' => $roleId,
         ];
+        /** @var string $data */
+        $data = json_encode($data);
 
-        $this->httpClient->delete($this->getFullUrl('/api/user/' . $userId), [
-            'body' => json_encode($data),
-            'headers' => $this->getBasicHeaders($headers),
-        ]);
+        $this->apiService->post(self::USER_ENDPOINT, [], $data, $additionalHeaders, $this->context);
     }
 
-    public function upsertRole(array $headers = [], ?string $roleId = null): void
+    public function upsertUser(string $userId, array $additionalHeaders = []): void
     {
         $data = [
-            'user-verified' => true,
+            'id' => $userId,
         ];
+        /** @var string $data */
+        $data = json_encode($data);
 
-        if ($roleId) {
-            $data['id'] = $roleId;
-        }
-
-        $this->httpClient->post($this->getFullUrl('/api/acl-role'), [
-            'body' => json_encode($data),
-            'headers' => $this->getBasicHeaders($headers),
-        ]);
-    }
-
-    public function deleteUserRole(string $userId, string $roleId, array $headers = []): void
-    {
-        $data = [
-            'user-verified' => true,
-        ];
-
-        $this->httpClient->delete($this->getFullUrl(sprintf('/api/user/%s/acl-role/%s', $userId, $roleId)), [
-            'body' => json_encode($data),
-            'headers' => $this->getBasicHeaders($headers),
-        ]);
-    }
-
-    public function deleteRole(string $roleId, array $headers = []): void
-    {
-        $data = [
-            'user-verified' => true,
-        ];
-
-        $this->httpClient->delete($this->getFullUrl(sprintf('/api/acl-role/%s', $roleId)), [
-            'body' => json_encode($data),
-            'headers' => $this->getBasicHeaders($headers),
-        ]);
+        $this->apiService->post(self::USER_ENDPOINT, [], $data, $additionalHeaders, $this->context);
     }
 }

@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use GuzzleHttp\Exception\BadResponseException;
+use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 use Vin\ShopwareSdk\Service\Struct\KeyValuePair;
 use Vin\ShopwareSdk\Service\Struct\KeyValuePairs;
 
-class SystemConfigService extends ApiService
+final class SystemConfigService implements SystemConfigServiceInterface
 {
     public const SYSTEM_CONFIG_CHECK_ENDPOINT = '/api/_action/system-config/check';
 
@@ -21,18 +22,42 @@ class SystemConfigService extends ApiService
 
     public const SYSTEM_CONFIG_SAVE_BATCH_ENDPOINT = '/api/_action/system-config/batch';
 
+    public function __construct(
+        private readonly ApiServiceInterface $apiService,
+        private readonly Context $context,
+    ) {
+    }
+
+    public function batchSave(KeyValuePairs $configs, ?string $salesChannelId = null, array $additionalParams = [], array $additionalHeaders = []): ApiResponse
+    {
+        $parsed = [];
+        foreach ($configs as $item) {
+            $parsed[$salesChannelId ?? 'null'] = [
+                $item->getKey() => $item->getValue(),
+            ];
+        }
+        $data = array_merge($parsed, $additionalParams);
+        /** @var string $data */
+        $data = json_encode($data);
+
+        try {
+            return $this->apiService->post(self::SYSTEM_CONFIG_SAVE_BATCH_ENDPOINT, [], $data, $additionalHeaders, $this->context);
+        } catch (BadResponseException $exception) {
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
+            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
+        }
+    }
+
     public function checkConfiguration(string $domain, array $additionalHeaders = []): ApiResponse
     {
         try {
-            $response = $this->httpClient->get($this->buildQueryUrl(self::SYSTEM_CONFIG_CHECK_ENDPOINT, [
+            $params = [
                 'domain' => $domain,
-            ]), [
-                'headers' => $this->getBasicHeaders($additionalHeaders),
-            ]);
+            ];
 
-            $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
-
-            return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
+            return $this->apiService->get(self::SYSTEM_CONFIG_CHECK_ENDPOINT, $params, $additionalHeaders, $this->context);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()
@@ -44,15 +69,11 @@ class SystemConfigService extends ApiService
     public function getConfiguration(string $domain, array $additionalHeaders = []): ApiResponse
     {
         try {
-            $response = $this->httpClient->get($this->buildQueryUrl(self::SYSTEM_CONFIG_GET_ENDPOINT, [
+            $params = [
                 'domain' => $domain,
-            ]), [
-                'headers' => $this->getBasicHeaders($additionalHeaders),
-            ]);
+            ];
 
-            $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
-
-            return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
+            return $this->apiService->get(self::SYSTEM_CONFIG_GET_ENDPOINT, $params, $additionalHeaders, $this->context);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()
@@ -64,19 +85,13 @@ class SystemConfigService extends ApiService
     public function getConfigurationValues(string $domain, ?string $salesChannelId = null, array $additionalHeaders = []): ApiResponse
     {
         try {
-            $response = $this->httpClient->get(
-                $this->buildQueryUrl(self::SYSTEM_CONFIG_GET_VALUES_ENDPOINT, array_filter([
-                    'domain' => $domain,
-                    'salesChannelId' => $salesChannelId,
-                ])),
-                [
-                    'headers' => $this->getBasicHeaders($additionalHeaders),
-                ]
-            );
+            $params = [
+                'domain' => $domain,
+                'salesChannelId' => $salesChannelId,
+            ];
+            $params = array_filter($params);
 
-            $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
-
-            return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
+            return $this->apiService->get(self::SYSTEM_CONFIG_GET_VALUES_ENDPOINT, $params, $additionalHeaders, $this->context);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()
@@ -88,49 +103,19 @@ class SystemConfigService extends ApiService
     public function save(KeyValuePair $configuration, ?string $salesChannelId = null, array $additionalParams = [], array $additionalHeaders = []): ApiResponse
     {
         try {
-            $response = $this->httpClient->post(
-                $this->buildQueryUrl(self::SYSTEM_CONFIG_SAVE_ENDPOINT, array_filter([
-                    'salesChannelId' => $salesChannelId,
-                ])),
-                [
-                    'headers' => $this->getBasicHeaders($additionalHeaders),
-                    'body' => json_encode(array_merge([
-                        $configuration->getKey() => $configuration->getValue(),
-                    ], $additionalParams)),
-                ]
-            );
-
-            $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
-
-            return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
-    }
-
-    public function batchSave(KeyValuePairs $configs, ?string $salesChannelId = null, array $additionalParams = [], array $additionalHeaders = []): ApiResponse
-    {
-        $parsed = [];
-
-        /** @var KeyValuePair $item */
-        foreach ($configs as $item) {
-            $parsed[$salesChannelId ?? 'null'] = [
-                $item->getKey() => $item->getValue(),
+            $params = [
+                'salesChannelId' => $salesChannelId,
             ];
-        }
+            $params = array_filter($params);
 
-        try {
-            $response = $this->httpClient->post($this->getFullUrl(self::SYSTEM_CONFIG_SAVE_BATCH_ENDPOINT), [
-                'headers' => $this->getBasicHeaders($additionalHeaders),
-                'body' => json_encode(array_merge($parsed, $additionalParams)),
-            ]);
+            $data = [
+                $configuration->getKey() => $configuration->getValue(),
+            ];
+            $data = array_merge($data, $additionalParams);
+            /** @var string $data */
+            $data = json_encode($data);
 
-            $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
-
-            return new ApiResponse($contents, $response->getHeaders(), $response->getStatusCode());
+            return $this->apiService->post(self::SYSTEM_CONFIG_SAVE_ENDPOINT, $params, $data, $additionalHeaders, $this->context);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()

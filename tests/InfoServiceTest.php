@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Vin\ShopwareSdk\Data\AccessToken;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Schema\Schema;
+use Vin\ShopwareSdk\Service\ApiService;
 use Vin\ShopwareSdk\Service\InfoService;
 
 /**
@@ -25,7 +26,8 @@ class InfoServiceTest extends TestCase
         $accessToken = new AccessToken('fakeAccessToken');
         $context = new Context('http://test.com', $accessToken);
 
-        $infoService = new InfoService($context);
+        $apiService = new ApiService($context);
+        $infoService = new InfoService($apiService, $context);
         foreach ($entityMapping as $entity => $definition) {
             $schema = $infoService->getSchema($entity);
 

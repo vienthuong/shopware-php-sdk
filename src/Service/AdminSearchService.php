@@ -8,7 +8,6 @@ use GuzzleHttp\Exception\BadResponseException;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Criteria;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
-use Vin\ShopwareSdk\Factory\HydratorFactory;
 use Vin\ShopwareSdk\Hydrate\HydratorInterface;
 use Vin\ShopwareSdk\Repository\Struct\AggregationResultCollection;
 use Vin\ShopwareSdk\Repository\Struct\EntitySearchResult;
@@ -16,25 +15,17 @@ use Vin\ShopwareSdk\Repository\Struct\SearchResultMeta;
 use Vin\ShopwareSdk\Service\Struct\KeyValuePair;
 use Vin\ShopwareSdk\Service\Struct\KeyValuePairs;
 
-class AdminSearchService extends ApiService
+final class AdminSearchService implements AdminSearchServiceInterface
 {
     private const ADMIN_SEARCH_ENDPOINT = '/api/_admin/search';
 
-    private readonly HydratorInterface $hydrator;
-
     public function __construct(
-        ?Context $context = null,
-        string $contentType = 'application/vnd.api+json',
-        ?HydratorInterface $hydrator = null
+        private readonly ApiServiceInterface $apiService,
+        private readonly Context $context,
+        private readonly HydratorInterface $hydrator,
     ) {
-        $this->hydrator = $hydrator ?: HydratorFactory::create();
-
-        parent::__construct($context, $contentType);
     }
 
-    /**
-     * @throws ShopwareResponseException
-     */
     public function search(KeyValuePairs $criteriaCollection, array $additionalHeaders = []): KeyValuePairs
     {
         $parsed = [];
@@ -48,28 +39,21 @@ class AdminSearchService extends ApiService
 
             $parsed[$part->getKey()] = $partCriteria->parse();
         }
-
-        /** @var Context|null $context */
-        $context = $this->context;
-
-        if ($context === null) {
-            throw new \Exception('Please call setContext method before sending the request');
-        }
+        /** @var string $data */
+        $data = json_encode($parsed);
 
         try {
-            $response = $this->httpClient->post($this->getFullUrl(self::ADMIN_SEARCH_ENDPOINT), [
-                'headers' => $this->getBasicHeaders($additionalHeaders),
-                'json' => $parsed,
+            $headers = array_merge($additionalHeaders, [
+                'Content-Type' => 'application/vnd.api+json',
             ]);
-
-            $contents = self::handleResponse($response->getBody()->getContents(), $response->getHeaders());
+            $apiResponse = $this->apiService->post(self::ADMIN_SEARCH_ENDPOINT, [], $data, $headers, $this->context);
 
             $pairs = new KeyValuePairs();
 
-            $data = $contents['data'] ?? [];
+            $responseData = $apiResponse->getContents()['data'] ?? [];
 
             foreach ($criteriaCollection as $entityName => $partCriteria) {
-                $itemResponse = $data[$entityName] ?? [];
+                $itemResponse = $responseData[$entityName] ?? [];
 
                 $rawData = $itemResponse['data'] ?? [];
 
@@ -86,12 +70,9 @@ class AdminSearchService extends ApiService
                 $itemResponse['data'] = $rawData;
 
                 $aggregations = new AggregationResultCollection($itemResponse['aggregations'] ?? []);
-
-                $entities = $this->hydrator->hydrateSearchResult($itemResponse, $context, $entityName);
-
+                $entities = $this->hydrator->hydrateSearchResult($itemResponse, $this->context, $entityName);
                 $meta = new SearchResultMeta($itemResponse['total'] ?? 0, Criteria::TOTAL_COUNT_MODE_EXACT);
-
-                $result = new EntitySearchResult($entityName, $meta, $entities, $aggregations, $partCriteria->getValue(), $context);
+                $result = new EntitySearchResult($entityName, $meta, $entities, $aggregations, $partCriteria->getValue(), $this->context);
 
                 $pairs->add(KeyValuePair::create($entityName, $result));
             }

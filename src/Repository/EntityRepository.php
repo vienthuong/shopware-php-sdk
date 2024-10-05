@@ -22,6 +22,7 @@ use Vin\ShopwareSdk\Repository\Struct\IdSearchResult;
 use Vin\ShopwareSdk\Repository\Struct\SearchResultMeta;
 use Vin\ShopwareSdk\Repository\Struct\VersionResponse;
 use Vin\ShopwareSdk\Service\ApiResponse;
+use Vin\ShopwareSdk\Service\ApiService;
 use Vin\ShopwareSdk\Service\Struct\SyncOperator;
 use Vin\ShopwareSdk\Service\Struct\SyncPayload;
 use Vin\ShopwareSdk\Service\SyncService;
@@ -172,7 +173,8 @@ class EntityRepository implements RepositoryInterface
 
     public function syncDeleted(array $ids, Context $context): ApiResponse
     {
-        $syncService = new SyncService($context);
+        $apiService = new ApiService($context);
+        $syncService = new SyncService($apiService, $context);
 
         $headers = [
             'fail-on-error' => true,
