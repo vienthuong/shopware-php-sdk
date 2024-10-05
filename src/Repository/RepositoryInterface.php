@@ -12,7 +12,7 @@ use Vin\ShopwareSdk\Repository\Struct\CloneBehaviour;
 use Vin\ShopwareSdk\Repository\Struct\EntitySearchResult;
 use Vin\ShopwareSdk\Repository\Struct\IdSearchResult;
 use Vin\ShopwareSdk\Repository\Struct\VersionResponse;
-use Vin\ShopwareSdk\Service\ApiResponse;
+use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 
 interface RepositoryInterface
 {

@@ -8,6 +8,7 @@ use GuzzleHttp\Exception\BadResponseException;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Mail\Mail;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
+use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 
 final class MailSendService implements MailSendServiceInterface
 {

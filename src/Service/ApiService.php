@@ -6,6 +6,7 @@ namespace Vin\ShopwareSdk\Service;
 
 use Vin\ShopwareSdk\Client\CreateClientTrait;
 use Vin\ShopwareSdk\Data\Context;
+use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 
 final class ApiService implements ApiServiceInterface
 {

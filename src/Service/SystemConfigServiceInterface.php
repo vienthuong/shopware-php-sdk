@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
+use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 use Vin\ShopwareSdk\Service\Struct\KeyValuePair;
 use Vin\ShopwareSdk\Service\Struct\KeyValuePairs;
 

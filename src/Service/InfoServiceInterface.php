@@ -6,6 +6,7 @@ namespace Vin\ShopwareSdk\Service;
 
 use Vin\ShopwareSdk\Data\Schema\Schema;
 use Vin\ShopwareSdk\Data\Schema\SchemaCollection;
+use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 
 interface InfoServiceInterface
 {

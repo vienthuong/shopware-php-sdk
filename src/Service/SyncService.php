@@ -7,6 +7,7 @@ namespace Vin\ShopwareSdk\Service;
 use GuzzleHttp\Exception\BadResponseException;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
+use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 use Vin\ShopwareSdk\Service\Struct\SyncPayload;
 
 final class SyncService implements SyncServiceInterface

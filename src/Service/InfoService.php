@@ -7,6 +7,7 @@ namespace Vin\ShopwareSdk\Service;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Schema\Schema;
 use Vin\ShopwareSdk\Data\Schema\SchemaCollection;
+use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 
 final class InfoService implements InfoServiceInterface
 {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
+use Vin\ShopwareSdk\Service\Struct\ApiResponse;
+
 interface StateMachineServiceInterface
 {
     public function getState(string $entity, string $entityId, array $data = [], array $additionalHeaders = []): ApiResponse;

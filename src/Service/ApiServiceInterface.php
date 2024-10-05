@@ -6,6 +6,7 @@ namespace Vin\ShopwareSdk\Service;
 
 use Psr\Http\Message\StreamInterface;
 use Vin\ShopwareSdk\Data\Context;
+use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 
 /**
  * @phpstan-type QueryParams array<string, array|string|int|float|bool|null>

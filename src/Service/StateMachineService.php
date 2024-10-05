@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use Vin\ShopwareSdk\Data\Context;
+use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 
 final class StateMachineService implements StateMachineServiceInterface
 {

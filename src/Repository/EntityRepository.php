@@ -21,7 +21,7 @@ use Vin\ShopwareSdk\Repository\Struct\EntitySearchResult;
 use Vin\ShopwareSdk\Repository\Struct\IdSearchResult;
 use Vin\ShopwareSdk\Repository\Struct\SearchResultMeta;
 use Vin\ShopwareSdk\Repository\Struct\VersionResponse;
-use Vin\ShopwareSdk\Service\ApiResponse;
+use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 use Vin\ShopwareSdk\Service\ApiService;
 use Vin\ShopwareSdk\Service\Struct\SyncOperator;
 use Vin\ShopwareSdk\Service\Struct\SyncPayload;

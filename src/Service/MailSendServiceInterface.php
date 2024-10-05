@@ -6,6 +6,7 @@ namespace Vin\ShopwareSdk\Service;
 
 use Vin\ShopwareSdk\Data\Mail\Mail;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
+use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 
 interface MailSendServiceInterface
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vin\ShopwareSdk\Service;
+namespace Vin\ShopwareSdk\Service\Struct;
 
 class ApiResponse
 {
