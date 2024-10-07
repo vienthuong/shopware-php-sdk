@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use Psr\Http\Message\StreamInterface;
-use Vin\ShopwareSdk\Data\Context;
+use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
 use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 
 /**
@@ -18,26 +18,30 @@ interface ApiServiceInterface
     /**
      * @param QueryParams $params
      * @param Headers $additionalHeaders
+     * @throws AuthorizationFailedException
      */
-    public function delete(string $endpoint, array $params, array $additionalHeaders, Context $context): ApiResponse;
+    public function delete(string $endpoint, array $params, array $additionalHeaders): ApiResponse;
 
     /**
      * @param QueryParams $params
      * @param Headers $additionalHeaders
+     * @throws AuthorizationFailedException
      */
-    public function get(string $endpoint, array $params, array $additionalHeaders, Context $context): ApiResponse;
-
-    /**
-     * @param QueryParams $params
-     * @param Body $data
-     * @param Headers $additionalHeaders
-     */
-    public function patch(string $endpoint, array $params, $data, array $additionalHeaders, Context $context): ApiResponse;
+    public function get(string $endpoint, array $params, array $additionalHeaders): ApiResponse;
 
     /**
      * @param QueryParams $params
      * @param Body $data
      * @param Headers $additionalHeaders
+     * @throws AuthorizationFailedException
      */
-    public function post(string $endpoint, array $params, $data, array $additionalHeaders, Context $context): ApiResponse;
+    public function patch(string $endpoint, array $params, $data, array $additionalHeaders): ApiResponse;
+
+    /**
+     * @param QueryParams $params
+     * @param Body $data
+     * @param Headers $additionalHeaders
+     * @throws AuthorizationFailedException
+     */
+    public function post(string $endpoint, array $params, $data, array $additionalHeaders): ApiResponse;
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
-use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 use Vin\ShopwareSdk\Definition\DefinitionProviderInterface;
 
@@ -20,29 +19,28 @@ final class UserService implements UserServiceInterface
 
     public function __construct(
         private readonly ApiServiceInterface $apiService,
-        private readonly Context $context,
         private readonly DefinitionProviderInterface $definitionProvider,
     ) {
     }
 
     public function deleteRole(string $roleId, array $additionalHeaders = []): void
     {
-        $this->apiService->delete(self::USER_ROLE_ENDPOINT . '/' . $roleId, [], $additionalHeaders, $this->context);
+        $this->apiService->delete(self::USER_ROLE_ENDPOINT . '/' . $roleId, [], $additionalHeaders);
     }
 
     public function deleteUser(string $userId, array $additionalHeaders = []): void
     {
-        $this->apiService->delete(self::USER_ENDPOINT . '/' . $userId, [], $additionalHeaders, $this->context);
+        $this->apiService->delete(self::USER_ENDPOINT . '/' . $userId, [], $additionalHeaders);
     }
 
     public function deleteUserRole(string $userId, string $roleId, array $additionalHeaders = []): void
     {
-        $this->apiService->delete(self::USER_ENDPOINT . '/' . $userId . '/acl-role/' . $roleId, [], $additionalHeaders, $this->context);
+        $this->apiService->delete(self::USER_ENDPOINT . '/' . $userId . '/acl-role/' . $roleId, [], $additionalHeaders);
     }
 
     public function me(array $additionalHeaders = []): Entity
     {
-        $apiResponse = $this->apiService->get(self::USER_INFO_ENDPOINT, [], $additionalHeaders, $this->context);
+        $apiResponse = $this->apiService->get(self::USER_INFO_ENDPOINT, [], $additionalHeaders);
         $data = $apiResponse->getContents()['data']['attributes'];
 
         $userDefinition = $this->definitionProvider->getDefinition('user');
@@ -57,7 +55,7 @@ final class UserService implements UserServiceInterface
 
     public function status(array $additionalHeaders = []): void
     {
-        $this->apiService->post(self::USER_PING_ENDPOINT, [], null, $additionalHeaders, $this->context);
+        $this->apiService->post(self::USER_PING_ENDPOINT, [], null, $additionalHeaders);
     }
 
     public function updateMe(array $data, array $additionalHeaders = []): void
@@ -65,7 +63,7 @@ final class UserService implements UserServiceInterface
         /** @var string $data */
         $data = json_encode($data);
 
-        $this->apiService->patch(self::USER_INFO_ENDPOINT, [], $data, $additionalHeaders, $this->context);
+        $this->apiService->patch(self::USER_INFO_ENDPOINT, [], $data, $additionalHeaders);
     }
 
     public function upsertRole(string $roleId, array $additionalHeaders = []): void
@@ -76,7 +74,7 @@ final class UserService implements UserServiceInterface
         /** @var string $data */
         $data = json_encode($data);
 
-        $this->apiService->post(self::USER_ENDPOINT, [], $data, $additionalHeaders, $this->context);
+        $this->apiService->post(self::USER_ENDPOINT, [], $data, $additionalHeaders);
     }
 
     public function upsertUser(string $userId, array $additionalHeaders = []): void
@@ -87,6 +85,6 @@ final class UserService implements UserServiceInterface
         /** @var string $data */
         $data = json_encode($data);
 
-        $this->apiService->post(self::USER_ENDPOINT, [], $data, $additionalHeaders, $this->context);
+        $this->apiService->post(self::USER_ENDPOINT, [], $data, $additionalHeaders);
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
-use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Schema\Schema;
 use Vin\ShopwareSdk\Data\Schema\SchemaCollection;
 use Vin\ShopwareSdk\Service\Struct\ApiResponse;
@@ -31,33 +30,32 @@ final class InfoService implements InfoServiceInterface
 
     public function __construct(
         private readonly ApiServiceInterface $apiService,
-        private readonly Context $context
     ) {
     }
 
     public function fetchRawSchema(): ApiResponse
     {
-        return $this->apiService->get(self::SCHEMA_PATH, [], [], $this->context);
+        return $this->apiService->get(self::SCHEMA_PATH, [], []);
     }
 
     public function getConfig(): ApiResponse
     {
-        return $this->apiService->get(self::CONFIG_PATH, [], [], $this->context);
+        return $this->apiService->get(self::CONFIG_PATH, [], []);
     }
 
     public function getEvents(): ApiResponse
     {
-        return $this->apiService->get(self::EVENTS_PATH, [], [], $this->context);
+        return $this->apiService->get(self::EVENTS_PATH, [], []);
     }
 
     public function getInfo(): ApiResponse
     {
-        return $this->apiService->get(self::INFO_PATH, [], [], $this->context);
+        return $this->apiService->get(self::INFO_PATH, [], []);
     }
 
     public function getOpenApiSchema(): ApiResponse
     {
-        return $this->apiService->get(self::OPEN_API_SCHEMA, [], [], $this->context);
+        return $this->apiService->get(self::OPEN_API_SCHEMA, [], []);
     }
 
     public function getSchema(string $entity): ?Schema
@@ -86,7 +84,7 @@ final class InfoService implements InfoServiceInterface
 
     public function getShopwareVersion(): string
     {
-        $apiResponse = $this->apiService->get(self::VERSION_PATH, [], [], $this->context);
+        $apiResponse = $this->apiService->get(self::VERSION_PATH, [], []);
 
         return $apiResponse->getContents()['version'];
     }

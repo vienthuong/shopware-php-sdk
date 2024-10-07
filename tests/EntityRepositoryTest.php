@@ -10,8 +10,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
-use Vin\ShopwareSdk\Data\AccessToken;
-use Vin\ShopwareSdk\Data\Context;
+use Vin\ShopwareSdk\Context\ContextBuilderFactory;
 use Vin\ShopwareSdk\Data\Criteria;
 use Vin\ShopwareSdk\Data\Entity\v0000\Product\ProductCollection;
 use Vin\ShopwareSdk\Data\Entity\v0000\Product\ProductDefinition;
@@ -29,15 +28,16 @@ use Vin\ShopwareSdk\Client\Client;
  */
 class EntityRepositoryTest extends TestCase
 {
+    private const SHOP_URL = 'http://test.com';
+
     private EntityRepository $productRepository;
 
     private MockHandler $mock;
 
-    private Context $context;
-
     protected function setUp(): void
     {
-        $this->context = new Context('http://test.com', new AccessToken('mock-token'));
+        $accessTokenProvider = new MockAccessTokenProvider();
+        $contextBuilderFactory = new ContextBuilderFactory(self::SHOP_URL, $accessTokenProvider);
         $this->mock = new MockHandler();
 
         $handlerStack = HandlerStack::create($this->mock);
@@ -47,7 +47,7 @@ class EntityRepositoryTest extends TestCase
         ]);
 
         /** @var EntityRepository $productRepository */
-        $productRepository = RepositoryFactory::create(ProductDefinition::ENTITY_NAME);
+        $productRepository = RepositoryFactory::create(ProductDefinition::ENTITY_NAME, $contextBuilderFactory);
         $this->productRepository = $productRepository;
 
         $this->productRepository->setHttpClient($client);
@@ -61,7 +61,7 @@ class EntityRepositoryTest extends TestCase
 
         $this->mock->append(new BadResponseException('Unauthenticated', new Request('POST', 'test'), new Response(401, [], 'Unauthenticated')));
 
-        $this->productRepository->get('product-id', new Criteria(), $this->context);
+        $this->productRepository->get('product-id', new Criteria());
     }
 
     public function testGet(): void
@@ -71,7 +71,7 @@ class EntityRepositoryTest extends TestCase
         $this->mock->append(new Response(200, [], file_get_contents(__DIR__ . '/stubs/' . $productId . '.json')));
 
         /** @var ProductEntity $product */
-        $product = $this->productRepository->get($productId, new Criteria(), $this->context);
+        $product = $this->productRepository->get($productId, new Criteria());
 
         static::assertEquals(ProductDefinition::ENTITY_NAME, $product->getEntityName());
         static::assertInstanceOf(ProductEntity::class, $product);
@@ -85,7 +85,7 @@ class EntityRepositoryTest extends TestCase
         /** @phpstan-ignore argument.type */
         $this->mock->append(new Response(200, [], file_get_contents(__DIR__ . '/stubs/products.json')));
 
-        $result = $this->productRepository->search(new Criteria(), $this->context);
+        $result = $this->productRepository->search(new Criteria());
 
         static::assertInstanceOf(EntitySearchResult::class, $result);
         static::assertInstanceOf(ProductCollection::class, $result->getEntities());
@@ -108,7 +108,7 @@ class EntityRepositoryTest extends TestCase
         /** @phpstan-ignore argument.type */
         $this->mock->append(new Response(200, [], file_get_contents(__DIR__ . '/stubs/product-ids.json')));
 
-        $result = $this->productRepository->searchIds(new Criteria(), $this->context);
+        $result = $this->productRepository->searchIds(new Criteria());
 
         static::assertInstanceOf(IdSearchResult::class, $result);
         static::assertEquals('fb170089052445f19ef4420a648d0d49', $result->firstId());
@@ -124,7 +124,7 @@ class EntityRepositoryTest extends TestCase
 
         $this->mock->append(new BadResponseException('Unauthenticated', new Request('POST', 'test'), new Response(401, [], 'Unauthenticated')));
 
-        $this->productRepository->searchIds(new Criteria(), $this->context);
+        $this->productRepository->searchIds(new Criteria());
     }
 
     public function testCreateNew(): void

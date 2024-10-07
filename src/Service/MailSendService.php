@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use GuzzleHttp\Exception\BadResponseException;
-use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Mail\Mail;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 use Vin\ShopwareSdk\Service\Struct\ApiResponse;
@@ -18,7 +17,6 @@ final class MailSendService implements MailSendServiceInterface
 
     public function __construct(
         private readonly ApiServiceInterface $apiService,
-        private readonly Context $context,
     ) {
     }
 
@@ -36,7 +34,7 @@ final class MailSendService implements MailSendServiceInterface
         $data = json_encode($data);
 
         try {
-            return $this->apiService->post(self::BUILD_PATH, [], $data, $additionalHeaders, $this->context);
+            return $this->apiService->post(self::BUILD_PATH, [], $data, $additionalHeaders);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()
@@ -51,7 +49,7 @@ final class MailSendService implements MailSendServiceInterface
         $data = json_encode(array_filter($mail->jsonSerialize()));
 
         try {
-            return $this->apiService->post(self::SEND_PATH, [], $data, $additionalHeaders, $this->context);
+            return $this->apiService->post(self::SEND_PATH, [], $data, $additionalHeaders);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()

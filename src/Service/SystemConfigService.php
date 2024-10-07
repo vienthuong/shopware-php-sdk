@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use GuzzleHttp\Exception\BadResponseException;
-use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 use Vin\ShopwareSdk\Service\Struct\KeyValuePair;
@@ -25,7 +24,6 @@ final class SystemConfigService implements SystemConfigServiceInterface
 
     public function __construct(
         private readonly ApiServiceInterface $apiService,
-        private readonly Context $context,
     ) {
     }
 
@@ -42,7 +40,7 @@ final class SystemConfigService implements SystemConfigServiceInterface
         $data = json_encode($data);
 
         try {
-            return $this->apiService->post(self::SYSTEM_CONFIG_SAVE_BATCH_ENDPOINT, [], $data, $additionalHeaders, $this->context);
+            return $this->apiService->post(self::SYSTEM_CONFIG_SAVE_BATCH_ENDPOINT, [], $data, $additionalHeaders);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()
@@ -58,7 +56,7 @@ final class SystemConfigService implements SystemConfigServiceInterface
                 'domain' => $domain,
             ];
 
-            return $this->apiService->get(self::SYSTEM_CONFIG_CHECK_ENDPOINT, $params, $additionalHeaders, $this->context);
+            return $this->apiService->get(self::SYSTEM_CONFIG_CHECK_ENDPOINT, $params, $additionalHeaders);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()
@@ -74,7 +72,7 @@ final class SystemConfigService implements SystemConfigServiceInterface
                 'domain' => $domain,
             ];
 
-            return $this->apiService->get(self::SYSTEM_CONFIG_GET_ENDPOINT, $params, $additionalHeaders, $this->context);
+            return $this->apiService->get(self::SYSTEM_CONFIG_GET_ENDPOINT, $params, $additionalHeaders);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()
@@ -92,7 +90,7 @@ final class SystemConfigService implements SystemConfigServiceInterface
             ];
             $params = array_filter($params);
 
-            return $this->apiService->get(self::SYSTEM_CONFIG_GET_VALUES_ENDPOINT, $params, $additionalHeaders, $this->context);
+            return $this->apiService->get(self::SYSTEM_CONFIG_GET_VALUES_ENDPOINT, $params, $additionalHeaders);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()
@@ -116,7 +114,7 @@ final class SystemConfigService implements SystemConfigServiceInterface
             /** @var string $data */
             $data = json_encode($data);
 
-            return $this->apiService->post(self::SYSTEM_CONFIG_SAVE_ENDPOINT, $params, $data, $additionalHeaders, $this->context);
+            return $this->apiService->post(self::SYSTEM_CONFIG_SAVE_ENDPOINT, $params, $data, $additionalHeaders);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()

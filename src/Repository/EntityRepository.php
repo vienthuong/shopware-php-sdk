@@ -6,14 +6,15 @@ namespace Vin\ShopwareSdk\Repository;
 
 use GuzzleHttp\Exception\BadResponseException;
 use Vin\ShopwareSdk\Client\CreateClientTrait;
+use Vin\ShopwareSdk\Context\ContextBuilderFactoryInterface;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Criteria;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 use Vin\ShopwareSdk\Data\Entity\EntityDefinition;
 use Vin\ShopwareSdk\Data\Uuid\Uuid;
+use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 use Vin\ShopwareSdk\Exception\ShopwareSearchResponseException;
-use Vin\ShopwareSdk\Factory\HydratorFactory;
 use Vin\ShopwareSdk\Hydrate\HydratorInterface;
 use Vin\ShopwareSdk\Repository\Struct\AggregationResultCollection;
 use Vin\ShopwareSdk\Repository\Struct\CloneBehaviour;
@@ -22,10 +23,9 @@ use Vin\ShopwareSdk\Repository\Struct\IdSearchResult;
 use Vin\ShopwareSdk\Repository\Struct\SearchResultMeta;
 use Vin\ShopwareSdk\Repository\Struct\VersionResponse;
 use Vin\ShopwareSdk\Service\Struct\ApiResponse;
-use Vin\ShopwareSdk\Service\ApiService;
 use Vin\ShopwareSdk\Service\Struct\SyncOperator;
 use Vin\ShopwareSdk\Service\Struct\SyncPayload;
-use Vin\ShopwareSdk\Service\SyncService;
+use Vin\ShopwareSdk\Service\SyncServiceInterface;
 
 class EntityRepository implements RepositoryInterface
 {
@@ -39,16 +39,15 @@ class EntityRepository implements RepositoryInterface
 
     private const SEARCH_IDS_API_ENDPOINT = '/api/search-ids';
 
-    private HydratorInterface $hydrator;
-
     public function __construct(
         public string $entityName,
         private EntityDefinition $definition,
         public string $route,
-        ?HydratorInterface $hydrator = null
+        private readonly ContextBuilderFactoryInterface $contextBuilderFactory,
+        private readonly SyncServiceInterface $syncService,
+        private readonly HydratorInterface $hydrator
     ) {
         $this->httpClient ??= $this->createHttpClient();
-        $this->hydrator = $hydrator ?: HydratorFactory::create();
     }
 
     public function getDefinition(): EntityDefinition
@@ -56,21 +55,36 @@ class EntityRepository implements RepositoryInterface
         return $this->definition;
     }
 
-    public function get(string $id, Criteria $criteria, Context $context): ?Entity
+    /**
+     * @throws AuthorizationFailedException
+     * @throws ShopwareSearchResponseException
+     */
+    public function get(string $id, Criteria $criteria): ?Entity
     {
         $criteria->setIds([$id]);
 
-        return $this->search($criteria, $context)
+        return $this->search($criteria)
             ->get($id);
     }
 
-    public function search(Criteria $criteria, Context $context): EntitySearchResult
+    /**
+     * @throws AuthorizationFailedException
+     * @throws ShopwareSearchResponseException
+     */
+    public function search(Criteria $criteria): EntitySearchResult
     {
+        $data = $criteria->parse();
+        /** @var string $data */
+        $data = json_encode($data);
+
+        $context = $this->buildContext();
+
         try {
             $response = $this->httpClient->post($this->getSearchApiUrl($context->apiEndpoint), [
                 'headers' => $this->buildHeaders($context),
-                'body' => json_encode($criteria->parse()),
-            ])->getBody()
+                'body' => $data,
+            ]);
+            $responseContent = $response->getBody()
                 ->getContents();
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
@@ -80,24 +94,35 @@ class EntityRepository implements RepositoryInterface
             throw new ShopwareSearchResponseException($message, $exception->getResponse()->getStatusCode(), $criteria, $exception);
         }
 
-        $response = $this->decodeResponse($response);
+        $decodedContent = $this->decodeResponse($responseContent);
 
-        $aggregations = new AggregationResultCollection($response['aggregations']);
+        $aggregations = new AggregationResultCollection($decodedContent['aggregations']);
 
-        $entities = $this->hydrator->hydrateSearchResult($response, $context, $this->entityName);
+        $entities = $this->hydrator->hydrateSearchResult($decodedContent, $this->entityName);
 
-        $meta = new SearchResultMeta($response['meta']['total'], $response['meta']['totalCountMode']);
+        $meta = new SearchResultMeta($decodedContent['meta']['total'], $decodedContent['meta']['totalCountMode']);
 
         return new EntitySearchResult($this->entityName, $meta, $entities, $aggregations, $criteria, $context);
     }
 
-    public function searchIds(Criteria $criteria, Context $context): IdSearchResult
+    /**
+     * @throws AuthorizationFailedException
+     * @throws ShopwareSearchResponseException
+     */
+    public function searchIds(Criteria $criteria): IdSearchResult
     {
+        $data = $criteria->parse();
+        /** @var string $data */
+        $data = json_encode($data);
+
+        $context = $this->buildContext();
+
         try {
             $response = $this->httpClient->post($this->getSearchIdsApiUrl($context->apiEndpoint), [
                 'headers' => $this->buildHeaders($context),
-                'body' => json_encode($criteria->parse()),
-            ])->getBody()
+                'body' => $data,
+            ]);
+            $responseContent = $response->getBody()
                 ->getContents();
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
@@ -107,21 +132,25 @@ class EntityRepository implements RepositoryInterface
             throw new ShopwareSearchResponseException($message, $exception->getResponse()->getStatusCode(), $criteria, $exception);
         }
 
-        $response = $this->decodeResponse($response);
+        $decodedContent = $this->decodeResponse($responseContent);
 
-        return new IdSearchResult($response['total'], $response['data'], $criteria, $context);
+        return new IdSearchResult($decodedContent['total'], $decodedContent['data'], $criteria, $context);
     }
 
     /**
-     * Create an entity
+     * @throws AuthorizationFailedException
+     * @throws ShopwareResponseException
      */
-    public function create(array $data, Context $context): void
+    public function create(array $data): void
     {
+        $context = $this->buildContext();
+
         try {
-            $this->httpClient->post($this->getEntityEndpoint($context->apiEndpoint), [
+            $response = $this->httpClient->post($this->getEntityEndpoint($context->apiEndpoint), [
                 'headers' => $this->buildHeaders($context),
                 'body' => json_encode($data),
-            ])->getBody()
+            ]);
+            $response->getBody()
                 ->getContents();
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
@@ -132,21 +161,24 @@ class EntityRepository implements RepositoryInterface
     }
 
     /**
-     * Update an entity
+     * @throws AuthorizationFailedException
+     * @throws ShopwareResponseException
      */
-    public function update(array $data, Context $context): void
+    public function update(array $data): void
     {
         if (empty($data['id'])) {
             throw new \InvalidArgumentException('Id is not provided for update payload');
         }
-
         $id = $data['id'];
 
+        $context = $this->buildContext();
+
         try {
-            $this->httpClient->patch($this->getEntityEndpoint($context->apiEndpoint, $id), [
+            $response = $this->httpClient->patch($this->getEntityEndpoint($context->apiEndpoint, $id), [
                 'headers' => $this->buildHeaders($context),
                 'body' => json_encode($data),
-            ])->getBody()
+            ]);
+            $response->getBody()
                 ->getContents();
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
@@ -156,12 +188,19 @@ class EntityRepository implements RepositoryInterface
         }
     }
 
-    public function delete(string $id, Context $context): void
+    /**
+     * @throws AuthorizationFailedException
+     * @throws ShopwareResponseException
+     */
+    public function delete(string $id): void
     {
+        $context = $this->buildContext();
+
         try {
-            $this->httpClient->delete($this->getEntityEndpoint($context->apiEndpoint, $id), [
+            $response = $this->httpClient->delete($this->getEntityEndpoint($context->apiEndpoint, $id), [
                 'headers' => $this->buildHeaders($context),
-            ])->getBody()
+            ]);
+            $response->getBody()
                 ->getContents();
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
@@ -171,11 +210,12 @@ class EntityRepository implements RepositoryInterface
         }
     }
 
-    public function syncDeleted(array $ids, Context $context): ApiResponse
+    /**
+     * @throws AuthorizationFailedException
+     * @throws ShopwareResponseException
+     */
+    public function syncDeleted(array $ids): ApiResponse
     {
-        $apiService = new ApiService($context);
-        $syncService = new SyncService($apiService, $context);
-
         $headers = [
             'fail-on-error' => true,
         ];
@@ -192,10 +232,14 @@ class EntityRepository implements RepositoryInterface
         $operator = new SyncOperator($this->entityName, SyncOperator::DELETE_OPERATOR, $data);
         $payload->set($this->entityName, $operator);
 
-        return $syncService->sync($payload, [], $headers);
+        return $this->syncService->sync($payload, [], $headers);
     }
 
-    public function createVersion(string $id, Context $context, ?string $versionId = null, ?string $versionName = null): VersionResponse
+    /**
+     * @throws AuthorizationFailedException
+     * @throws ShopwareResponseException
+     */
+    public function createVersion(string $id, ?string $versionId = null, ?string $versionName = null): VersionResponse
     {
         $data = [];
 
@@ -207,16 +251,18 @@ class EntityRepository implements RepositoryInterface
             $data['versionName'] = $versionName;
         }
 
+        $context = $this->buildContext();
+
         try {
             $response = $this->httpClient->post($this->getCreateVersionEndpoint($context->apiEndpoint, $id), [
                 'headers' => $this->buildHeaders($context),
                 'body' => json_encode($data),
-            ])->getBody()
+            ]);
+            $responseContent = $response->getBody()
                 ->getContents();
+            $decodedContent = $this->decodeResponse($responseContent);
 
-            $response = $this->decodeResponse($response);
-
-            return new VersionResponse($response);
+            return new VersionResponse($decodedContent);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()
@@ -225,29 +271,21 @@ class EntityRepository implements RepositoryInterface
         }
     }
 
-    public function mergeVersion(string $versionId, Context $context): void
+    /**
+     * @throws AuthorizationFailedException
+     * @throws ShopwareResponseException
+     */
+    public function mergeVersion(string $versionId): void
     {
-        try {
-            $this->httpClient->post($this->getMergeVersionEndpoint($context->apiEndpoint, $versionId), [
-                'headers' => $this->buildHeaders($context, [
-                    'sw-version-id' => $versionId,
-                ]),
-            ])->getBody()
-                ->getContents();
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
-    }
+        $context = $this->buildContext([
+            'sw-version-id' => $versionId,
+        ]);
 
-    public function deleteVersion(string $id, string $versionId, Context $context): void
-    {
         try {
-            $this->httpClient->post($this->getDeleteVersionEndpoint($context->apiEndpoint, $id, $versionId), [
+            $response = $this->httpClient->post($this->getMergeVersionEndpoint($context->apiEndpoint, $versionId), [
                 'headers' => $this->buildHeaders($context),
-            ])->getBody()
+            ]);
+            $response->getBody()
                 ->getContents();
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
@@ -257,7 +295,33 @@ class EntityRepository implements RepositoryInterface
         }
     }
 
-    public function clone(string $id, Context $context, ?CloneBehaviour $cloneBehaviour = null): string
+    /**
+     * @throws AuthorizationFailedException
+     * @throws ShopwareResponseException
+     */
+    public function deleteVersion(string $id, string $versionId): void
+    {
+        $context = $this->buildContext();
+
+        try {
+            $response = $this->httpClient->post($this->getDeleteVersionEndpoint($context->apiEndpoint, $id, $versionId), [
+                'headers' => $this->buildHeaders($context),
+            ]);
+            $response->getBody()
+                ->getContents();
+        } catch (BadResponseException $exception) {
+            $message = $exception->getResponse()
+                ->getBody()
+                ->getContents();
+            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
+        }
+    }
+
+    /**
+     * @throws AuthorizationFailedException
+     * @throws ShopwareResponseException
+     */
+    public function clone(string $id, ?CloneBehaviour $cloneBehaviour = null): string
     {
         $data = [];
 
@@ -265,16 +329,18 @@ class EntityRepository implements RepositoryInterface
             $data = $cloneBehaviour->jsonSerialize();
         }
 
+        $context = $this->buildContext();
+
         try {
             $response = $this->httpClient->post($this->getCloneEndpoint($context->apiEndpoint, $id), [
                 'headers' => $this->buildHeaders($context),
                 'body' => json_encode($data),
-            ])->getBody()
+            ]);
+            $responseContent = $response->getBody()
                 ->getContents();
+            $decodedContent = $this->decodeResponse($responseContent);
 
-            $response = $this->decodeResponse($response);
-
-            return $response['id'];
+            return $decodedContent['id'];
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()
@@ -349,6 +415,18 @@ class EntityRepository implements RepositoryInterface
         ], $additionalHeaders, $context->additionalHeaders);
 
         return array_filter($headers);
+    }
+
+    /**
+     * @param array<string, string|int|float|bool|null> $additionalHeaders
+     * @throws AuthorizationFailedException
+     */
+    private function buildContext(array $additionalHeaders = []): Context
+    {
+        $contextBuilder = $this->contextBuilderFactory->createContextBuilder();
+        $contextBuilder->withAdditionalHeaders($additionalHeaders);
+
+        return $contextBuilder->build();
     }
 
     private function decodeResponse(string $response): array

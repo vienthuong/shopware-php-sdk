@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use GuzzleHttp\Exception\BadResponseException;
-use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 use Vin\ShopwareSdk\Service\Struct\SyncPayload;
@@ -16,7 +15,6 @@ final class SyncService implements SyncServiceInterface
 
     public function __construct(
         private readonly ApiServiceInterface $apiService,
-        private readonly Context $context,
     ) {
     }
 
@@ -28,7 +26,7 @@ final class SyncService implements SyncServiceInterface
             /** @var string $data */
             $data = json_encode($data);
 
-            return $this->apiService->post(self::SYNC_ENDPOINT, [], $data, $additionalHeaders, $this->context);
+            return $this->apiService->post(self::SYNC_ENDPOINT, [], $data, $additionalHeaders);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()

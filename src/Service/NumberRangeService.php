@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
-use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 
 final class NumberRangeService implements NumberRangeServiceInterface
 {
     public function __construct(
         private readonly ApiServiceInterface $apiService,
-        private readonly Context $context,
     ) {
     }
 
@@ -21,7 +19,7 @@ final class NumberRangeService implements NumberRangeServiceInterface
 
         return $this->apiService->get($path, [
             'preview' => $preview,
-        ], $additionalHeaders, $this->context);
+        ], $additionalHeaders);
     }
 
     public function previewPattern(string $type, ?string $pattern, array $additionalHeaders = []): ApiResponse
@@ -30,6 +28,6 @@ final class NumberRangeService implements NumberRangeServiceInterface
 
         return $this->apiService->get($path, [
             'pattern' => $pattern,
-        ], $additionalHeaders, $this->context);
+        ], $additionalHeaders);
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Hydrate;
 
-use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
 use Vin\ShopwareSdk\Definition\DefinitionProviderInterface;
 use Vin\ShopwareSdk\Hydrate\Result\SearchResult;
@@ -25,7 +24,7 @@ class EntityHydrator implements HydratorInterface
     /**
      * @param array<string, mixed> $response
      */
-    public function hydrateSearchResult(array $response, Context $context, ?string $entityName = null): EntityCollection
+    public function hydrateSearchResult(array $response, ?string $entityName = null): EntityCollection
     {
         $collectionClass = EntityCollection::class;
 
