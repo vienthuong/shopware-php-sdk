@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use GuzzleHttp\Exception\BadResponseException;
-use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 use Vin\ShopwareSdk\Service\Struct\Notification;
@@ -19,7 +18,6 @@ final class NotificationService implements NotificationServiceInterface
 
     public function __construct(
         private readonly ApiServiceInterface $apiService,
-        private readonly Context $context
     ) {
     }
 
@@ -31,7 +29,7 @@ final class NotificationService implements NotificationServiceInterface
                 'limit' => $limit,
             ];
             $params = array_merge($params, $additionalParams);
-            $apiResponse = $this->apiService->get(self::NOTIFICATION_MESSAGE_ENDPOINT, $params, $additionalHeaders, $this->context);
+            $apiResponse = $this->apiService->get(self::NOTIFICATION_MESSAGE_ENDPOINT, $params, $additionalHeaders);
 
             $collection = new NotificationCollection([], $apiResponse->getContents()['timestamp']);
 
@@ -58,7 +56,7 @@ final class NotificationService implements NotificationServiceInterface
             /** @var string $data */
             $data = json_encode(array_merge($notification->parse(), $additionalParams));
 
-            return $this->apiService->post(self::NOTIFICATION_ENDPOINT, [], $data, $additionalHeaders, $this->context);
+            return $this->apiService->post(self::NOTIFICATION_ENDPOINT, [], $data, $additionalHeaders);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()

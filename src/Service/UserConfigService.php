@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use GuzzleHttp\Exception\BadResponseException;
-use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 use Vin\ShopwareSdk\Service\Struct\KeyValuePair;
@@ -17,7 +16,6 @@ final class UserConfigService implements UserConfigServiceInterface
 
     public function __construct(
         private readonly ApiServiceInterface $apiService,
-        private readonly Context $context,
     ) {
     }
 
@@ -28,7 +26,7 @@ final class UserConfigService implements UserConfigServiceInterface
                 'keys' => $keys,
             ];
 
-            $apiResponse = $this->apiService->get(self::USER_CONFIG_ENDPOINT, $params, $additionalHeaders, $this->context);
+            $apiResponse = $this->apiService->get(self::USER_CONFIG_ENDPOINT, $params, $additionalHeaders);
 
             $data = new KeyValuePairs();
 
@@ -60,7 +58,7 @@ final class UserConfigService implements UserConfigServiceInterface
         $data = json_encode($data);
 
         try {
-            return $this->apiService->post(self::USER_CONFIG_ENDPOINT, [], $data, $additionalHeaders, $this->context);
+            return $this->apiService->post(self::USER_CONFIG_ENDPOINT, [], $data, $additionalHeaders);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()

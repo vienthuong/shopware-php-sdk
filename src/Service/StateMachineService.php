@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
-use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 
 final class StateMachineService implements StateMachineServiceInterface
 {
     public function __construct(
         private readonly ApiServiceInterface $apiService,
-        private readonly Context $context
     ) {
     }
 
@@ -22,7 +20,7 @@ final class StateMachineService implements StateMachineServiceInterface
 
         return $this->apiService->get($path, [
             'stateFieldName' => $stateFieldName,
-        ], $additionalHeaders, $this->context);
+        ], $additionalHeaders);
     }
 
     public function transitionState(string $entity, string $entityId, string $actionName, array $data = [], array $additionalHeaders = []): void
@@ -32,6 +30,6 @@ final class StateMachineService implements StateMachineServiceInterface
 
         $this->apiService->post($path, [
             'stateFieldName' => $stateFieldName,
-        ], null, $additionalHeaders, $this->context);
+        ], null, $additionalHeaders);
     }
 }

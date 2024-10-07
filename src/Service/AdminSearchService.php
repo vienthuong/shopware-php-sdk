@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use GuzzleHttp\Exception\BadResponseException;
-use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Criteria;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 use Vin\ShopwareSdk\Hydrate\HydratorInterface;
@@ -21,7 +20,6 @@ final class AdminSearchService implements AdminSearchServiceInterface
 
     public function __construct(
         private readonly ApiServiceInterface $apiService,
-        private readonly Context $context,
         private readonly HydratorInterface $hydrator,
     ) {
     }
@@ -46,7 +44,7 @@ final class AdminSearchService implements AdminSearchServiceInterface
             $headers = array_merge($additionalHeaders, [
                 'Content-Type' => 'application/vnd.api+json',
             ]);
-            $apiResponse = $this->apiService->post(self::ADMIN_SEARCH_ENDPOINT, [], $data, $headers, $this->context);
+            $apiResponse = $this->apiService->post(self::ADMIN_SEARCH_ENDPOINT, [], $data, $headers);
 
             $pairs = new KeyValuePairs();
 
@@ -70,9 +68,17 @@ final class AdminSearchService implements AdminSearchServiceInterface
                 $itemResponse['data'] = $rawData;
 
                 $aggregations = new AggregationResultCollection($itemResponse['aggregations'] ?? []);
-                $entities = $this->hydrator->hydrateSearchResult($itemResponse, $this->context, $entityName);
+                $entities = $this->hydrator->hydrateSearchResult($itemResponse, $entityName);
                 $meta = new SearchResultMeta($itemResponse['total'] ?? 0, Criteria::TOTAL_COUNT_MODE_EXACT);
-                $result = new EntitySearchResult($entityName, $meta, $entities, $aggregations, $partCriteria->getValue(), $this->context);
+
+                $result = new EntitySearchResult(
+                    $entityName,
+                    $meta,
+                    $entities,
+                    $aggregations,
+                    $partCriteria->getValue(),
+                    $apiResponse->getContext()
+                );
 
                 $pairs->add(KeyValuePair::create($entityName, $result));
             }

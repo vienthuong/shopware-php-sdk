@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Vin\ShopwareSdk\Client\GrantType;
+namespace Vin\ShopwareSdk\Auth;
+
+use Vin\ShopwareSdk\Auth\GrantType\ClientCredentialsGrantType;
+use Vin\ShopwareSdk\Auth\GrantType\PasswordGrantType;
+use Vin\ShopwareSdk\Auth\GrantType\RefreshTokenGrantType;
 
 abstract class GrantType
 {

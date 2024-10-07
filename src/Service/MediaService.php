@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use GuzzleHttp\Exception\BadResponseException;
-use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 use Vin\ShopwareSdk\Service\Struct\ApiResponse;
 
@@ -13,7 +12,6 @@ final class MediaService implements MediaServiceInterface
 {
     public function __construct(
         private readonly ApiServiceInterface $apiService,
-        private readonly Context $context
     ) {
     }
 
@@ -27,7 +25,7 @@ final class MediaService implements MediaServiceInterface
         ]);
 
         try {
-            $apiResponse = $this->apiService->get($path, $params, [], $this->context);
+            $apiResponse = $this->apiService->get($path, $params, []);
 
             return $apiResponse->getContents()['fileName'];
         } catch (BadResponseException $exception) {
@@ -47,7 +45,7 @@ final class MediaService implements MediaServiceInterface
         ]);
 
         try {
-            return $this->apiService->post($path, [], $data, [], $this->context);
+            return $this->apiService->post($path, [], $data, []);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()
@@ -72,7 +70,7 @@ final class MediaService implements MediaServiceInterface
         try {
             return $this->apiService->post($path, $params, $data, [
                 'Content-Type' => $mimeType,
-            ], $this->context);
+            ]);
         } catch (BadResponseException $exception) {
             $message = $exception->getResponse()
                 ->getBody()

@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Vin\ShopwareSdk\Client\GrantType;
+namespace Vin\ShopwareSdk\Auth\GrantType;
+
+use Vin\ShopwareSdk\Auth\GrantType;
 
 class ClientCredentialsGrantType extends GrantType
 {
