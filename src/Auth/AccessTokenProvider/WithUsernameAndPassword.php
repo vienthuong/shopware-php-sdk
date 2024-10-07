@@ -6,7 +6,7 @@ namespace Vin\ShopwareSdk\Auth\AccessTokenProvider;
 
 use Vin\ShopwareSdk\Auth\AccessTokenFetcher;
 use Vin\ShopwareSdk\Auth\AccessTokenProvider;
-use Vin\ShopwareSdk\Client\AdminAuthenticator;
+use Vin\ShopwareSdk\Auth\AdminAuthenticator;
 use Vin\ShopwareSdk\Client\GrantType\PasswordGrantType;
 use Vin\ShopwareSdk\Data\AccessToken;
 

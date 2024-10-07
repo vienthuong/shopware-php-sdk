@@ -11,13 +11,13 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
-use Vin\ShopwareSdk\Client\AdminAuthenticator;
+use Vin\ShopwareSdk\Auth\AdminAuthenticator;
 use Vin\ShopwareSdk\Client\GrantType\GrantType;
 use Vin\ShopwareSdk\Data\AccessToken;
 use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
 
 /**
- * @covers \Vin\ShopwareSdk\Client\AdminAuthenticator
+ * @covers \Vin\ShopwareSdk\Auth\AdminAuthenticator
  */
 class AdminAuthenticatorTest extends TestCase
 {

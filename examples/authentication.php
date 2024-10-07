@@ -5,7 +5,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use \Vin\ShopwareSdk\Client\GrantType\PasswordGrantType;
 use \Vin\ShopwareSdk\Client\GrantType\ClientCredentialsGrantType;
 use \Vin\ShopwareSdk\Client\GrantType\RefreshTokenGrantType;
-use \Vin\ShopwareSdk\Client\AdminAuthenticator;
+use Vin\ShopwareSdk\Auth\AdminAuthenticator;
 use \Vin\ShopwareSdk\Data\AccessToken;
 use \Vin\ShopwareSdk\Client\GrantType\GrantType;
 

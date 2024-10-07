@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Auth\AccessTokenFetcher;
 
 use Vin\ShopwareSdk\Auth\AccessTokenFetcher;
-use Vin\ShopwareSdk\Client\AdminAuthenticator;
+use Vin\ShopwareSdk\Auth\AdminAuthenticator;
 use Vin\ShopwareSdk\Data\AccessToken;
 
 final class SimpleFetcher implements AccessTokenFetcher

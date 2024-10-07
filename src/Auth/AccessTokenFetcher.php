@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Auth;
 
-use Vin\ShopwareSdk\Client\AdminAuthenticator;
 use Vin\ShopwareSdk\Data\AccessToken;
 use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
 

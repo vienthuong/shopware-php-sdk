@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Vin\ShopwareSdk\Client;
+namespace Vin\ShopwareSdk\Auth;
 
 use GuzzleHttp\Exception\BadResponseException;
+use Vin\ShopwareSdk\Client\CreateClientTrait;
 use Vin\ShopwareSdk\Client\GrantType\ClientCredentialsGrantType;
 use Vin\ShopwareSdk\Client\GrantType\GrantType;
 use Vin\ShopwareSdk\Client\GrantType\PasswordGrantType;

@@ -7,7 +7,7 @@ namespace Vin\ShopwareSdk\Auth\AccessTokenFetcher;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 use Vin\ShopwareSdk\Auth\AccessTokenFetcher;
-use Vin\ShopwareSdk\Client\AdminAuthenticator;
+use Vin\ShopwareSdk\Auth\AdminAuthenticator;
 use Vin\ShopwareSdk\Data\AccessToken;
 use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
 
