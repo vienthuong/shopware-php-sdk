@@ -6,10 +6,9 @@ namespace Vin\ShopwareSdk\Auth;
 
 use GuzzleHttp\Exception\BadResponseException;
 use Vin\ShopwareSdk\Client\CreateClientTrait;
-use Vin\ShopwareSdk\Client\GrantType\ClientCredentialsGrantType;
-use Vin\ShopwareSdk\Client\GrantType\GrantType;
-use Vin\ShopwareSdk\Client\GrantType\PasswordGrantType;
-use Vin\ShopwareSdk\Client\GrantType\RefreshTokenGrantType;
+use Vin\ShopwareSdk\Auth\GrantType\ClientCredentialsGrantType;
+use Vin\ShopwareSdk\Auth\GrantType\PasswordGrantType;
+use Vin\ShopwareSdk\Auth\GrantType\RefreshTokenGrantType;
 use Vin\ShopwareSdk\Data\AccessToken;
 use Vin\ShopwareSdk\Data\EndPointTrait;
 use Vin\ShopwareSdk\Exception\AuthorizationFailedException;

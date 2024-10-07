@@ -7,7 +7,7 @@ namespace Vin\ShopwareSdk\Auth\AccessTokenProvider;
 use Vin\ShopwareSdk\Auth\AccessTokenFetcher;
 use Vin\ShopwareSdk\Auth\AccessTokenProvider;
 use Vin\ShopwareSdk\Auth\AdminAuthenticator;
-use Vin\ShopwareSdk\Client\GrantType\ClientCredentialsGrantType;
+use Vin\ShopwareSdk\Auth\GrantType\ClientCredentialsGrantType;
 use Vin\ShopwareSdk\Data\AccessToken;
 
 final class WithClientCredentials implements AccessTokenProvider
