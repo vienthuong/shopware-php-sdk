@@ -12,5 +12,5 @@ interface AccessTokenFetcher
     /**
      * @throws AuthorizationFailedException
      */
-    public function fetchAccessToken(AdminAuthenticator $adminAuthenticator): AccessToken;
+    public function fetchAccessToken(GrantType $grantType): AccessToken;
 }

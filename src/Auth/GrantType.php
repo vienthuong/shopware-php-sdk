@@ -8,6 +8,11 @@ use Vin\ShopwareSdk\Auth\GrantType\ClientCredentialsGrantType;
 use Vin\ShopwareSdk\Auth\GrantType\PasswordGrantType;
 use Vin\ShopwareSdk\Auth\GrantType\RefreshTokenGrantType;
 
+/**
+ * @phpstan-import-type ClientCredentialsGrantData from ClientCredentialsGrantType
+ * @phpstan-import-type PasswordGrantData from PasswordGrantType
+ * @phpstan-import-type RefreshTokenGrantData from RefreshTokenGrantType
+ */
 abstract class GrantType
 {
     public const CLIENT_CREDENTIALS = 'client_credentials';
@@ -47,4 +52,9 @@ abstract class GrantType
             default => throw new \InvalidArgumentException('Grant type ' . $grantType . ' is not supported', 400),
         };
     }
+
+    /**
+     * @return ClientCredentialsGrantData|PasswordGrantData|RefreshTokenGrantData
+     */
+    abstract public function buildFormData(): array;
 }
