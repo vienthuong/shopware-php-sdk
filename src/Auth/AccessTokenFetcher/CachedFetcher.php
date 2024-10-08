@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Auth\AccessTokenFetcher;
 
+use Psr\Clock\ClockInterface;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 use Vin\ShopwareSdk\Auth\AccessTokenFetcher;
@@ -15,7 +16,8 @@ final class CachedFetcher implements AccessTokenFetcher
 {
     public function __construct(
         private readonly AccessTokenFetcher $accessTokenFetcher,
-        private readonly CacheInterface $cache
+        private readonly CacheInterface $cache,
+        private readonly ClockInterface $clock
     ) {
     }
 
@@ -31,7 +33,7 @@ final class CachedFetcher implements AccessTokenFetcher
             $this->cache->set('admin-api-oauth-access-token', $accessToken);
         }
 
-        if ($accessToken->isExpired()) {
+        if ($accessToken->isExpired($this->clock)) {
             $this->cache->delete('admin-api-oauth-access-token');
             $accessToken = $this->accessTokenFetcher->fetchAccessToken($grantType);
             $this->cache->set('admin-api-oauth-access-token', $accessToken);
