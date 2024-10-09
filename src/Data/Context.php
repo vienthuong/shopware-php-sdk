@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Data;
 
+/**
+ * @phpstan-type Headers array<string, bool|float|int|string|null>
+ */
 class Context
 {
     use EndPointTrait;
 
     public string $apiEndpoint;
 
+    /**
+     * @param Headers $additionalHeaders
+     */
     public function __construct(
         string $apiEndpoint,
         public AccessToken $accessToken,
