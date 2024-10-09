@@ -6,26 +6,24 @@ namespace Vin\ShopwareSdk\Auth\AccessTokenProvider;
 
 use Vin\ShopwareSdk\Auth\AccessTokenFetcher;
 use Vin\ShopwareSdk\Auth\AccessTokenProvider;
-use Vin\ShopwareSdk\Auth\AdminAuthenticator;
+use Vin\ShopwareSdk\Auth\GrantType;
 use Vin\ShopwareSdk\Auth\GrantType\ClientCredentialsGrantType;
 use Vin\ShopwareSdk\Data\AccessToken;
 
 final class WithClientCredentials implements AccessTokenProvider
 {
-    private AdminAuthenticator $authenticator;
+    private GrantType $grantType;
 
     public function __construct(
-        string $shopUrl,
         string $clientId,
         string $clientSecret,
         private readonly AccessTokenFetcher $accessTokenFetcher
     ) {
-        $grant = new ClientCredentialsGrantType($clientId, $clientSecret);
-        $this->authenticator = new AdminAuthenticator($grant, $shopUrl);
+        $this->grantType = new ClientCredentialsGrantType($clientId, $clientSecret);
     }
 
     public function getAccessToken(): AccessToken
     {
-        return $this->accessTokenFetcher->fetchAccessToken($this->authenticator);
+        return $this->accessTokenFetcher->fetchAccessToken($this->grantType);
     }
 }

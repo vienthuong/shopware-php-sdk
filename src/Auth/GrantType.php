@@ -8,6 +8,11 @@ use Vin\ShopwareSdk\Auth\GrantType\ClientCredentialsGrantType;
 use Vin\ShopwareSdk\Auth\GrantType\PasswordGrantType;
 use Vin\ShopwareSdk\Auth\GrantType\RefreshTokenGrantType;
 
+/**
+ * @phpstan-import-type ClientCredentialsGrantData from ClientCredentialsGrantType
+ * @phpstan-import-type PasswordGrantData from PasswordGrantType
+ * @phpstan-import-type RefreshTokenGrantData from RefreshTokenGrantType
+ */
 abstract class GrantType
 {
     public const CLIENT_CREDENTIALS = 'client_credentials';
@@ -32,19 +37,8 @@ abstract class GrantType
         $this->grantType = $grantType;
     }
 
-    public static function createFromConfig(array $config): GrantType
-    {
-        if (empty($config['grant_type'])) {
-            throw new \InvalidArgumentException('Grant type is not provided in the config', 400);
-        }
-
-        $grantType = $config['grant_type'];
-
-        return match ($grantType) {
-            self::REFRESH_TOKEN => new RefreshTokenGrantType($config['refresh_token']),
-            self::CLIENT_CREDENTIALS => new ClientCredentialsGrantType($config['client_id'], $config['client_secret']),
-            self::PASSWORD => new PasswordGrantType($config['username'], $config['password'], $config['scopes'] ?? 'write'),
-            default => throw new \InvalidArgumentException('Grant type ' . $grantType . ' is not supported', 400),
-        };
-    }
+    /**
+     * @return ClientCredentialsGrantData|PasswordGrantData|RefreshTokenGrantData
+     */
+    abstract public function buildFormData(): array;
 }

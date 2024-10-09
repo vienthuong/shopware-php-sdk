@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Data;
 
+use Psr\Clock\ClockInterface;
+
 class AccessToken
 {
     public function __construct(
@@ -14,11 +16,12 @@ class AccessToken
     ) {
     }
 
-    public function isExpired(): bool
+    public function isExpired(ClockInterface $clock): bool
     {
         $payload = json_decode(base64_decode(explode('.', $this->accessToken)[1]), true);
         $expiresAt = $payload['exp'];
 
-        return $expiresAt - 10 < time();
+        return $expiresAt - 10 < $clock->now()
+            ->getTimestamp();
     }
 }
