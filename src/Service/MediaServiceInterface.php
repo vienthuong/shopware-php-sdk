@@ -6,7 +6,7 @@ namespace Vin\ShopwareSdk\Service;
 
 use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
-use Vin\ShopwareSdk\Service\Struct\ApiResponse;
+use Vin\ShopwareSdk\Http\Struct\ApiResponse;
 
 interface MediaServiceInterface
 {
@@ -23,11 +23,11 @@ interface MediaServiceInterface
     public function renameMedia(string $mediaId, string $fileName): ApiResponse;
 
     /**
-     * @param string|resource|array $data
+     * @param string|resource $data
      * @throws AuthorizationFailedException
      * @throws ShopwareResponseException
      */
-    public function uploadMediaById(string $mediaId, string $mimeType, $data, string $extension, ?string $fileName = null): ApiResponse;
+    public function uploadMediaById(string $mediaId, $data, string $extension, ?string $fileName = null): ApiResponse;
 
     /**
      * @throws AuthorizationFailedException

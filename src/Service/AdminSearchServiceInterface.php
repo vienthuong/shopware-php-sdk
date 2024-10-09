@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
+use Vin\ShopwareSdk\Data\CriteriaCollection;
+use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
-use Vin\ShopwareSdk\Service\Struct\KeyValuePairs;
+use Vin\ShopwareSdk\Repository\Struct\EntitySearchResultCollection;
 
 interface AdminSearchServiceInterface
 {
     /**
+     * @throws AuthorizationFailedException
      * @throws ShopwareResponseException
      */
-    public function search(KeyValuePairs $criteriaCollection, array $additionalHeaders = []): KeyValuePairs;
+    public function search(CriteriaCollection $criteriaCollection, array $additionalHeaders = []): EntitySearchResultCollection;
 }

@@ -6,7 +6,7 @@ namespace Vin\ShopwareSdk\Service;
 
 use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
-use Vin\ShopwareSdk\Service\Struct\ApiResponse;
+use Vin\ShopwareSdk\Http\Struct\ApiResponse;
 use Vin\ShopwareSdk\Service\Struct\Notification;
 use Vin\ShopwareSdk\Service\Struct\NotificationCollection;
 
@@ -22,5 +22,5 @@ interface NotificationServiceInterface
      * @throws AuthorizationFailedException
      * @throws ShopwareResponseException
      */
-    public function sendNotification(Notification $notification, array $additionalParams = [], array $additionalHeaders = []): ApiResponse;
+    public function sendNotification(Notification $notification, array $additionalHeaders = []): ApiResponse;
 }

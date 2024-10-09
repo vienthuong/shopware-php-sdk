@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
-use GuzzleHttp\Exception\BadResponseException;
-use Vin\ShopwareSdk\Exception\ShopwareResponseException;
-use Vin\ShopwareSdk\Service\Struct\ApiResponse;
+use Vin\ShopwareSdk\Service\Api\ApiServiceInterface;
+use Vin\ShopwareSdk\Http\Struct\ApiResponse;
 
 final class MediaService implements MediaServiceInterface
 {
+    private const PROVIDE_NAME_ENDPOINT = '/api/_action/media/provide-name';
+
+    private const RENAME_ENDPOINT = '/api/_action/media/%s/rename';
+
+    private const UPLOAD_ENDPOINT = '/api/_action/media/%s/upload';
+
     public function __construct(
         private readonly ApiServiceInterface $apiService,
     ) {
@@ -17,66 +22,33 @@ final class MediaService implements MediaServiceInterface
 
     public function provideName(string $fileName, string $extension, ?string $mediaId = null): string
     {
-        $path = '/api/_action/media/provide-name';
         $params = array_filter([
             'extension' => $extension,
             'fileName' => $fileName,
             'mediaId' => $mediaId,
         ]);
 
-        try {
-            $apiResponse = $this->apiService->get($path, $params, []);
+        $apiResponse = $this->apiService->get(self::PROVIDE_NAME_ENDPOINT, $params);
 
-            return $apiResponse->getContents()['fileName'];
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        return $apiResponse->getContents()['fileName'];
     }
 
     public function renameMedia(string $mediaId, string $fileName): ApiResponse
     {
-        $path = sprintf('/api/_action/media/%s/rename', $mediaId);
-        /** @var string $data */
-        $data = json_encode([
+        $endpoint = sprintf(self::RENAME_ENDPOINT, $mediaId);
+        $data = [
             'fileName' => $fileName,
-        ]);
+        ];
 
-        try {
-            return $this->apiService->post($path, [], $data, []);
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        return $this->apiService->post($endpoint, data: $data);
     }
 
-    public function uploadMediaById(string $mediaId, string $mimeType, $data, string $extension, ?string $fileName = null): ApiResponse
+    public function uploadMediaById(string $mediaId, $data, string $extension, ?string $fileName = null): ApiResponse
     {
-        $fileName ??= $mediaId;
-        $params = [
-            'fileName' => $fileName,
-            'extension' => $extension,
-        ];
-        $path = sprintf('/api/_action/media/%s/upload', $mediaId);
-        if (is_array($data)) {
-            /** @var string $data */
-            $data = json_encode($data);
-        }
+        $endpoint = sprintf(self::UPLOAD_ENDPOINT, $mediaId);
+        $params = $this->buildUploadParams($mediaId, $extension, $fileName);
 
-        try {
-            return $this->apiService->post($path, $params, $data, [
-                'Content-Type' => $mimeType,
-            ]);
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        return $this->apiService->postMediaFile($endpoint, $params, $data);
     }
 
     public function uploadMediaFromUrl(string $mediaId, string $url, string $extension, ?string $fileName = null): ApiResponse
@@ -84,7 +56,19 @@ final class MediaService implements MediaServiceInterface
         $data = [
             'url' => $url,
         ];
+        $endpoint = sprintf(self::UPLOAD_ENDPOINT, $mediaId);
+        $params = $this->buildUploadParams($mediaId, $extension, $fileName);
 
-        return $this->uploadMediaById($mediaId, 'application/json', $data, $extension, $fileName);
+        return $this->apiService->post($endpoint, $params, $data);
+    }
+
+    private function buildUploadParams(string $mediaId, string $extension, ?string $fileName): array
+    {
+        $fileName ??= $mediaId;
+
+        return [
+            'extension' => $extension,
+            'fileName' => $fileName,
+        ];
     }
 }

@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
-use Vin\ShopwareSdk\Service\Struct\ApiResponse;
-use Vin\ShopwareSdk\Service\Struct\KeyValuePair;
-use Vin\ShopwareSdk\Service\Struct\KeyValuePairs;
+use Vin\ShopwareSdk\Http\Struct\ApiResponse;
+use Vin\ShopwareSdk\Service\Struct\Config;
+use Vin\ShopwareSdk\Service\Struct\ConfigCollection;
 
 interface SystemConfigServiceInterface
 {
     /**
      * @throws ShopwareResponseException
      */
-    public function batchSave(KeyValuePairs $configs, ?string $salesChannelId = null, array $additionalParams = [], array $additionalHeaders = []): ApiResponse;
+    public function batchSave(ConfigCollection $configs, ?string $salesChannelId = null, array $additionalParams = [], array $additionalHeaders = []): ApiResponse;
 
     /**
      * @throws ShopwareResponseException
@@ -34,5 +34,5 @@ interface SystemConfigServiceInterface
     /**
      * @throws ShopwareResponseException
      */
-    public function save(KeyValuePair $configuration, ?string $salesChannelId = null, array $additionalParams = [], array $additionalHeaders = []): ApiResponse;
+    public function save(Config $configuration, ?string $salesChannelId = null, array $additionalParams = [], array $additionalHeaders = []): ApiResponse;
 }

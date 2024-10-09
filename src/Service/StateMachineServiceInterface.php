@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Service;
 
 use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
-use Vin\ShopwareSdk\Service\Struct\ApiResponse;
+use Vin\ShopwareSdk\Http\Struct\ApiResponse;
 
 interface StateMachineServiceInterface
 {
