@@ -6,12 +6,12 @@ namespace Vin\ShopwareSdk\Auth\AccessTokenFetcher;
 
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\RequestFactoryInterface;
-use Psr\Http\Message\StreamFactoryInterface;
 use Vin\ShopwareSdk\Auth\AccessTokenFetcher;
 use Vin\ShopwareSdk\Auth\GrantType;
 use Vin\ShopwareSdk\Data\AccessToken;
 use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
+use Vin\ShopwareSdk\Exception\ShopwareResponseException;
+use Vin\ShopwareSdk\Http\ResponseParserInterface;
 
 final class SimpleFetcher implements AccessTokenFetcher
 {
@@ -19,8 +19,8 @@ final class SimpleFetcher implements AccessTokenFetcher
 
     public function __construct(
         private readonly string $shopUrl,
-        private readonly RequestFactoryInterface $requestFactory,
-        private readonly StreamFactoryInterface $streamFactory,
+        private readonly TokenRequestFactoryInterface $tokenRequestFactory,
+        private readonly ResponseParserInterface $responseParser,
         private readonly ClientInterface $psr18HttpClient,
     ) {
     }
@@ -30,16 +30,9 @@ final class SimpleFetcher implements AccessTokenFetcher
      */
     public function fetchAccessToken(GrantType $grantType): AccessToken
     {
-        $formData = $grantType->buildFormData();
-        /** @var string $data */
-        $data = json_encode($formData);
-        $body = $this->streamFactory->createStream($data);
-
         $uri = $this->shopUrl . self::OAUTH_TOKEN_ENDPOINT;
-        $request = $this->requestFactory->createRequest('POST', $uri)
-            ->withHeader('Accept', 'application/json')
-            ->withHeader('Content-Type', 'application/json')
-            ->withBody($body);
+        $formData = $grantType->buildFormData();
+        $request = $this->tokenRequestFactory->createRequest($uri, $formData);
 
         try {
             $response = $this->psr18HttpClient->sendRequest($request);
@@ -47,19 +40,10 @@ final class SimpleFetcher implements AccessTokenFetcher
             throw new AuthorizationFailedException($clientException->getMessage(), $clientException->getCode(), $clientException);
         }
 
-        if ($response->getStatusCode() >= 400 && $response->getStatusCode() < 600) {
-            $message = $response->getBody()
-                ->getContents();
-
-            throw new AuthorizationFailedException($message, $response->getStatusCode());
-        }
-
         try {
-            $tokenData = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $exception) {
-            $message = sprintf('Failed to parse JSON response: %s', $exception->getMessage());
-
-            throw new AuthorizationFailedException($message, $response->getStatusCode(), $exception);
+            $tokenData = $this->responseParser->getDecodedResponseContent($response);
+        } catch (ShopwareResponseException $exception) {
+            throw new AuthorizationFailedException($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         if (array_key_exists('access_token', $tokenData) === false || is_string($tokenData['access_token']) === false) {
