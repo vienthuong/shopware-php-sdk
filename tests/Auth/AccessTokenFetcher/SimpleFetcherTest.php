@@ -8,17 +8,16 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamFactoryInterface;
-use Psr\Http\Message\StreamInterface;
 use Vin\ShopwareSdk\Auth\AccessTokenFetcher\SimpleFetcher;
+use Vin\ShopwareSdk\Auth\AccessTokenFetcher\TokenRequestFactoryInterface;
 use Vin\ShopwareSdk\Auth\GrantType;
 use Vin\ShopwareSdk\Auth\GrantType\ClientCredentialsGrantType;
 use Vin\ShopwareSdk\Auth\GrantType\PasswordGrantType;
 use Vin\ShopwareSdk\Auth\GrantType\RefreshTokenGrantType;
 use Vin\ShopwareSdk\Data\AccessToken;
+use Vin\ShopwareSdk\Http\ResponseParserInterface;
 
 #[CoversClass(SimpleFetcher::class)]
 final class SimpleFetcherTest extends TestCase
@@ -47,7 +46,7 @@ final class SimpleFetcherTest extends TestCase
             $expectedMethod,
             $expectedUri,
             $expectedData,
-            json_encode($responseData),
+            $responseData,
             $responseData['token_type'],
             $responseData['access_token'],
             $responseData['expires_in'],
@@ -74,7 +73,7 @@ final class SimpleFetcherTest extends TestCase
             $expectedMethod,
             $expectedUri,
             $expectedData,
-            json_encode($responseData),
+            $responseData,
             $responseData['token_type'],
             $responseData['access_token'],
             $responseData['expires_in'],
@@ -99,7 +98,7 @@ final class SimpleFetcherTest extends TestCase
             $expectedMethod,
             $expectedUri,
             $expectedData,
-            json_encode($responseData),
+            $responseData,
             $responseData['token_type'],
             $responseData['access_token'],
             $responseData['expires_in'],
@@ -114,66 +113,33 @@ final class SimpleFetcherTest extends TestCase
         string $expectedMethod,
         string $expectedUri,
         string $expectedData,
-        string $responseData,
+        array $responseData,
         string $expectedTokenType,
         string $expectedAccessToken,
         int $expectedExpiresIn,
         ?string $expectedRefreshToken
     ): void {
-        $requestFactory = $this->createMock(RequestFactoryInterface::class);
-        $streamFactory = $this->createMock(StreamFactoryInterface::class);
+        $requestFactory = $this->createMock(TokenRequestFactoryInterface::class);
+        $responseParser = $this->createMock(ResponseParserInterface::class);
         $clientInterface = $this->createMock(ClientInterface::class);
 
         $request = $this->createMock(RequestInterface::class);
         $response = $this->createMock(ResponseInterface::class);
 
-        $accessTokenFetcher = new SimpleFetcher($shopUrl, $requestFactory, $streamFactory, $clientInterface);
-
-        $withHeaderMethodCall = 0;
-        $request->expects($this->exactly(2))
-            ->method('withHeader')
-            ->willReturnCallback(function (string $name, $value) use (&$withHeaderMethodCall, $request) {
-                $passedHeaders = [[
-                    'Accept' => 'application/json',
-                ], [
-                    'Content-Type' => 'application/json',
-                ]];
-                $this->assertEquals($passedHeaders[$withHeaderMethodCall], [
-                    $name => $value,
-                ]);
-                $withHeaderMethodCall++;
-
-                return $request;
-            });
-        $request->expects($this->exactly(1))
-            ->method('withBody')
-            ->willReturnCallback(function ($body) use ($expectedData, $request) {
-                $this->assertEquals($expectedData, $body);
-
-                return $request;
-            });
+        $accessTokenFetcher = new SimpleFetcher($shopUrl, $requestFactory, $responseParser, $clientInterface);
 
         $requestFactory->expects($this->once())
             ->method('createRequest')
-            ->willReturnCallback(function (string $method, string $uri) use ($expectedMethod, $expectedUri, $request) {
-                $this->assertEquals($expectedMethod, $method);
+            ->willReturnCallback(function (string $uri, array $data) use ($expectedUri, $expectedData, $request) {
                 $this->assertEquals($expectedUri, $uri);
+                $this->assertEquals($expectedData, json_encode($data));
 
                 return $request;
             });
 
-        $streamFactory->expects($this->once())
-            ->method('createStream')
-            ->willReturnCallback(function (string $body) use ($expectedData) {
-                $this->assertEquals($expectedData, $body);
-
-                $stream = $this->createMock(StreamInterface::class);
-                $stream->expects($this->once())
-                    ->method('__toString')
-                    ->willReturn($body);
-
-                return $stream;
-            });
+        $responseParser->expects($this->once())
+            ->method('getDecodedResponseContent')
+            ->willReturn($responseData);
 
         $clientInterface->expects($this->once())
             ->method('sendRequest')
@@ -181,20 +147,6 @@ final class SimpleFetcherTest extends TestCase
                 $this->assertEquals($request, $passedRequest);
 
                 return $response;
-            });
-
-        $response->expects($this->once())
-            ->method('getStatusCode')
-            ->willReturn(200);
-        $response->expects($this->once())
-            ->method('getBody')
-            ->willReturnCallback(function () use ($responseData) {
-                $stream = $this->createMock(StreamInterface::class);
-                $stream->expects($this->once())
-                    ->method('getContents')
-                    ->willReturn($responseData);
-
-                return $stream;
             });
 
         $accessToken = $accessTokenFetcher->fetchAccessToken($grantType);
