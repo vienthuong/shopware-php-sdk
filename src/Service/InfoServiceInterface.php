@@ -7,32 +7,38 @@ namespace Vin\ShopwareSdk\Service;
 use Vin\ShopwareSdk\Data\Schema\Schema;
 use Vin\ShopwareSdk\Data\Schema\SchemaCollection;
 use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
-use Vin\ShopwareSdk\Service\Struct\ApiResponse;
+use Vin\ShopwareSdk\Exception\ShopwareResponseException;
+use Vin\ShopwareSdk\Http\Struct\ApiResponse;
 
 interface InfoServiceInterface
 {
     /**
      * @throws AuthorizationFailedException
+     * @throws ShopwareResponseException
      */
     public function fetchRawSchema(): ApiResponse;
 
     /**
      * @throws AuthorizationFailedException
+     * @throws ShopwareResponseException
      */
     public function getConfig(): ApiResponse;
 
     /**
      * @throws AuthorizationFailedException
+     * @throws ShopwareResponseException
      */
     public function getEvents(): ApiResponse;
 
     /**
      * @throws AuthorizationFailedException
+     * @throws ShopwareResponseException
      */
     public function getInfo(): ApiResponse;
 
     /**
      * @throws AuthorizationFailedException
+     * @throws ShopwareResponseException
      */
     public function getOpenApiSchema(): ApiResponse;
 
@@ -40,6 +46,7 @@ interface InfoServiceInterface
 
     /**
      * @throws AuthorizationFailedException
+     * @throws ShopwareResponseException
      */
     public function getShopwareVersion(): string;
 
@@ -47,6 +54,7 @@ interface InfoServiceInterface
 
     /**
      * @throws AuthorizationFailedException
+     * @throws ShopwareResponseException
      */
     public function refreshSchema(bool $persist = true): SchemaCollection;
 }

@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
-use GuzzleHttp\Exception\BadResponseException;
-use Vin\ShopwareSdk\Exception\ShopwareResponseException;
-use Vin\ShopwareSdk\Service\Struct\ApiResponse;
+use Vin\ShopwareSdk\Service\Api\ApiServiceInterface;
+use Vin\ShopwareSdk\Http\Struct\ApiResponse;
 use Vin\ShopwareSdk\Service\Struct\Notification;
 use Vin\ShopwareSdk\Service\Struct\NotificationCollection;
 
@@ -23,45 +22,24 @@ final class NotificationService implements NotificationServiceInterface
 
     public function fetchNotifications(?string $latestTimestamp = null, ?int $limit = 5, array $additionalParams = [], array $additionalHeaders = []): NotificationCollection
     {
-        try {
-            $params = [
-                'latestTimestamp' => $latestTimestamp,
-                'limit' => $limit,
-            ];
-            $params = array_merge($params, $additionalParams);
-            $apiResponse = $this->apiService->get(self::NOTIFICATION_MESSAGE_ENDPOINT, $params, $additionalHeaders);
+        $params = [
+            'latestTimestamp' => $latestTimestamp,
+            'limit' => $limit,
+        ];
+        $params = array_merge($params, $additionalParams);
 
-            $collection = new NotificationCollection([], $apiResponse->getContents()['timestamp']);
+        $apiResponse = $this->apiService->get(self::NOTIFICATION_MESSAGE_ENDPOINT, $params, additionalHeaders: $additionalHeaders);
 
-            if (empty($apiResponse->getContents()['notifications'])) {
-                return $collection;
-            }
-
-            foreach ($apiResponse->getContents()['notifications'] as $notification) {
-                $collection->add(Notification::create($notification['status'], $notification['message'], $notification['adminOnly'], $notification['requiredPrivileges']));
-            }
-
-            return $collection;
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
+        $collection = new NotificationCollection([], $apiResponse->getContents()['timestamp']);
+        foreach ($apiResponse->getContents()['notifications'] ?? [] as $notification) {
+            $collection->add(Notification::create($notification['status'], $notification['message'], $notification['adminOnly'], $notification['requiredPrivileges']));
         }
+
+        return $collection;
     }
 
-    public function sendNotification(Notification $notification, array $additionalParams = [], array $additionalHeaders = []): ApiResponse
+    public function sendNotification(Notification $notification, array $additionalHeaders = []): ApiResponse
     {
-        try {
-            /** @var string $data */
-            $data = json_encode(array_merge($notification->parse(), $additionalParams));
-
-            return $this->apiService->post(self::NOTIFICATION_ENDPOINT, [], $data, $additionalHeaders);
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        return $this->apiService->post(self::NOTIFICATION_ENDPOINT, data: $notification->parse(), additionalHeaders: $additionalHeaders);
     }
 }

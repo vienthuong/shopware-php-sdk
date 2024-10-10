@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vin\ShopwareSdk\Service\Struct;
+namespace Vin\ShopwareSdk\Http\Struct;
 
 use Vin\ShopwareSdk\Data\Context;
 

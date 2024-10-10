@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
-use GuzzleHttp\Exception\BadResponseException;
 use Vin\ShopwareSdk\Data\Mail\Mail;
-use Vin\ShopwareSdk\Exception\ShopwareResponseException;
-use Vin\ShopwareSdk\Service\Struct\ApiResponse;
+use Vin\ShopwareSdk\Service\Api\ApiServiceInterface;
+use Vin\ShopwareSdk\Http\Struct\ApiResponse;
 
 final class MailSendService implements MailSendServiceInterface
 {
@@ -30,31 +29,14 @@ final class MailSendService implements MailSendServiceInterface
                 'templateData' => $templateData,
             ],
         ];
-        /** @var string $data */
-        $data = json_encode($data);
 
-        try {
-            return $this->apiService->post(self::BUILD_PATH, [], $data, $additionalHeaders);
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        return $this->apiService->post(self::BUILD_PATH, data: $data, additionalHeaders: $additionalHeaders);
     }
 
     public function send(Mail $mail, array $additionalHeaders = []): ApiResponse
     {
-        /** @var string $data */
-        $data = json_encode(array_filter($mail->jsonSerialize()));
+        $data = array_filter($mail->jsonSerialize());
 
-        try {
-            return $this->apiService->post(self::SEND_PATH, [], $data, $additionalHeaders);
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        return $this->apiService->post(self::SEND_PATH, data: $data, additionalHeaders: $additionalHeaders);
     }
 }

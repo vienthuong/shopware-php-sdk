@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
-use GuzzleHttp\Exception\BadResponseException;
-use Vin\ShopwareSdk\Exception\ShopwareResponseException;
-use Vin\ShopwareSdk\Service\Struct\ApiResponse;
-use Vin\ShopwareSdk\Service\Struct\KeyValuePair;
-use Vin\ShopwareSdk\Service\Struct\KeyValuePairs;
+use Vin\ShopwareSdk\Service\Api\ApiServiceInterface;
+use Vin\ShopwareSdk\Http\Struct\ApiResponse;
+use Vin\ShopwareSdk\Service\Struct\Config;
+use Vin\ShopwareSdk\Service\Struct\ConfigCollection;
 
 final class SystemConfigService implements SystemConfigServiceInterface
 {
@@ -27,99 +26,55 @@ final class SystemConfigService implements SystemConfigServiceInterface
     ) {
     }
 
-    public function batchSave(KeyValuePairs $configs, ?string $salesChannelId = null, array $additionalParams = [], array $additionalHeaders = []): ApiResponse
+    public function batchSave(ConfigCollection $configs, ?string $salesChannelId = null, array $additionalParams = [], array $additionalHeaders = []): ApiResponse
     {
-        $parsed = [];
-        foreach ($configs as $item) {
-            $parsed[$salesChannelId ?? 'null'] = [
-                $item->getKey() => $item->getValue(),
-            ];
-        }
-        $data = array_merge($parsed, $additionalParams);
-        /** @var string $data */
-        $data = json_encode($data);
+        $data = [
+            $salesChannelId ?? 'null' => $configs->parse(),
+        ];
 
-        try {
-            return $this->apiService->post(self::SYSTEM_CONFIG_SAVE_BATCH_ENDPOINT, [], $data, $additionalHeaders);
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        return $this->apiService->post(self::SYSTEM_CONFIG_SAVE_BATCH_ENDPOINT, data: $data, additionalHeaders: $additionalHeaders);
     }
 
     public function checkConfiguration(string $domain, array $additionalHeaders = []): ApiResponse
     {
-        try {
-            $params = [
-                'domain' => $domain,
-            ];
+        $params = [
+            'domain' => $domain,
+        ];
 
-            return $this->apiService->get(self::SYSTEM_CONFIG_CHECK_ENDPOINT, $params, $additionalHeaders);
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        return $this->apiService->get(self::SYSTEM_CONFIG_CHECK_ENDPOINT, $params, additionalHeaders: $additionalHeaders);
     }
 
     public function getConfiguration(string $domain, array $additionalHeaders = []): ApiResponse
     {
-        try {
-            $params = [
-                'domain' => $domain,
-            ];
+        $params = [
+            'domain' => $domain,
+        ];
 
-            return $this->apiService->get(self::SYSTEM_CONFIG_GET_ENDPOINT, $params, $additionalHeaders);
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        return $this->apiService->get(self::SYSTEM_CONFIG_GET_ENDPOINT, $params, additionalHeaders: $additionalHeaders);
     }
 
     public function getConfigurationValues(string $domain, ?string $salesChannelId = null, array $additionalHeaders = []): ApiResponse
     {
-        try {
-            $params = [
-                'domain' => $domain,
-                'salesChannelId' => $salesChannelId,
-            ];
-            $params = array_filter($params);
+        $params = [
+            'domain' => $domain,
+            'salesChannelId' => $salesChannelId,
+        ];
+        $params = array_filter($params);
 
-            return $this->apiService->get(self::SYSTEM_CONFIG_GET_VALUES_ENDPOINT, $params, $additionalHeaders);
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        return $this->apiService->get(self::SYSTEM_CONFIG_GET_VALUES_ENDPOINT, $params, additionalHeaders: $additionalHeaders);
     }
 
-    public function save(KeyValuePair $configuration, ?string $salesChannelId = null, array $additionalParams = [], array $additionalHeaders = []): ApiResponse
+    public function save(Config $configuration, ?string $salesChannelId = null, array $additionalParams = [], array $additionalHeaders = []): ApiResponse
     {
-        try {
-            $params = [
-                'salesChannelId' => $salesChannelId,
-            ];
-            $params = array_filter($params);
+        $params = [
+            'salesChannelId' => $salesChannelId,
+        ];
+        $params = array_filter($params);
 
-            $data = [
-                $configuration->getKey() => $configuration->getValue(),
-            ];
-            $data = array_merge($data, $additionalParams);
-            /** @var string $data */
-            $data = json_encode($data);
+        $data = [
+            $configuration->getKey() => $configuration->getValue(),
+        ];
 
-            return $this->apiService->post(self::SYSTEM_CONFIG_SAVE_ENDPOINT, $params, $data, $additionalHeaders);
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        return $this->apiService->post(self::SYSTEM_CONFIG_SAVE_ENDPOINT, $params, $data, additionalHeaders: $additionalHeaders);
     }
 }

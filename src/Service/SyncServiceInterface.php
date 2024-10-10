@@ -6,7 +6,7 @@ namespace Vin\ShopwareSdk\Service;
 
 use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
-use Vin\ShopwareSdk\Service\Struct\ApiResponse;
+use Vin\ShopwareSdk\Http\Struct\ApiResponse;
 use Vin\ShopwareSdk\Service\Struct\SyncPayload;
 
 interface SyncServiceInterface
@@ -15,5 +15,5 @@ interface SyncServiceInterface
      * @throws AuthorizationFailedException
      * @throws ShopwareResponseException
      */
-    public function sync(SyncPayload $payload, array $additionalParams = [], array $additionalHeaders = []): ApiResponse;
+    public function sync(SyncPayload $payload, array $additionalHeaders = []): ApiResponse;
 }

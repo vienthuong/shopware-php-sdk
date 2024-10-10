@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
-use Vin\ShopwareSdk\Service\Struct\ApiResponse;
+use Vin\ShopwareSdk\Service\Api\ApiServiceInterface;
+use Vin\ShopwareSdk\Http\Struct\ApiResponse;
 
 final class StateMachineService implements StateMachineServiceInterface
 {
@@ -15,21 +16,23 @@ final class StateMachineService implements StateMachineServiceInterface
 
     public function getState(string $entity, string $entityId, array $data = [], array $additionalHeaders = []): ApiResponse
     {
-        $path = sprintf('/api/_action/state-machine/%s/%s/state', $entity, $entityId);
+        $endpoint = sprintf('/api/_action/state-machine/%s/%s/state', $entity, $entityId);
         $stateFieldName = array_key_exists('stateFieldName', $data) ? $data['stateFieldName'] : 'stateId';
-
-        return $this->apiService->get($path, [
+        $params = [
             'stateFieldName' => $stateFieldName,
-        ], $additionalHeaders);
+        ];
+
+        return $this->apiService->get($endpoint, params: $params, additionalHeaders: $additionalHeaders);
     }
 
     public function transitionState(string $entity, string $entityId, string $actionName, array $data = [], array $additionalHeaders = []): void
     {
         $path = sprintf('/api/_action/state-machine/%s/%s/state/%s', $entity, $entityId, $actionName);
         $stateFieldName = array_key_exists('stateFieldName', $data) ? $data['stateFieldName'] : 'stateId';
-
-        $this->apiService->post($path, [
+        $params = [
             'stateFieldName' => $stateFieldName,
-        ], null, $additionalHeaders);
+        ];
+
+        $this->apiService->post($path, $params, additionalHeaders: $additionalHeaders);
     }
 }

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
-use Vin\ShopwareSdk\Service\Struct\ApiResponse;
+use Vin\ShopwareSdk\Service\Api\ApiServiceInterface;
+use Vin\ShopwareSdk\Http\Struct\ApiResponse;
 
 final class NumberRangeService implements NumberRangeServiceInterface
 {
@@ -15,19 +16,21 @@ final class NumberRangeService implements NumberRangeServiceInterface
 
     public function reserve(string $type, ?string $salesChannelId, bool $preview, array $additionalHeaders = []): ApiResponse
     {
-        $path = sprintf('/api/_action/number-range/reserve/%s/%s', $type, $salesChannelId ?? '');
-
-        return $this->apiService->get($path, [
+        $endpoint = sprintf('/api/_action/number-range/reserve/%s/%s', $type, $salesChannelId ?? '');
+        $params = [
             'preview' => $preview,
-        ], $additionalHeaders);
+        ];
+
+        return $this->apiService->get($endpoint, $params, additionalHeaders: $additionalHeaders);
     }
 
     public function previewPattern(string $type, ?string $pattern, array $additionalHeaders = []): ApiResponse
     {
-        $path = sprintf('/api/_action/number-range/preview-pattern/%s', $type);
-
-        return $this->apiService->get($path, [
+        $endpoint = sprintf('/api/_action/number-range/preview-pattern/%s', $type);
+        $params = [
             'pattern' => $pattern,
-        ], $additionalHeaders);
+        ];
+
+        return $this->apiService->get($endpoint, $params, additionalHeaders: $additionalHeaders);
     }
 }

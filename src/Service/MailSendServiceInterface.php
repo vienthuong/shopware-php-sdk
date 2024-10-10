@@ -7,7 +7,7 @@ namespace Vin\ShopwareSdk\Service;
 use Vin\ShopwareSdk\Data\Mail\Mail;
 use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
 use Vin\ShopwareSdk\Exception\ShopwareResponseException;
-use Vin\ShopwareSdk\Service\Struct\ApiResponse;
+use Vin\ShopwareSdk\Http\Struct\ApiResponse;
 
 interface MailSendServiceInterface
 {

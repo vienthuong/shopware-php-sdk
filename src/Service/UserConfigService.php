@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Service;
 
-use GuzzleHttp\Exception\BadResponseException;
-use Vin\ShopwareSdk\Exception\ShopwareResponseException;
-use Vin\ShopwareSdk\Service\Struct\ApiResponse;
-use Vin\ShopwareSdk\Service\Struct\KeyValuePair;
-use Vin\ShopwareSdk\Service\Struct\KeyValuePairs;
+use Vin\ShopwareSdk\Service\Api\ApiServiceInterface;
+use Vin\ShopwareSdk\Http\Struct\ApiResponse;
+use Vin\ShopwareSdk\Service\Struct\Config;
+use Vin\ShopwareSdk\Service\Struct\ConfigCollection;
 
 final class UserConfigService implements UserConfigServiceInterface
 {
@@ -19,51 +18,24 @@ final class UserConfigService implements UserConfigServiceInterface
     ) {
     }
 
-    public function getConfigMe(array $keys, array $additionalHeaders = []): KeyValuePairs
+    public function getConfigMe(array $keys, array $additionalHeaders = []): ConfigCollection
     {
-        try {
-            $params = [
-                'keys' => $keys,
-            ];
+        $params = [
+            'keys' => $keys,
+        ];
 
-            $apiResponse = $this->apiService->get(self::USER_CONFIG_ENDPOINT, $params, $additionalHeaders);
+        $apiResponse = $this->apiService->get(self::USER_CONFIG_ENDPOINT, $params, additionalHeaders: $additionalHeaders);
 
-            $data = new KeyValuePairs();
-
-            if (empty($apiResponse->getContents()['data'])) {
-                return $data;
-            }
-
-            foreach ($apiResponse->getContents()['data'] as $key => $value) {
-                $data->add(KeyValuePair::create($key, $value));
-            }
-
-            return $data;
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
+        $collection = new ConfigCollection();
+        foreach ($apiResponse->getContents()['data'] ?? [] as $key => $value) {
+            $collection->add(new Config($key, $value));
         }
+
+        return $collection;
     }
 
-    public function saveConfigMe(KeyValuePairs $configs, array $additionalParams = [], array $additionalHeaders = []): ApiResponse
+    public function saveConfigMe(ConfigCollection $configs, array $additionalHeaders = []): ApiResponse
     {
-        $parsed = [];
-        foreach ($configs as $item) {
-            $parsed[$item->getKey()] = $item->getValue();
-        }
-        $data = array_merge($parsed, $additionalParams);
-        /** @var string $data */
-        $data = json_encode($data);
-
-        try {
-            return $this->apiService->post(self::USER_CONFIG_ENDPOINT, [], $data, $additionalHeaders);
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()
-                ->getBody()
-                ->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        return $this->apiService->post(self::USER_CONFIG_ENDPOINT, data: $configs->parse(), additionalHeaders: $additionalHeaders);
     }
 }

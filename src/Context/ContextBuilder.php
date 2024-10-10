@@ -8,6 +8,9 @@ use Vin\ShopwareSdk\Auth\AccessTokenProvider;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
 
+/**
+ * @phpstan-import-type Headers from Context
+ */
 final class ContextBuilder
 {
     private ?string $languageId = null;
@@ -15,7 +18,7 @@ final class ContextBuilder
     private ?string $versionId = null;
 
     /**
-     * @var array<string, string|int|float|bool|null>
+     * @var Headers
      */
     private array $additionalHeaders = [];
 
@@ -45,7 +48,7 @@ final class ContextBuilder
         return $context;
     }
 
-    public function withAdditionalHeader(string $header, string|int|float|bool|null $value): self
+    public function withAdditionalHeader(string $header, bool|float|int|string|null $value): self
     {
         $this->additionalHeaders[$header] = $value;
 
@@ -53,7 +56,7 @@ final class ContextBuilder
     }
 
     /**
-     * @param array<string, string|int|float|bool|null> $headers
+     * @param Headers $headers
      */
     public function withAdditionalHeaders(array $headers): self
     {
