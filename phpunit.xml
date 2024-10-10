@@ -20,6 +20,16 @@
         <include>
             <directory>src</directory>
         </include>
+        <exclude>
+            <directory>src/Data/Entity/v0000</directory>
+            <directory>src/Data/Entity/v6550</directory>
+            <directory>src/Data/Entity/v6560</directory>
+            <directory>src/Data/Entity/v6571</directory>
+            <directory>src/Data/Entity/v6580</directory>
+            <directory>src/Data/Entity/v6583</directory>
+            <directory>src/Data/Entity/v6588</directory>
+            <directory>src/Data/Entity/v65812</directory>
+        </exclude>
     </source>
 
     <coverage includeUncoveredFiles="true" pathCoverage="true">
