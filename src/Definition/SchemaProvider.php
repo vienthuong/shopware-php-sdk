@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdk\Definition;
 
 use Vin\ShopwareSdk\Data\Schema\Schema;
+use Vin\ShopwareSdk\Exception\DefinitionNotFoundException;
 use Vin\ShopwareSdk\Exception\SchemaNotFoundException;
 
 final class SchemaProvider implements SchemaProviderInterface
@@ -19,11 +20,18 @@ final class SchemaProvider implements SchemaProviderInterface
 
     public function getSchema(string $entityName): Schema
     {
-        if (! $this->schemaCollection->get($entityName) instanceof Schema) {
-            $entityDefinition = $this->entityDefinitionProvider->getDefinition($entityName);
-            $this->schemaCollection->set($entityDefinition->getEntityName(), $entityDefinition->getSchema());
+        $schema = $this->schemaCollection->get($entityName);
+        if (! $schema instanceof Schema) {
+            try {
+                $entityDefinition = $this->entityDefinitionProvider->getDefinition($entityName);
+            } catch (DefinitionNotFoundException) {
+                throw new SchemaNotFoundException($entityName);
+            }
+
+            $schema = $entityDefinition->getSchema();
+            $this->schemaCollection->set($entityName, $schema);
         }
 
-        return $this->schemaCollection->get($entityName) ?? throw new SchemaNotFoundException($entityName);
+        return $schema;
     }
 }
