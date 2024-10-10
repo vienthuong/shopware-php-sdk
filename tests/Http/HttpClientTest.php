@@ -28,13 +28,7 @@ final class HttpClientTest extends TestCase
 {
     public static function deleteAndGetProvider(): \Generator
     {
-        $apiEndpoint = 'https://shopware.local';
-        $accessToken = new AccessToken('ACCESS_TOKEN');
-        $context = new Context($apiEndpoint, $accessToken);
-
-        $path = '/api/product';
-        $contentTypeHeader = MediaType::APPLICATION_JSON;
-        $acceptHeader = MediaType::APPLICATION_JSON_API;
+        [$context, $path, $contentTypeHeader, $acceptHeader] = iterator_to_array(self::provideContextAndPathAndContentTypeHeaderAndAcceptHeader())[0];
 
         $data = [
             'id' => '1',
@@ -49,13 +43,7 @@ final class HttpClientTest extends TestCase
 
     public static function patchAndPostProvider(): \Generator
     {
-        $apiEndpoint = 'https://shopware.local';
-        $accessToken = new AccessToken('ACCESS_TOKEN');
-        $context = new Context($apiEndpoint, $accessToken);
-
-        $path = '/api/product';
-        $contentTypeHeader = MediaType::APPLICATION_JSON;
-        $acceptHeader = MediaType::APPLICATION_JSON_API;
+        [$context, $path, $contentTypeHeader, $acceptHeader] = iterator_to_array(self::provideContextAndPathAndContentTypeHeaderAndAcceptHeader())[0];
 
         $requestData = [
             'id' => '1',
@@ -70,13 +58,7 @@ final class HttpClientTest extends TestCase
 
     public static function postGenericDataProvider(): \Generator
     {
-        $apiEndpoint = 'https://shopware.local';
-        $accessToken = new AccessToken('ACCESS_TOKEN');
-        $context = new Context($apiEndpoint, $accessToken);
-
-        $path = '/api/product';
-        $contentTypeHeader = MediaType::APPLICATION_JSON;
-        $acceptHeader = MediaType::APPLICATION_JSON_API;
+        [$context, $path, $contentTypeHeader, $acceptHeader] = iterator_to_array(self::provideContextAndPathAndContentTypeHeaderAndAcceptHeader())[0];
 
         $requestData = [
             'id' => '1',
@@ -221,6 +203,19 @@ final class HttpClientTest extends TestCase
         $httpClient = new HttpClient($requestFactory, $responseParser, $psrHttpClient);
 
         $httpClient->postGenericData($path, $contentTypeHeader, $acceptHeader, $requestData, $context);
+    }
+
+    private static function provideContextAndPathAndContentTypeHeaderAndAcceptHeader(): \Generator
+    {
+        $apiEndpoint = 'https://shopware.local';
+        $accessToken = new AccessToken('ACCESS_TOKEN');
+        $context = new Context($apiEndpoint, $accessToken);
+
+        $path = '/api/product';
+        $contentTypeHeader = MediaType::APPLICATION_JSON;
+        $acceptHeader = MediaType::APPLICATION_JSON_API;
+
+        yield [$context, $path, $contentTypeHeader, $acceptHeader];
     }
 
     private function addCreateRequestMethodAndAssertionsToRequest(
