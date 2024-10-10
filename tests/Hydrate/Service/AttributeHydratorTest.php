@@ -11,14 +11,16 @@ use PHPUnit\Framework\TestCase;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 use Vin\ShopwareSdk\Data\Entity\v0000\Product\ProductDefinition;
 use Vin\ShopwareSdk\Data\Entity\v0000\Product\ProductEntity;
-use Vin\ShopwareSdk\Factory\SchemaProviderFactory;
 use Vin\ShopwareSdk\Hydrate\Service\AttributeHydrator;
+use Vin\ShopwareSdk\Hydrate\Service\AttributeHydratorInterface;
+use Vin\ShopwareSdkTest\Helper\HydrationServicesFactoryTrait;
 use Vin\ShopwareSdkTest\Helper\ParseStubTrait;
 
 #[CoversClass(AttributeHydrator::class)]
 final class AttributeHydratorTest extends TestCase
 {
     use ParseStubTrait;
+    use HydrationServicesFactoryTrait;
     use ArraySubsetAsserts;
 
     public static function hydrateAttributesProvider(): \Generator
@@ -26,8 +28,10 @@ final class AttributeHydratorTest extends TestCase
         $jsonData = self::parseStub('product');
         $data = $jsonData['data'][0]; // the JSON contains only one product
 
-        $schemaProvider = SchemaProviderFactory::create();
-        $attributeHydrator = new AttributeHydrator($schemaProvider);
+        [
+            AttributeHydratorInterface::class => $attributeHydrator,
+        ] = self::createServicesForHydration('0.0.0.0');
+
         $entity = new ProductEntity();
         $entity->internalSetEntityName(ProductDefinition::ENTITY_NAME);
 

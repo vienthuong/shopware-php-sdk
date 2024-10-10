@@ -8,20 +8,19 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Vin\ShopwareSdk\Data\Entity\v0000\Product\ProductEntity;
-use Vin\ShopwareSdk\Factory\AttributeHydratorFactory;
-use Vin\ShopwareSdk\Factory\DefinitionProviderFactory;
 use Vin\ShopwareSdk\Hydrate\Result\SearchResult;
 use Vin\ShopwareSdk\Hydrate\Service\AttributeHydratorInterface;
-use Vin\ShopwareSdk\Hydrate\Service\ExtensionParser;
-use Vin\ShopwareSdk\Hydrate\Service\RelationshipsParser;
 use Vin\ShopwareSdk\Hydrate\Service\RelationshipsParserInterface;
 use Vin\ShopwareSdk\Hydrate\Service\ExtensionParserInterface;
 use Vin\ShopwareSdk\Definition\DefinitionProviderInterface;
 use Vin\ShopwareSdk\Data\Entity\Entity;
+use Vin\ShopwareSdkTest\Helper\HydrationServicesFactoryTrait;
 
 #[CoversClass(SearchResult::class)]
 final class SearchResultTest extends TestCase
 {
+    use HydrationServicesFactoryTrait;
+
     public static function getEntitiesProvider(): \Generator
     {
         $jsonPath = __DIR__ . '/../../stubs/products.json';
@@ -29,10 +28,12 @@ final class SearchResultTest extends TestCase
         $jsonData = json_decode(file_get_contents($jsonPath), true);
         $searchResult = new SearchResult($jsonData['data'], $jsonData['included']);
 
-        $attributeHydrator = AttributeHydratorFactory::create();
-        $relationshipsParser = new RelationshipsParser();
-        $extensionParser = new ExtensionParser();
-        $definitionProvider = DefinitionProviderFactory::create();
+        [
+            AttributeHydratorInterface::class => $attributeHydrator,
+            RelationshipsParserInterface::class => $relationshipsParser,
+            ExtensionParserInterface::class => $extensionParser,
+            DefinitionProviderInterface::class => $definitionProvider,
+        ] = self::createServicesForHydration('0.0.0.0');
 
         yield [
             $searchResult,
@@ -51,10 +52,12 @@ final class SearchResultTest extends TestCase
         /** @phpstan-ignore-next-line */
         $jsonData = json_decode(file_get_contents($jsonPath), true);
 
-        $attributeHydrator = AttributeHydratorFactory::create();
-        $relationshipsParser = new RelationshipsParser();
-        $extensionParser = new ExtensionParser();
-        $definitionProvider = DefinitionProviderFactory::create();
+        [
+            AttributeHydratorInterface::class => $attributeHydrator,
+            RelationshipsParserInterface::class => $relationshipsParser,
+            ExtensionParserInterface::class => $extensionParser,
+            DefinitionProviderInterface::class => $definitionProvider,
+        ] = self::createServicesForHydration('0.0.0.0');
 
         foreach ($jsonData['data'] as $data) {
             $productManufacturerId = $data['relationships']['manufacturer']['data']['id'] ?? null;

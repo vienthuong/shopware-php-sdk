@@ -11,12 +11,11 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
 use Vin\ShopwareSdk\Data\Entity\v0000\Product\ProductEntity;
 use Vin\ShopwareSdk\Data\Entity\v0000\ProductManufacturer\ProductManufacturerEntity;
 use Vin\ShopwareSdk\Definition\DefinitionProviderInterface;
-use Vin\ShopwareSdk\Factory\AttributeHydratorFactory;
-use Vin\ShopwareSdk\Factory\DefinitionProviderFactory;
 use Vin\ShopwareSdk\Hydrate\Cache\EntityResultCache;
 use Vin\ShopwareSdk\Hydrate\Result\EntityResult;
 use Vin\ShopwareSdk\Hydrate\Result\EntityResultToOneRelationship;
 use Vin\ShopwareSdk\Hydrate\Service\AttributeHydratorInterface;
+use Vin\ShopwareSdkTest\Helper\HydrationServicesFactoryTrait;
 use Vin\ShopwareSdkTest\Helper\ParseStubTrait;
 use Vin\ShopwareSdkTest\Helper\PopulateEntityResultCacheTrait;
 
@@ -25,6 +24,7 @@ final class EntityResultToOneRelationshipTest extends TestCase
 {
     use ParseStubTrait;
     use PopulateEntityResultCacheTrait;
+    use HydrationServicesFactoryTrait;
 
     public static function hydrateRelationshipProvider(): \Generator
     {
@@ -43,8 +43,10 @@ final class EntityResultToOneRelationshipTest extends TestCase
             $entity->setProperty($propertyName, $value);
         };
 
-        $attributeHydrator = AttributeHydratorFactory::create();
-        $definitionProvider = DefinitionProviderFactory::create();
+        [
+            AttributeHydratorInterface::class => $attributeHydrator,
+            DefinitionProviderInterface::class => $definitionProvider,
+        ] = self::createServicesForHydration('0.0.0.0');
 
         yield [
             $entityResultToOneRelationship,

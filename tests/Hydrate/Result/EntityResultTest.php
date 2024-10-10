@@ -10,17 +10,14 @@ use PHPUnit\Framework\TestCase;
 use Vin\ShopwareSdk\Data\Entity\v0000\Product\ProductEntity;
 use Vin\ShopwareSdk\Data\Entity\v0000\ProductManufacturer\ProductManufacturerEntity;
 use Vin\ShopwareSdk\Data\Entity\v0000\ProductMedia\ProductMediaCollection;
-use Vin\ShopwareSdk\Factory\AttributeHydratorFactory;
-use Vin\ShopwareSdk\Factory\DefinitionProviderFactory;
 use Vin\ShopwareSdk\Hydrate\Cache\EntityResultCache;
 use Vin\ShopwareSdk\Hydrate\Result\EntityResult;
 use Vin\ShopwareSdk\Hydrate\Service\AttributeHydratorInterface;
-use Vin\ShopwareSdk\Hydrate\Service\ExtensionParser;
 use Vin\ShopwareSdk\Hydrate\Service\ExtensionParserInterface;
-use Vin\ShopwareSdk\Hydrate\Service\RelationshipsParser;
 use Vin\ShopwareSdk\Hydrate\Service\RelationshipsParserInterface;
 use Vin\ShopwareSdk\Definition\DefinitionProviderInterface;
 use Vin\ShopwareSdk\Data\Entity\Entity;
+use Vin\ShopwareSdkTest\Helper\HydrationServicesFactoryTrait;
 use Vin\ShopwareSdkTest\Helper\ParseStubTrait;
 use Vin\ShopwareSdkTest\Helper\PopulateEntityResultCacheTrait;
 
@@ -29,6 +26,7 @@ final class EntityResultTest extends TestCase
 {
     use ParseStubTrait;
     use PopulateEntityResultCacheTrait;
+    use HydrationServicesFactoryTrait;
 
     public static function fromDataProvider(): \Generator
     {
@@ -50,8 +48,10 @@ final class EntityResultTest extends TestCase
         $data = $jsonData['data'][0]; // the JSON contains only one product
         $entityResult = EntityResult::fromData($data);
 
-        $attributeHydrator = AttributeHydratorFactory::create();
-        $definitionProvider = DefinitionProviderFactory::create();
+        [
+            AttributeHydratorInterface::class => $attributeHydrator,
+            DefinitionProviderInterface::class => $definitionProvider,
+        ] = self::createServicesForHydration('0.0.0.0');
 
         yield [
             $entityResult,
@@ -68,10 +68,12 @@ final class EntityResultTest extends TestCase
         $data = $jsonData['data'][0]; // the JSON contains only one product
         $entityResult = EntityResult::fromData($data);
 
-        $attributeHydrator = AttributeHydratorFactory::create();
-        $relationshipsParser = new RelationshipsParser();
-        $extensionParser = new ExtensionParser();
-        $definitionProvider = DefinitionProviderFactory::create();
+        [
+            AttributeHydratorInterface::class => $attributeHydrator,
+            RelationshipsParserInterface::class => $relationshipsParser,
+            ExtensionParserInterface::class => $extensionParser,
+            DefinitionProviderInterface::class => $definitionProvider,
+        ] = self::createServicesForHydration('0.0.0.0');
 
         $entityResultCache = new EntityResultCache();
         self::populateEntityResultCache($entityResultCache, $jsonData['included']);
@@ -92,9 +94,11 @@ final class EntityResultTest extends TestCase
         $data = $jsonData['data'][0]; // the JSON contains only one product
         $entityResult = EntityResult::fromData($data);
 
-        $attributeHydrator = AttributeHydratorFactory::create();
-        $relationshipsParser = new RelationshipsParser();
-        $definitionProvider = DefinitionProviderFactory::create();
+        [
+            AttributeHydratorInterface::class => $attributeHydrator,
+            RelationshipsParserInterface::class => $relationshipsParser,
+            DefinitionProviderInterface::class => $definitionProvider,
+        ] = self::createServicesForHydration('0.0.0.0');
 
         $entityResultCache = new EntityResultCache();
         self::populateEntityResultCache($entityResultCache, $jsonData['included']);
