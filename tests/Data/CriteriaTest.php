@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Vin\ShopwareSdkTest;
+namespace Vin\ShopwareSdkTest\Data;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Vin\ShopwareSdk\Data\Aggregation\AverageAggregation;
 use Vin\ShopwareSdk\Data\Aggregation\CountAggregation;
@@ -26,9 +27,8 @@ use Vin\ShopwareSdk\Data\Filter\RangeFilter;
 use Vin\ShopwareSdk\Data\Filter\SuffixFilter;
 use Vin\ShopwareSdk\Data\ScoreQuery\ScoreQuery;
 
-/**
- * @covers \Vin\ShopwareSdk\Data\Criteria
- */
+
+#[CoversClass(Criteria::class)]
 class CriteriaTest extends TestCase
 {
     public function testCriteriaParsed(): void
