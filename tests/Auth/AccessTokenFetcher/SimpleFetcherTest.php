@@ -22,11 +22,10 @@ use Vin\ShopwareSdk\Http\ResponseParserInterface;
 #[CoversClass(SimpleFetcher::class)]
 final class SimpleFetcherTest extends TestCase
 {
-    public static function fetchAccessTokenProvider()
+    public static function fetchAccessTokenProvider(): \Generator
     {
         $shopUrl = 'https://shopware.local';
 
-        $expectedMethod = 'POST';
         $expectedUri = 'https://shopware.local/api/oauth/token';
 
         $grant = new ClientCredentialsGrantType('ID', 'SECRET');
@@ -43,7 +42,6 @@ final class SimpleFetcherTest extends TestCase
         yield [
             $shopUrl,
             $grant,
-            $expectedMethod,
             $expectedUri,
             $expectedData,
             $responseData,
@@ -70,7 +68,6 @@ final class SimpleFetcherTest extends TestCase
         yield [
             $shopUrl,
             $grant,
-            $expectedMethod,
             $expectedUri,
             $expectedData,
             $responseData,
@@ -95,7 +92,6 @@ final class SimpleFetcherTest extends TestCase
         yield [
             $shopUrl,
             $grant,
-            $expectedMethod,
             $expectedUri,
             $expectedData,
             $responseData,
@@ -110,7 +106,6 @@ final class SimpleFetcherTest extends TestCase
     public function testFetchAccessToken(
         string $shopUrl,
         GrantType $grantType,
-        string $expectedMethod,
         string $expectedUri,
         string $expectedData,
         array $responseData,

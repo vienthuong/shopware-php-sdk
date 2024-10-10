@@ -27,7 +27,6 @@ use Vin\ShopwareSdk\Data\Filter\RangeFilter;
 use Vin\ShopwareSdk\Data\Filter\SuffixFilter;
 use Vin\ShopwareSdk\Data\ScoreQuery\ScoreQuery;
 
-
 #[CoversClass(Criteria::class)]
 class CriteriaTest extends TestCase
 {

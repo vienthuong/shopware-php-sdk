@@ -18,7 +18,7 @@ use Vin\ShopwareSdk\Hydrate\Service\RelationshipsParserInterface;
 
 trait HydrationServicesFactoryTrait
 {
-    private static function createServicesForHydration($shopwareVersion): array
+    private static function createServicesForHydration(string $shopwareVersion): array
     {
         $definitionCollectionPopulator = new WithSdkMapping();
         $definitionProvider = new DefinitionProvider([$definitionCollectionPopulator], $shopwareVersion);

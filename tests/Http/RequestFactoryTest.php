@@ -18,6 +18,9 @@ use Vin\ShopwareSdk\Http\RequestFactory;
 use Vin\ShopwareSdk\Http\Struct\ApiResponse;
 use Vin\ShopwareSdk\Http\Struct\MediaType;
 
+/**
+ * @phpstan-import-type Headers from Context
+ */
 #[CoversClass(RequestFactory::class)]
 #[CoversClass(ApiResponse::class)]
 #[CoversClass(MediaType::class)]
@@ -138,7 +141,9 @@ final class RequestFactoryTest extends TestCase
         $this->addWithBodyMethodAndAssertionsToRequest($request, $stream);
 
         $streamFactory = $this->createMock(StreamFactoryInterface::class);
-        $this->addCreateStreamMethodToStreamFactory($streamFactory, json_encode($data), $stream);
+        /** @var string $encodedData */
+        $encodedData = json_encode($data);
+        $this->addCreateStreamMethodToStreamFactory($streamFactory, $encodedData, $stream);
 
         $psrRequestFactory = $this->createMock(PsrRequestFactoryInterface::class);
         $this->addCreateRequestMethodAndAssertionsToPsrRequestFactory($psrRequestFactory, $method, $endpoint, $request);
@@ -172,6 +177,10 @@ final class RequestFactoryTest extends TestCase
         $this->assertInstanceOf(RequestInterface::class, $createdRequest);
     }
 
+    /**
+     * @param string|resource $data
+     * @param Headers $expectedHeaders
+     */
     #[DataProvider('createRequestWithGenericDataProvider')]
     public function testCreateRequestWithGenericData(
         string $method,
@@ -227,6 +236,7 @@ final class RequestFactoryTest extends TestCase
 
         $requestFactory = new RequestFactory($streamFactory, $psrRequestFactory);
 
+        /** @phpstan-ignore-next-line */
         $requestFactory->createRequestWithGenericData($method, $endpoint, $contentTypeHeader, $acceptHeader, null, $context);
     }
 
@@ -266,6 +276,7 @@ final class RequestFactoryTest extends TestCase
             ->method('createRequest')
             ->willReturnCallback(function ($passedMethod, $passedUri) use ($method, $endpoint, $request) {
                 $this->assertEquals($method, $passedMethod);
+                /** @phpstan-ignore-next-line */
                 $this->assertStringEndsWith($endpoint, $passedUri);
 
                 return $request;
@@ -283,6 +294,9 @@ final class RequestFactoryTest extends TestCase
             });
     }
 
+    /**
+     * @param string|resource $data
+     */
     private function addCreateStreamFromResourceMethodToStreamFactory(MockObject $streamFactory, $data, StreamInterface $stream): void
     {
         $streamFactory->expects($this->once())

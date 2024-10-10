@@ -81,6 +81,7 @@ final class TokenRequestFactoryTest extends TestCase
             ->method('createRequest')
             ->willReturn($request);
 
+        /** @phpstan-ignore-next-line */
         $createdResponse = $tokenRequestFactory->createRequest($uri, $formData);
         $this->assertInstanceOf(RequestInterface::class, $createdResponse);
     }
