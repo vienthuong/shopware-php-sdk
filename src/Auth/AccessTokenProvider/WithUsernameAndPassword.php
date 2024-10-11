@@ -12,7 +12,7 @@ use Vin\ShopwareSdk\Data\AccessToken;
 
 final class WithUsernameAndPassword implements AccessTokenProvider
 {
-    private GrantType $grantType;
+    private readonly GrantType $grantType;
 
     public function __construct(
         string $username,
