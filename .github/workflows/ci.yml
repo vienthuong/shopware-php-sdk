@@ -1,42 +1,101 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches: [ 'main' ]
+  pull_request:
+    branches: [ 'main' ]
+
+permissions:
+  contents: read
 
 jobs:
-  phpstan:
-    runs-on: ubuntu-latest
-
+  code-style:
+    name: Code style
+    runs-on: 'ubuntu-latest'
+    strategy:
+      matrix:
+        php-versions: [ '8.1' ]
+      fail-fast: false
     steps:
-      - uses: actions/checkout@v2
-      - uses: php-actions/composer@v6
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871
+      - name: Setup PHP
+        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231
         with:
-          php_version: 8.1
-          ssh_key: ${{ secrets.ssh_key }}
-          ssh_key_pub: ${{ secrets.ssh_key_pub }}
+          php-version: ${{ matrix.php-versions }}
+          tools: composer:v2
+      - name: Check PHP Version
+        run: php -v
+      - name: Update dependencies with composer
+        run: composer update --no-interaction --no-ansi --no-progress
+      - name: Run ECS
+        run: ./vendor/bin/ecs --config=ecs.php check
 
-      - name: PHPStan Static Analysis
-        uses: php-actions/phpstan@v3
-        with:
-          php_version: 8.1
-          path: src/
-          memory_limit: 256M
-
-  build-test:
-    runs-on: ubuntu-latest
-
+  code-quality:
+    name: Code quality
+    runs-on: 'ubuntu-latest'
+    strategy:
+      matrix:
+        php-versions: [ '8.1' ]
+      fail-fast: false
     steps:
-      - uses: actions/checkout@v2
-      - uses: php-actions/composer@v6
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871
+      - name: Setup PHP
+        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231
         with:
-          php_version: 8.1
-          ssh_key: ${{ secrets.ssh_key }}
-          ssh_key_pub: ${{ secrets.ssh_key_pub }}
+          php-version: ${{ matrix.php-versions }}
+          tools: composer:v2
+      - name: Check PHP Version
+        run: php -v
+      - name: Update dependencies with composer
+        run: composer update --no-interaction --no-ansi --no-progress
+      - name: Run Rector
+        run: ./vendor/bin/rector --config=rector.php process --dry-run
 
-      - name: PHPUnit Tests
-        uses: php-actions/phpunit@v2
+  static-analysis:
+    name: Static analysis (PHPStan)
+    runs-on: 'ubuntu-latest'
+    strategy:
+      matrix:
+        php-versions: [ '8.1' ]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871
+      - name: Setup PHP
+        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231
         with:
-          php_version: 8.1
-          bootstrap: vendor/autoload.php
-          configuration: phpunit.xml
-          ssh_key: ${{ secrets.ssh_key }}
-          ssh_key_pub: ${{ secrets.ssh_key_pub }}
+          php-version: ${{ matrix.php-versions }}
+          tools: composer:v2
+      - name: Check PHP Version
+        run: php -v
+      - name: Update dependencies with composer
+        run: composer update --no-interaction --no-ansi --no-progress
+      - name: Run PHPStan
+        run: ./vendor/bin/phpstan analyse --configuration phpstan.neon
+
+  unit-tests:
+    name: Unit tests
+    runs-on: 'ubuntu-latest'
+    strategy:
+      matrix:
+        php-versions: [ '8.1', '8.2', '8.3' ]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871
+      - name: Setup PHP
+        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: composer:v2
+      - name: Check PHP Version
+        run: php -v
+      - name: Update dependencies with composer
+        run: composer update --no-interaction --no-ansi --no-progress
+      - name: Run PHPUnit
+        run: XDEBUG_MODE=coverage ./vendor/bin/phpunit --configuration phpunit.xml --coverage-clover ./coverage.xml
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238
+        with:
+          files: ./coverage.xml
+          verbose: true
+          token: ${{ secrets.CODECOV_TOKEN }}
