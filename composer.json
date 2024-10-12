@@ -3,7 +3,6 @@
     "description": "A PHP SDK for Shopware 6 Platform (forked from vin-sw/shopware-sdk)",
     "type": "library",
     "license": "MIT",
-    "version": "2.1.0",
     "authors": [
         {
             "name": "vin",
