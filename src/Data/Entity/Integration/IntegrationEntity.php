@@ -20,8 +20,6 @@ class IntegrationEntity extends Entity
 
     public ?string $secretAccessKey = null;
 
-    public ?bool $writeAccess = null;
-
     public ?\DateTimeInterface$lastUsageAt = null;
 
     public ?bool $admin = null;
@@ -31,6 +29,8 @@ class IntegrationEntity extends Entity
     public ?AppEntity $app = null;
 
     public ?AclRoleCollection $aclRoles = null;
+
+    public ?bool $writeAccess = null;
 
     public ?NotificationCollection $createdNotifications = null;
 }

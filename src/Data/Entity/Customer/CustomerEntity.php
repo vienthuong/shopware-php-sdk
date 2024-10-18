@@ -89,6 +89,8 @@ class CustomerEntity extends Entity
 
     public ?float $orderTotalAmount = null;
 
+    public ?int $reviewCount = null;
+
     public ?string $legacyPassword = null;
 
     public ?string $legacyEncoder = null;
@@ -105,7 +107,11 @@ class CustomerEntity extends Entity
 
     public ?CustomerAddressEntity $defaultBillingAddress = null;
 
+    public ?CustomerAddressEntity $activeBillingAddress = null;
+
     public ?CustomerAddressEntity $defaultShippingAddress = null;
+
+    public ?CustomerAddressEntity $activeShippingAddress = null;
 
     public ?SalutationEntity $salutation = null;
 
@@ -133,6 +139,8 @@ class CustomerEntity extends Entity
     public ?CustomerGroupEntity $requestedGroup = null;
 
     public ?string $boundSalesChannelId = null;
+
+    public ?string $accountType = null;
 
     public ?SalesChannelEntity $boundSalesChannel = null;
 

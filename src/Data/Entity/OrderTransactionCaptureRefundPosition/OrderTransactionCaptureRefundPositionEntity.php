@@ -15,6 +15,8 @@ class OrderTransactionCaptureRefundPositionEntity extends Entity
 {
     public ?string $refundId = null;
 
+    public ?string $refundVersionId = null;
+
     public ?string $orderLineItemId = null;
 
     public ?string $orderLineItemVersionId = null;

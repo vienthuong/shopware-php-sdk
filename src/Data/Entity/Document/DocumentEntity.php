@@ -34,6 +34,8 @@ class DocumentEntity extends Entity
 
     public ?string $deepLinkCode = null;
 
+    public ?string $documentNumber = null;
+
     public ?DocumentTypeEntity $documentType = null;
 
     public ?OrderEntity $order = null;

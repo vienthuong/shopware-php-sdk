@@ -22,4 +22,6 @@ class ScheduledTaskEntity extends Entity
     public ?\DateTimeInterface$lastExecutionTime = null;
 
     public ?\DateTimeInterface$nextExecutionTime = null;
+
+    public ?int $defaultRunInterval = null;
 }
