@@ -127,10 +127,7 @@ class CustomerEntity extends Entity
 
     public ?CustomerRecoveryEntity $recoveryCustomer = null;
 
-    /**
-     * @var mixed
-     */
-    public string $remoteAddress = null;
+    public ?string $remoteAddress = null;
 
     public ?array $tagIds = null;
 

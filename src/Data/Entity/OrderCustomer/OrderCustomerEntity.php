@@ -42,8 +42,5 @@ class OrderCustomerEntity extends Entity
 
     public ?SalutationEntity $salutation = null;
 
-    /**
-     * @var mixed
-     */
-    public string $remoteAddress = null;
+    public ?string $remoteAddress = null;
 }

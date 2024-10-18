@@ -58,7 +58,7 @@ class Property extends Struct
 
     public function isStringField(): bool
     {
-        return in_array($this->type, ['uuid', 'string', 'password', 'text', 'blob']);
+        return in_array($this->type, ['uuid', 'string', 'password', 'text', 'blob', 'Shopware\Core\Framework\DataAbstractionLayer\Field\RemoteAddressField']);
     }
 
     public function isJsonField(): bool
