@@ -25,6 +25,8 @@ class CustomFieldEntity extends Entity
 
     public ?bool $allowCustomerWrite = null;
 
+    public ?bool $allowCartExpose = null;
+
     public ?CustomFieldSetEntity $customFieldSet = null;
 
     public ?ProductSearchConfigFieldCollection $productSearchConfigFields = null;

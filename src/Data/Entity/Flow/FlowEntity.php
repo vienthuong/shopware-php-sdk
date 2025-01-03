@@ -2,6 +2,7 @@
 namespace Vin\ShopwareSdk\Data\Entity\Flow;
 
 use Vin\ShopwareSdk\Data\Entity\FlowSequence\FlowSequenceCollection;
+use Vin\ShopwareSdk\Data\Entity\AppFlowEvent\AppFlowEventEntity;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -27,4 +28,8 @@ class FlowEntity extends Entity
     public ?string $description = null;
 
     public ?FlowSequenceCollection $sequences = null;
+
+    public ?string $appFlowEventId = null;
+
+    public ?AppFlowEventEntity $appFlowEvent = null;
 }

@@ -24,4 +24,10 @@ class CustomEntityEntity extends Entity
     public ?bool $cmsAware = null;
 
     public ?bool $storeApiAware = null;
+
+    public ?bool $customFieldsAware = null;
+
+    public ?string $labelProperty = null;
+
+    public ?\DateTimeInterface$deletedAt = null;
 }

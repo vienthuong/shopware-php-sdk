@@ -20,8 +20,6 @@ class StateMachineHistoryEntity extends Entity
 
     public ?string $entityName = null;
 
-    public ?array $entityId = null;
-
     public ?string $fromStateId = null;
 
     public ?StateMachineStateEntity $fromStateMachineState = null;
@@ -35,4 +33,10 @@ class StateMachineHistoryEntity extends Entity
     public ?string $userId = null;
 
     public ?UserEntity $user = null;
+
+    public ?array $entityId = null;
+
+    public ?string $referencedId = null;
+
+    public ?string $referencedVersionId = null;
 }

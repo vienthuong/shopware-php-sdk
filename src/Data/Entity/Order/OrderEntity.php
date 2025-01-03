@@ -66,6 +66,8 @@ class OrderEntity extends Entity
 
     public ?string $customerComment = null;
 
+    public ?string $source = null;
+
     public ?string $stateId = null;
 
     public ?StateMachineStateEntity $stateMachineState = null;

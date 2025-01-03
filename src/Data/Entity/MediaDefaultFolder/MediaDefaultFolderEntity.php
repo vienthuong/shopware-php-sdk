@@ -12,9 +12,9 @@ use Vin\ShopwareSdk\Data\Entity\Entity;
 #[\AllowDynamicProperties]
 class MediaDefaultFolderEntity extends Entity
 {
-    public ?array $associationFields = null;
-
     public ?string $entity = null;
 
     public ?MediaFolderEntity $folder = null;
+
+    public ?array $associationFields = null;
 }

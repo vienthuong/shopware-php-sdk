@@ -14,6 +14,8 @@ use Vin\ShopwareSdk\Data\Entity\TaxProvider\TaxProviderCollection;
 use Vin\ShopwareSdk\Data\Entity\AppScriptCondition\AppScriptConditionCollection;
 use Vin\ShopwareSdk\Data\Entity\AppCmsBlock\AppCmsBlockCollection;
 use Vin\ShopwareSdk\Data\Entity\AppFlowAction\AppFlowActionCollection;
+use Vin\ShopwareSdk\Data\Entity\AppFlowEvent\AppFlowEventCollection;
+use Vin\ShopwareSdk\Data\Entity\AppShippingMethod\AppShippingMethodCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -97,4 +99,8 @@ class AppEntity extends Entity
     public ?AppCmsBlockCollection $cmsBlocks = null;
 
     public ?AppFlowActionCollection $flowActions = null;
+
+    public ?AppFlowEventCollection $flowEvents = null;
+
+    public ?AppShippingMethodCollection $appShippingMethods = null;
 }

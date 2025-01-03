@@ -10,6 +10,7 @@ use Vin\ShopwareSdk\Data\Entity\Tag\TagCollection;
 use Vin\ShopwareSdk\Data\Entity\OrderDelivery\OrderDeliveryCollection;
 use Vin\ShopwareSdk\Data\Entity\SalesChannel\SalesChannelCollection;
 use Vin\ShopwareSdk\Data\Entity\Tax\TaxEntity;
+use Vin\ShopwareSdk\Data\Entity\AppShippingMethod\AppShippingMethodEntity;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
 /**
@@ -59,4 +60,8 @@ class ShippingMethodEntity extends Entity
     public ?SalesChannelCollection $salesChannelDefaultAssignments = null;
 
     public ?TaxEntity $tax = null;
+
+    public ?AppShippingMethodEntity $appShippingMethod = null;
+
+    public ?string $technicalName = null;
 }

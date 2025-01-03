@@ -49,6 +49,8 @@ class PaymentMethodEntity extends Entity
 
     public ?bool $refundable = null;
 
+    public ?bool $recurring = null;
+
     public ?PaymentMethodTranslationCollection $translations = null;
 
     public ?MediaEntity $media = null;
@@ -68,4 +70,6 @@ class PaymentMethodEntity extends Entity
     public ?AppPaymentMethodEntity $appPaymentMethod = null;
 
     public ?string $shortName = null;
+
+    public ?string $technicalName = null;
 }

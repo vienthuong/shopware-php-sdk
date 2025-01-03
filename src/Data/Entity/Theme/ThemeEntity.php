@@ -31,6 +31,8 @@ class ThemeEntity extends Entity
 
     public ?string $parentThemeId = null;
 
+    public ?array $themeJson = null;
+
     public ?array $baseConfig = null;
 
     public ?array $configValues = null;

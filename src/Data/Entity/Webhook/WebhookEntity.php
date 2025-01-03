@@ -18,6 +18,8 @@ class WebhookEntity extends Entity
 
     public ?string $url = null;
 
+    public ?bool $onlyLiveVersion = null;
+
     public ?int $errorCount = null;
 
     public ?bool $active = null;

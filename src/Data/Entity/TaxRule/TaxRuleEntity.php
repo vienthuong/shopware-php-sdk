@@ -24,6 +24,8 @@ class TaxRuleEntity extends Entity
 
     public ?string $taxId = null;
 
+    public ?\DateTimeInterface$activeFrom = null;
+
     public ?TaxRuleTypeEntity $type = null;
 
     public ?CountryEntity $country = null;

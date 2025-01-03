@@ -24,6 +24,7 @@ use Vin\ShopwareSdk\Data\Entity\CmsSection\CmsSectionCollection;
 use Vin\ShopwareSdk\Data\Entity\CmsPage\CmsPageCollection;
 use Vin\ShopwareSdk\Data\Entity\Document\DocumentCollection;
 use Vin\ShopwareSdk\Data\Entity\AppPaymentMethod\AppPaymentMethodCollection;
+use Vin\ShopwareSdk\Data\Entity\AppShippingMethod\AppShippingMethodCollection;
 use Vin\ShopwareSdk\Data\Entity\Theme\ThemeCollection;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 
@@ -55,11 +56,15 @@ class MediaEntity extends Entity
 
     public ?array $mediaType = null;
 
+    public ?array $config = null;
+
     public ?string $alt = null;
 
     public ?string $title = null;
 
     public ?string $url = null;
+
+    public ?string $path = null;
 
     public ?bool $hasFile = null;
 
@@ -112,6 +117,8 @@ class MediaEntity extends Entity
     public ?DocumentCollection $documents = null;
 
     public ?AppPaymentMethodCollection $appPaymentMethods = null;
+
+    public ?AppShippingMethodCollection $appShippingMethods = null;
 
     public ?ThemeCollection $themes = null;
 

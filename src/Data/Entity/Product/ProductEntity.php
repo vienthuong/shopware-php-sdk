@@ -67,15 +67,11 @@ class ProductEntity extends Entity
 
     public ?string $productNumber = null;
 
-    public ?int $stock = null;
-
     public ?int $restockTime = null;
 
     public ?int $autoIncrement = null;
 
     public ?bool $active = null;
-
-    public ?int $availableStock = null;
 
     public ?bool $available = null;
 
@@ -220,4 +216,8 @@ class ProductEntity extends Entity
     public ?CustomFieldSetCollection $customFieldSets = null;
 
     public ?ProductTranslationCollection $translations = null;
+
+    public ?int $availableStock = null;
+
+    public ?int $stock = null;
 }

@@ -35,5 +35,7 @@ class WebhookEventLogEntity extends Entity
 
     public ?string $url = null;
 
+    public ?bool $onlyLiveVersion = null;
+
     public ?string $serializedWebhookMessage = null;
 }
