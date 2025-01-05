@@ -1,8 +1,8 @@
 {
   "username": "admin",
   "password": "shopware",
-  "shop_url": "http://shopware.test",
-  "client_id": "SWIAD0HGZGVRRZF1T2TUWNDVMG",
-  "client_secret": "QnpublNSVE40Y1VEbk56WXVtVWU3aXFYZ2oyRXdvem82Tk5JNVI",
+  "shop_url": "http://localhost:8000",
+  "client_id": "SWIAA2ZNCWP6T1FOSMRJU1ZODW",
+  "client_secret": "bmdsc1NNZWw4aUI3WE1WcWxLMlh4aDd1dlNYNDRwVUdqbkRoS2E",
   "scopes": "write"
 }

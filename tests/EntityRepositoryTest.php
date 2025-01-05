@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdkTest;
 
-use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Vin\ShopwareSdk\Data\AccessToken;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Criteria;
-use Vin\ShopwareSdk\Data\Entity\Custom\CustomDefinition;
-use Vin\ShopwareSdk\Data\Entity\Custom\CustomEntity;
+use Vin\ShopwareSdk\Data\Custom\CustomDefinition;
+use Vin\ShopwareSdk\Data\Custom\CustomEntity;
 use Vin\ShopwareSdk\Data\Entity\Product\ProductCollection;
 use Vin\ShopwareSdk\Data\Entity\Product\ProductDefinition;
 use Vin\ShopwareSdk\Data\Entity\Product\ProductEntity;
@@ -58,7 +56,7 @@ class EntityRepositoryTest extends TestCase
         static::expectExceptionMessage('Unauthenticated');
         static::expectExceptionCode(401);
 
-        $this->mock->append(new BadResponseException('Unauthenticated', new Request('POST', 'test'), new Response(401, [], 'Unauthenticated')));
+        $this->mock->append(new ShopwareResponseException('Unauthenticated', 401));
 
         $this->productRepository->get('product-id', new Criteria(), $this->context);
     }
@@ -145,7 +143,7 @@ class EntityRepositoryTest extends TestCase
         static::expectExceptionMessage('Unauthenticated');
         static::expectExceptionCode(401);
 
-        $this->mock->append(new BadResponseException('Unauthenticated', new Request('POST', 'test'), new Response(401, [], 'Unauthenticated')));
+        $this->mock->append(new ShopwareResponseException('Unauthenticated', 401));
 
         $this->productRepository->searchIds(new Criteria(), $this->context);
     }

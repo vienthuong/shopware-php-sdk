@@ -31,10 +31,21 @@ class SyncServiceExample {
             ['id' => '442a39e14f774bf8853f7aa49a123021', 'name' => 'Harry potter book 2', 'active' => true],
         ]));
 
+        // sync delete using payload
         $payload->set(CategoryDefinition::ENTITY_NAME . '-delete', new SyncOperator(CategoryDefinition::ENTITY_NAME, SyncOperator::DELETE_OPERATOR, [
             ['id' => '9c43e9029c0047cbb7b9777060f7064f'],
             ['id' => 'd32da4c846544f4b8a63357fe83dd827'],
         ]));
+
+        // sync delete using criteria
+        $criteria = new Criteria();
+        $criteria->addFilter(new \Vin\ShopwareSdk\Data\Filter\EqualsFilter('name', 'Want to delete category'));
+        $payload->set(CategoryDefinition::ENTITY_NAME . '-delete', new SyncOperator(
+            CategoryDefinition::ENTITY_NAME,
+            SyncOperator::DELETE_OPERATOR,
+            [],
+            $criteria
+        ));
 
         dump("============================================");
         dump("Sync response");

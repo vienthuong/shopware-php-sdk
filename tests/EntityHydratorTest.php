@@ -44,7 +44,7 @@ class EntityHydratorTest extends TestCase
 
     public function testHydrateSearchResultWithEmptyResult(): void
     {
-        $result = $this->entityHydrator->hydrateSearchResult([], $this->context);
+        $result = $this->entityHydrator->hydrateSearchResult([], $this->context, 'product');
 
         static::assertInstanceOf(EntityCollection::class, $result);
 

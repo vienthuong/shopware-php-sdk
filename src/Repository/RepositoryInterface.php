@@ -8,6 +8,7 @@ use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Criteria;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 use Vin\ShopwareSdk\Data\Entity\EntityDefinition;
+use Vin\ShopwareSdk\Repository\Struct\AggregationResultCollection;
 use Vin\ShopwareSdk\Repository\Struct\CloneBehaviour;
 use Vin\ShopwareSdk\Repository\Struct\EntitySearchResult;
 use Vin\ShopwareSdk\Repository\Struct\IdSearchResult;
@@ -21,6 +22,8 @@ interface RepositoryInterface
     public function searchIds(Criteria $criteria, Context $context): IdSearchResult;
 
     public function get(string $id, Criteria $criteria, Context $context): ?Entity;
+
+    public function aggregate(Criteria $criteria, Context $context): AggregationResultCollection;
 
     public function search(Criteria $criteria, Context $context): EntitySearchResult;
 

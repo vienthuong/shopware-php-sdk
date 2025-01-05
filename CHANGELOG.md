@@ -4,6 +4,25 @@ All notable changes to `shopware-php-sdk` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 2.2.0
+- Compatibility with Shopware 6.6.10.0
+- Update Criteria to support partial loading (Criteria.addFields)
+- Added `Repository::aggregate` method to fetch aggregated data
+- Fixes #89 Missing associated entities with same type in repository requests
+- Fixes #86 Notification classes (definition, entity, collection) are missing
+- Fixes #96 Class "Vin\ShopwareSdk\Data\Entity\Custom\CustomDefinition" not found
+- Fixes #98 Deleting a Version does not work
+- Fixes add custom definition, @see: examples/custom-entity.php for code example
+- Throw ShopUnreachableException when the shop server is unreachable
+- Fixes `Repository.syncDeleted` to use the same http client as the repository
+- Fixes #87 Extensions not loaded into ProductEntity
+- Fixes #50 Work with custom entities
+- Fixes #78 Allowed memory size exhausted
+- Added #77 Add support for criteria in SyncService / SyncPayload (@see: examples/sync-service.php)
+
+### 2.1.0
+- Updated the entity-schema for Shopware version 6.6
+
 ### 2.0.0
 - Updated the entity-schema for Shopware version 6.5
 - Added EndPointTrait for supporting to remove the unnecessary last slashes of an endpoint

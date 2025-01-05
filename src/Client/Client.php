@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Client;
 
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\HandlerStack;
@@ -13,12 +15,15 @@ use GuzzleHttp\Middleware;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\RequestOptions;
+use Psr\Http\Client\NetworkExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\ClientTrait as GuzzleClientTrait;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\ClientInterface as GuzzleClientInterface;
 use Psr\Http\Message\UriInterface;
+use Vin\ShopwareSdk\Exception\ShopwareResponseException;
+use Vin\ShopwareSdk\Exception\ShopwareUnreachableException;
 
 class Client implements ClientInterface
 {
@@ -33,7 +38,13 @@ class Client implements ClientInterface
 
     public static function create(array $config = []): self
     {
+        $config = array_merge([
+            'timeout' => 20,
+            'connect_timeout' => 5,
+        ], $config);
+
         $handlerStack = HandlerStack::create(new CurlHandler());
+
         $handlerStack->push(Middleware::retry(function (
             $retries,
             RequestInterface $request,
@@ -42,7 +53,7 @@ class Client implements ClientInterface
         ) use ($config) {
             $config = array_key_exists('max_attempt', $config) ? $config : ['max_attempt' => 3];
 
-            // Limit the number of retries to 5
+            // Limit the number of retries to 3
             if ($retries >= $config['max_attempt']) {
                 return false;
             }
@@ -59,7 +70,7 @@ class Client implements ClientInterface
 
             return false;
         }, function ($numberOfRetries) use ($config) {
-            $config = array_key_exists('sec_before_attempt', $config) ? $config : ['sec_before_attempt' => 2];
+            $config = array_key_exists('sec_before_attempt', $config) ? $config : ['sec_before_attempt' => 0.5];
 
             return $config['sec_before_attempt'] * 1000 * $numberOfRetries;
         }));
@@ -71,9 +82,20 @@ class Client implements ClientInterface
         return new self($client);
     }
 
+    /**
+     * @return ResponseInterface
+     * @throws GuzzleException
+     * @throws ShopwareResponseException
+     * @throws ShopwareUnreachableException
+     * @throws \Throwable
+     */
     public function send(RequestInterface $request, array $options = []): ResponseInterface
     {
-        return $this->guzzleClient->send($request, $options);
+        try {
+            return $this->guzzleClient->send($request, $options);
+        } catch (\Exception $exception) {
+            throw self::handleException($exception);
+        }
     }
 
     public function sendRequest(RequestInterface $request): ResponseInterface
@@ -87,7 +109,11 @@ class Client implements ClientInterface
 
     public function sendAsync(RequestInterface $request, array $options = []): PromiseInterface
     {
-        return $this->guzzleClient->sendAsync($request, $options);
+        try {
+            return $this->guzzleClient->sendAsync($request, $options);
+        } catch (\Exception $exception) {
+            throw self::handleException($exception);
+        }
     }
 
     /**
@@ -105,7 +131,11 @@ class Client implements ClientInterface
      */
     public function request(string $method, $uri, array $options = []): ResponseInterface
     {
-        return $this->guzzleClient->request($method, $uri, $options);
+        try {
+            return $this->guzzleClient->request($method, $uri, $options);
+        } catch (\Exception $exception) {
+            throw self::handleException($exception);
+        }
     }
 
     /**
@@ -122,7 +152,11 @@ class Client implements ClientInterface
      */
     public function requestAsync(string $method, $uri, array $options = []): PromiseInterface
     {
-        return $this->guzzleClient->requestAsync($method, $uri, $options);
+        try {
+            return $this->guzzleClient->requestAsync($method, $uri, $options);
+        } catch (\Exception $exception) {
+            throw self::handleException($exception);
+        }
     }
 
     public function get(string $uri, array $options = []): ResponseInterface
@@ -148,5 +182,19 @@ class Client implements ClientInterface
     public function delete(string $uri, array $options = []): ResponseInterface
     {
         return $this->request('DELETE', $uri, $options);
+    }
+
+    private static function handleException(\Throwable $exception): \Throwable
+    {
+        if ($exception instanceof NetworkExceptionInterface) {
+            return new ShopwareUnreachableException();
+        }
+
+        if ($exception instanceof ClientException || $exception instanceof ServerException) {
+            $message = $exception->getResponse()->getBody()->getContents();
+            return new ShopwareResponseException($message, $exception->getResponse()->getStatusCode());
+        }
+
+        return $exception;
     }
 }

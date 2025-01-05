@@ -80,8 +80,9 @@ class EntityCollection extends Collection
         }
     }
 
-    public function filterInstance(string $class): self
+    public function filterInstance(string $class): static
     {
+        // @phpstan-ignore-next-line - TODO: fix error
         return $this->filter(static function ($item) use ($class) {
             return $item instanceof $class;
         });

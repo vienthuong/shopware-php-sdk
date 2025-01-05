@@ -1,8 +1,6 @@
 parameters:
     level: 8
     treatPhpDocTypesAsCertain: false
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
     inferPrivatePropertyTypeFromConstructor: true
     reportUnmatchedIgnoredErrors: true # Could be set to false if necessary during PHPStan update
     tmpDir: ./var/cache/phpstan
@@ -12,9 +10,13 @@ parameters:
     excludePaths:
         - src/Service/WebhookAuthenticator.php
 
-    excludes_analyse:
-
     ignoreErrors:
+        -
+            identifier: missingType.iterableValue
+
+        -
+            identifier: missingType.generics
+
         -
             message: '#Unsafe usage of new static\(\)#'
             path: src/Data/Collection.php
