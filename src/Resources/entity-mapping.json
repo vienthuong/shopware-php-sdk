@@ -88,6 +88,7 @@
     "media_translation": "Vin\\ShopwareSdk\\Data\\Entity\\MediaTranslation\\MediaTranslationDefinition",
     "newsletter_recipient": "Vin\\ShopwareSdk\\Data\\Entity\\NewsletterRecipient\\NewsletterRecipientDefinition",
     "newsletter_recipient_tag": "Vin\\ShopwareSdk\\Data\\Entity\\NewsletterRecipientTag\\NewsletterRecipientTagDefinition",
+    "notification": "Vin\\ShopwareSdk\\Data\\Entity\\Notification\\NotificationDefinition",
     "number_range": "Vin\\ShopwareSdk\\Data\\Entity\\NumberRange\\NumberRangeDefinition",
     "number_range_sales_channel": "Vin\\ShopwareSdk\\Data\\Entity\\NumberRangeSalesChannel\\NumberRangeSalesChannelDefinition",
     "number_range_state": "Vin\\ShopwareSdk\\Data\\Entity\\NumberRangeState\\NumberRangeStateDefinition",

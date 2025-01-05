@@ -2,15 +2,12 @@
 
 namespace Vin\ShopwareSdk\Repository;
 
-use GuzzleHttp\Exception\BadResponseException;
 use Vin\ShopwareSdk\Client\CreateClientTrait;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Criteria;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 use Vin\ShopwareSdk\Data\Entity\EntityDefinition;
 use Vin\ShopwareSdk\Data\Uuid\Uuid;
-use Vin\ShopwareSdk\Exception\ShopwareResponseException;
-use Vin\ShopwareSdk\Exception\ShopwareSearchResponseException;
 use Vin\ShopwareSdk\Factory\HydratorFactory;
 use Vin\ShopwareSdk\Hydrate\HydratorInterface;
 use Vin\ShopwareSdk\Repository\Struct\AggregationResultCollection;
@@ -29,6 +26,8 @@ class EntityRepository implements RepositoryInterface
     use CreateClientTrait;
 
     private const SEARCH_API_ENDPOINT = '/api/search';
+
+    private const AGGREGATE_API_ENDPOINT = '/api/aggregate';
 
     private const MERGE_VERSION_API_ENDPOINT = '/api/_action/version/merge';
 
@@ -67,16 +66,10 @@ class EntityRepository implements RepositoryInterface
 
     public function search(Criteria $criteria, Context $context): EntitySearchResult
     {
-        try {
-            $response = $this->httpClient->post($this->getSearchApiUrl($context->apiEndpoint), [
-                'headers' => $this->buildHeaders($context),
-                'body' => json_encode($criteria->parse())
-            ])->getBody()->getContents();
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
-
-            throw new ShopwareSearchResponseException($message, $exception->getResponse()->getStatusCode(), $criteria, $exception);
-        }
+        $response = $this->httpClient->post($this->getSearchApiUrl($context->apiEndpoint), [
+            'headers' => $this->buildHeaders($context),
+            'body' => json_encode($criteria->parse())
+        ])->getBody()->getContents();
 
         $response = $this->decodeResponse($response);
 
@@ -89,18 +82,24 @@ class EntityRepository implements RepositoryInterface
         return new EntitySearchResult($this->entityName, $meta, $entities, $aggregations, $criteria, $context);
     }
 
+    public function aggregate(Criteria $criteria, Context $context): AggregationResultCollection
+    {
+        $response = $this->httpClient->post($this->getAggregateApiUrl($context->apiEndpoint), [
+            'headers' => $this->buildHeaders($context),
+            'body' => json_encode($criteria->parse())
+        ])->getBody()->getContents();
+
+        $response = $this->decodeResponse($response);
+
+        return new AggregationResultCollection($response['aggregations']);
+    }
+
     public function searchIds(Criteria $criteria, Context $context): IdSearchResult
     {
-        try {
-            $response = $this->httpClient->post($this->getSearchIdsApiUrl($context->apiEndpoint), [
-                'headers' => $this->buildHeaders($context),
-                'body' => json_encode($criteria->parse())
-            ])->getBody()->getContents();
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
-
-            throw new ShopwareSearchResponseException($message, $exception->getResponse()->getStatusCode(), $criteria, $exception);
-        }
+        $response = $this->httpClient->post($this->getSearchIdsApiUrl($context->apiEndpoint), [
+            'headers' => $this->buildHeaders($context),
+            'body' => json_encode($criteria->parse())
+        ])->getBody()->getContents();
 
         $response = $this->decodeResponse($response);
 
@@ -112,15 +111,10 @@ class EntityRepository implements RepositoryInterface
      */
     public function create(array $data, Context $context): void
     {
-        try {
-            $this->httpClient->post($this->getEntityEndpoint($context->apiEndpoint), [
-                'headers' => $this->buildHeaders($context),
-                'body' => json_encode($data)
-            ])->getBody()->getContents();
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        $this->httpClient->post($this->getEntityEndpoint($context->apiEndpoint), [
+            'headers' => $this->buildHeaders($context),
+            'body' => json_encode($data)
+        ])->getBody()->getContents();
     }
 
     /**
@@ -134,32 +128,23 @@ class EntityRepository implements RepositoryInterface
 
         $id = $data['id'];
 
-        try {
-            $this->httpClient->patch($this->getEntityEndpoint($context->apiEndpoint, $id), [
-                'headers' => $this->buildHeaders($context),
-                'body' => json_encode($data)
-            ])->getBody()->getContents();
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        $this->httpClient->patch($this->getEntityEndpoint($context->apiEndpoint, $id), [
+            'headers' => $this->buildHeaders($context),
+            'body' => json_encode($data)
+        ]);
     }
 
     public function delete(string $id, Context $context): void
     {
-        try {
-            $this->httpClient->delete($this->getEntityEndpoint($context->apiEndpoint, $id), [
-                'headers' => $this->buildHeaders($context),
-            ])->getBody()->getContents();
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        $this->httpClient->delete($this->getEntityEndpoint($context->apiEndpoint, $id), [
+            'headers' => $this->buildHeaders($context),
+        ])->getBody()->getContents();
     }
 
     public function syncDeleted(array $ids, Context $context): ApiResponse
     {
         $syncService = new SyncService($context);
+        $syncService->setHttpClient($this->httpClient);
 
         $headers = ['fail-on-error' => true];
 
@@ -192,45 +177,30 @@ class EntityRepository implements RepositoryInterface
             $data['versionName'] = $versionName;
         }
 
-        try {
-            $response = $this->httpClient->post($this->getCreateVersionEndpoint($context->apiEndpoint, $id), [
-                'headers' => $this->buildHeaders($context),
-                'body' => json_encode($data)
-            ])->getBody()->getContents();
+        $response = $this->httpClient->post($this->getCreateVersionEndpoint($context->apiEndpoint, $id), [
+            'headers' => $this->buildHeaders($context),
+            'body' => json_encode($data)
+        ])->getBody()->getContents();
 
-            $response = $this->decodeResponse($response);
+        $response = $this->decodeResponse($response);
 
-            return new VersionResponse($response);
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        return new VersionResponse($response);
     }
 
     public function mergeVersion(string $versionId, Context $context): void
     {
-        try {
-            $this->httpClient->post($this->getMergeVersionEndpoint($context->apiEndpoint, $versionId), [
-                'headers' => $this->buildHeaders($context, [
-                    'sw-version-id' => $versionId
-                ]),
-            ])->getBody()->getContents();
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        $this->httpClient->post($this->getMergeVersionEndpoint($context->apiEndpoint, $versionId), [
+            'headers' => $this->buildHeaders($context, [
+                'sw-version-id' => $versionId
+            ]),
+        ]);
     }
 
     public function deleteVersion(string $id, string $versionId, Context $context): void
     {
-        try {
-            $this->httpClient->post($this->getDeleteVersionEndpoint($context->apiEndpoint, $id, $versionId), [
-                'headers' => $this->buildHeaders($context),
-            ])->getBody()->getContents();
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        $this->httpClient->post($this->getDeleteVersionEndpoint($context->apiEndpoint, $id, $versionId), [
+            'headers' => $this->buildHeaders($context),
+        ]);
     }
 
     public function clone(string $id, Context $context, ?CloneBehaviour $cloneBehaviour = null): string
@@ -241,19 +211,14 @@ class EntityRepository implements RepositoryInterface
             $data = $cloneBehaviour->jsonSerialize();
         }
 
-        try {
-            $response = $this->httpClient->post($this->getCloneEndpoint($context->apiEndpoint, $id), [
-                'headers' => $this->buildHeaders($context),
-                'body' => json_encode($data)
-            ])->getBody()->getContents();
+        $response = $this->httpClient->post($this->getCloneEndpoint($context->apiEndpoint, $id), [
+            'headers' => $this->buildHeaders($context),
+            'body' => json_encode($data)
+        ])->getBody()->getContents();
 
-            $response = $this->decodeResponse($response);
+        $response = $this->decodeResponse($response);
 
-            return $response['id'];
-        } catch (BadResponseException $exception) {
-            $message = $exception->getResponse()->getBody()->getContents();
-            throw new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
-        }
+        return $response['id'];
     }
 
     public function createNew(array $data): Entity
@@ -280,6 +245,11 @@ class EntityRepository implements RepositoryInterface
         return sprintf('%s%s%s%s', $endpoint, self::SEARCH_API_ENDPOINT, $this->route, $path ?? '');
     }
 
+    protected function getAggregateApiUrl(string $endpoint, ?string $path = null): string
+    {
+        return sprintf('%s%s%s%s', $endpoint, self::AGGREGATE_API_ENDPOINT, $this->route, $path ?? '');
+    }
+
     protected function getCloneEndpoint(string $endpoint, string $entityId): string
     {
         return sprintf('%s/api/_action/clone%s/%s', $endpoint, $this->route, $entityId);
@@ -297,7 +267,7 @@ class EntityRepository implements RepositoryInterface
 
     protected function getDeleteVersionEndpoint(string $endpoint, string $entityId, string $versionId): string
     {
-        return sprintf('%s%s%s%s/%s', $endpoint, self::VERSION_API_ENDPOINT, $versionId, $this->route, $entityId);
+        return sprintf('%s%s/%s%s/%s', $endpoint, self::VERSION_API_ENDPOINT, $versionId, $this->route, $entityId);
     }
 
     protected function getSearchIdsApiUrl(string $endpoint, ?string $path = null): string

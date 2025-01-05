@@ -36,12 +36,19 @@ class Criteria implements ParseAware
     public const TOTAL_COUNT_MODE_NEXT_PAGES = 2;
 
     /**
+     * @var list<string>
+     */
+    protected array $fields = [];
+
+    /**
      * page and limit should be mixed to allow null also
      * this would prevent from generating pagination problems
      * 
      * @var mixed
      */
     private $page;
+
+    protected ?string $title;
 
     /**
      * see above
@@ -97,8 +104,8 @@ class Criteria implements ParseAware
     /**
      * Default should be null to not limit artificily
      *
-     * @param $page
-     * @param $limit
+     * @param mixed $page
+     * @param mixed $limit
      */
     public function __construct($page = null, $limit = null)
     {
@@ -388,9 +395,15 @@ class Criteria implements ParseAware
             $params['includes'] = $this->includes;
         }
 
-        if ($this->totalCountMode !== null) {
-            $params['total-count-mode'] = $this->totalCountMode;
+        if (!empty($this->title)) {
+            $params['title'] = $this->title;
         }
+
+        if (!empty($this->fields)) {
+            $params['fields'] = $this->fields;
+        }
+
+        $params['total-count-mode'] = $this->totalCountMode;
 
         return $params;
     }
@@ -541,5 +554,55 @@ class Criteria implements ParseAware
         unset($this->includes[$apiAlias]);
 
         return $this;
+    }
+
+    /**
+     * @param list<string> $fields
+     */
+    public function addFields(array $fields): self
+    {
+        $this->fields = array_merge($this->fields, $fields);
+
+        return $this;
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function getFields(): array
+    {
+        return $this->fields;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @param array<string>|array<int, array<string>> $ids
+     */
+    public function cloneForRead(array $ids = []): self
+    {
+        $self = new self($ids);
+        $self->setTitle($this->getTitle());
+
+        $associations = [];
+
+        foreach ($this->associations as $name => $association) {
+            $associations[$name] = clone $association;
+        }
+
+        $self->associations = $associations;
+        $self->fields = $this->fields;
+
+        return $self;
     }
 }

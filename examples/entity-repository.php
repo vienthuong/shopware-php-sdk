@@ -25,7 +25,16 @@ class EntityRepositoryExample {
         $productRepository = RepositoryFactory::create(ProductDefinition::ENTITY_NAME);
 
         $criteria = new Criteria();
-        $productIds = $productRepository->searchIds($criteria, $context);
+        $criteria->setIds(['0191c287798e734f91be7ae3ceeff481']);
+        $criteria->addAssociation('swagDynamicAccessRules');
+        $criteria->addAssociation('manufacturer');
+        try {
+            $productIds = $productRepository->search($criteria, $context);
+
+        } catch (\Throwable $exception) {
+            dd($exception);
+        }
+        dd($productIds);
 
         // Search api using repositories and criteria
         $criteria = new Criteria();

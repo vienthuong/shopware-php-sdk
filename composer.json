@@ -3,7 +3,7 @@
     "description": "A PHP SDK for Shopware 6 Platform",
     "type": "library",
     "license": "MIT",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "authors": [
         {
             "name": "vin",
@@ -15,15 +15,16 @@
         "php": "^8.0 || ^8.1 || ^8.2 || ^8.3",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^7.0",
-        "psr/http-client": "^1.0"
+        "psr/http-client": "^1.0",
+        "guzzlehttp/psr7": "^2.7"
     },
     "require-dev": {
         "phpunit/phpunit": "*",
         "squizlabs/php_codesniffer": "3.*",
         "symplify/easy-coding-standard": "9.3.20",
         "symplify/config-transformer": "^9.3",
-        "phpstan/phpstan": "^0.12.89",
-        "symfony/var-dumper": "^5.3"
+        "symfony/var-dumper": "^5.3",
+        "phpstan/phpstan": "^2.1"
     },
     "autoload": {
         "psr-4": {
@@ -36,7 +37,7 @@
         }
     },
     "scripts": {
-        "ecs": "vendor/bin/ecs check src",
+        "ecs": "vendor/bin/ecs check src --fix",
         "test": "vendor/bin/phpunit",
         "check-style": "phpcs src",
         "analyse": "vendor/bin/phpstan analyse src",

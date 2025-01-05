@@ -7,17 +7,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: php-actions/composer@v6
         with:
-          php_version: 8.1
+          php_version: 8.2
           ssh_key: ${{ secrets.ssh_key }}
           ssh_key_pub: ${{ secrets.ssh_key_pub }}
 
       - name: PHPStan Static Analysis
         uses: php-actions/phpstan@v3
         with:
-          php_version: 8.1
+          php_version: 8.2
           path: src/
           memory_limit: 256M
 
@@ -25,17 +25,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: php-actions/composer@v6
         with:
-          php_version: 8.1
+          php_version: 8.2
           ssh_key: ${{ secrets.ssh_key }}
           ssh_key_pub: ${{ secrets.ssh_key_pub }}
 
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v2
         with:
-          php_version: 8.1
+          php_version: 8.2
           bootstrap: vendor/autoload.php
           configuration: phpunit.xml
           ssh_key: ${{ secrets.ssh_key }}

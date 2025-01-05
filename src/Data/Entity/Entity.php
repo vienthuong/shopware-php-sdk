@@ -19,6 +19,7 @@ class Entity extends Struct
 
     public ?\DateTimeInterface $updatedAt;
 
+    // @phpstan-ignore-next-line
     private ?string $_entityName;
 
     public ?string $apiAlias;
@@ -162,6 +163,7 @@ class Entity extends Struct
     public function assignProperties(array $options): self
     {
         foreach ($options as $key => $value) {
+            // @phpstan-ignore-next-line
             if ($key === 'id' && property_exists($this, 'id')) {
                 $this->id = $value;
 

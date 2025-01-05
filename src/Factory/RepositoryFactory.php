@@ -2,7 +2,7 @@
 
 namespace Vin\ShopwareSdk\Factory;
 
-use Vin\ShopwareSdk\Data\Entity\Custom\CustomDefinition;
+use Vin\ShopwareSdk\Data\Custom\CustomDefinition;
 use Vin\ShopwareSdk\Data\Entity\EntityDefinition;
 use Vin\ShopwareSdk\Repository\EntityRepository;
 use Vin\ShopwareSdk\Repository\RepositoryInterface;
@@ -41,6 +41,10 @@ class RepositoryFactory
 
     public static function addEntityMapping(array $mapping): void
     {
+        if (empty(self::$mapping)) {
+            self::loadDefaultEntityMapping();
+        }
+
         self::$mapping = array_merge(self::$mapping, $mapping);
     }
     

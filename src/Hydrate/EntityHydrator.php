@@ -4,7 +4,7 @@ namespace Vin\ShopwareSdk\Hydrate;
 
 use Exception;
 use Vin\ShopwareSdk\Data\Context;
-use Vin\ShopwareSdk\Data\Entity\Custom\CustomDefinition;
+use Vin\ShopwareSdk\Data\Custom\CustomDefinition;
 use Vin\ShopwareSdk\Data\Entity\Entity;
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
 use Vin\ShopwareSdk\Data\Entity\EntityDefinition;
@@ -53,25 +53,10 @@ class EntityHydrator implements HydratorInterface
         return $schema;
     }
 
-    /**
-     * @deprecated - third parameter will be required from next major version 2.0.0
-     */
-    public function hydrateSearchResult(array $response, Context $context, ?string $entityName = null): EntityCollection
+    public function hydrateSearchResult(array $response, Context $context, string $entityName): EntityCollection
     {
-        // Deprecated - Remove this block on next major version 2.0.0
-        if ($entityName === null && !empty($response) && !empty($response['data'])) {
-            $data = $response['data'];
-            $first = current($data);
-
-            $entityName = $first['type'];
-        }
-
-        $collectionClass = EntityCollection::class;
-
-        if ($entityName !== null) {
-            $repository = RepositoryFactory::create($entityName);
-            $collectionClass = $repository->getDefinition()->getEntityCollection();
-        }
+        $repository = RepositoryFactory::create($entityName);
+        $collectionClass = $repository->getDefinition()->getEntityCollection();
 
         if (empty($response) || empty($response['data'])) {
             /** @var EntityCollection $hydrated */
@@ -115,7 +100,6 @@ class EntityHydrator implements HydratorInterface
         $entity->internalSetEntityName($definition->getEntityName());
 
         $entitySchema = $definition instanceof CustomDefinition ? $this->schema($entityName, $context) : $definition->getSchema();
-
         $entity = $this->hydrateEmptyJsonFields($entity, $attributes, $entitySchema);
 
         $relationships = $entityRaw['relationships'] ?? [];
@@ -178,18 +162,18 @@ class EntityHydrator implements HydratorInterface
         $relationships = $extension['relationships'] ?? [];
 
         foreach ($relationships as $property => $relationship) {
-            if (!$entitySchema->properties->has($property)) {
-                continue;
+            $field = null;
+
+            if ($entitySchema->properties->has($property)) {
+                $field = $entitySchema->properties->get($property);
             }
 
-            $field = $entitySchema->properties->get($property);
+            $isToMany = $field?->isToManyAssociation() || (!empty($relationship['data']) && array_is_list($relationship['data']));
+            $isToOne = $field?->isToOneAssociation()  || (!empty($relationship['data']) && !array_is_list($relationship['data']));
 
-            if ($field === null) {
-                continue;
-            }
-
-            if ($field->isToManyAssociation()) {
+            if ($isToMany) {
                 $type = !empty($relationship['data'][0]['type']) ? $relationship['data'][0]['type'] : null;
+
                 if ($type) {
                     $repository = RepositoryFactory::create($type);
                     $definition = $repository->getDefinition();
@@ -200,7 +184,7 @@ class EntityHydrator implements HydratorInterface
                 continue;
             }
 
-            if ($field->isToOneAssociation() && array_key_exists('data', $relationship) && !empty($relationship['data'])) {
+            if ($isToOne && array_key_exists('data', $relationship) && !empty($relationship['data'])) {
                 $nestedEntity = $this->hydrateToOne($relationship, $data, $context);
 
                 if ($nestedEntity) {
@@ -291,6 +275,12 @@ class EntityHydrator implements HydratorInterface
         $included = $data['included'] ?? [];
 
         foreach ($included as $item) {
+            if (array_key_exists('id', $item) && $item['id'] === $id && $item['type'] === $key) {
+                return $item;
+            }
+        }
+
+        foreach ($data['data'] as $item) {
             if (array_key_exists('id', $item) && $item['id'] === $id && $item['type'] === $key) {
                 return $item;
             }

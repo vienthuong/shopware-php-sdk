@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Vin\ShopwareSdkTest;
 
 use PHPUnit\Framework\TestCase;
-use Vin\ShopwareSdk\Data\Entity\Custom\CustomCollection;
-use Vin\ShopwareSdk\Data\Entity\Custom\CustomDefinition;
-use Vin\ShopwareSdk\Data\Entity\Custom\CustomEntity;
+use Vin\ShopwareSdk\Data\Custom\CustomCollection;
+use Vin\ShopwareSdk\Data\Custom\CustomDefinition;
+use Vin\ShopwareSdk\Data\Custom\CustomEntity;
 use Vin\ShopwareSdk\Data\Entity\Customer\CustomerCollection;
 use Vin\ShopwareSdk\Data\Entity\Customer\CustomerDefinition;
 use Vin\ShopwareSdk\Data\Entity\Customer\CustomerEntity;
