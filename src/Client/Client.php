@@ -192,7 +192,7 @@ class Client implements ClientInterface
 
         if ($exception instanceof ClientException || $exception instanceof ServerException) {
             $message = $exception->getResponse()->getBody()->getContents();
-            return new ShopwareResponseException($message, $exception->getResponse()->getStatusCode());
+            return new ShopwareResponseException($message, $exception->getResponse()->getStatusCode(), $exception);
         }
 
         return $exception;

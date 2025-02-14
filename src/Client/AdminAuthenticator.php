@@ -13,6 +13,7 @@ use Vin\ShopwareSdk\Client\GrantType\RefreshTokenGrantType;
 use Vin\ShopwareSdk\Data\AccessToken;
 use Vin\ShopwareSdk\Data\EndPointTrait;
 use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
+use Vin\ShopwareSdk\Exception\ShopwareResponseException;
 use Vin\ShopwareSdk\Exception\ShopwareUnreachableException;
 
 class AdminAuthenticator
@@ -59,7 +60,7 @@ class AdminAuthenticator
                 'headers' => self::$headers,
                 'form_params' => $formParams
             ]);
-        } catch (BadResponseException $exception) {
+        } catch (ShopwareResponseException $exception) {
             throw new AuthorizationFailedException(
                 $exception->getResponse()->getBody()->getContents(),
                 $exception->getCode(),
