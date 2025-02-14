@@ -10,4 +10,8 @@
     <php>
         <ini name="date.timezone" value="UTC"/>
     </php>
+
+    <logging>
+        <junit outputFile="build/logs/junit.xml"/>
+    </logging>
 </phpunit>

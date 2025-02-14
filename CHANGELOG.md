@@ -4,6 +4,10 @@ All notable changes to `shopware-php-sdk` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 2.3.0
+- feat: adding the previous exception to the ShopwareResponseException when it's mapped in Client
+- fix: catching the ShopwareResponseException in AdminAuthenticator since a BadResponseException always gets mapped to it in Client::handleException()
+
 ### 2.2.0
 - Compatibility with Shopware 6.6.10.0
 - Update Criteria to support partial loading (Criteria.addFields)
