@@ -60,7 +60,7 @@ class AdminAuthenticatorTest extends TestCase
     public function testFetchAccessTokenFailed(): void
     {
         static::expectException(AuthorizationFailedException::class);
-        $this->mock->append(new BadResponseException('Unauthenticated', new Request('POST', 'test'), new Response(401, [], '')));
+        $this->mock->append(new AuthorizationFailedException('Unauthenticated'));
 
         $this->authenticator->fetchAccessToken();
     }

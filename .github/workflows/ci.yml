@@ -32,11 +32,18 @@ jobs:
           ssh_key: ${{ secrets.ssh_key }}
           ssh_key_pub: ${{ secrets.ssh_key_pub }}
 
+      - name: Prepare Log Directory
+        run: mkdir -p build/logs
+
       - name: PHPUnit Tests
-        uses: php-actions/phpunit@v2
+        uses: php-actions/phpunit@v3
         with:
-          php_version: 8.2
+          php_version: 8.3
           bootstrap: vendor/autoload.php
           configuration: phpunit.xml
           ssh_key: ${{ secrets.ssh_key }}
           ssh_key_pub: ${{ secrets.ssh_key_pub }}
+
+      - name: Capture PHPUnit Logs
+        if: always()
+        run: cat ./build/logs/junit.xml

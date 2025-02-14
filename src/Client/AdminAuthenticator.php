@@ -62,7 +62,7 @@ class AdminAuthenticator
             ]);
         } catch (ShopwareResponseException $exception) {
             throw new AuthorizationFailedException(
-                $exception->getResponse()->getBody()->getContents(),
+                $exception->getMessage(),
                 $exception->getCode(),
                 $exception
             );
