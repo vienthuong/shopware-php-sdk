@@ -2,7 +2,7 @@
 
 namespace Vin\ShopwareSdk\Data;
 
-class Struct
+class Struct implements \JsonSerializable
 {
     /**
      * @var Struct[]
