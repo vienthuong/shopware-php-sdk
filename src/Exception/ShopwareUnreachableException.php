@@ -2,10 +2,10 @@
 
 namespace Vin\ShopwareSdk\Exception;
 
-class ShopwareUnreachableException extends ShopwareResponseException
+class ShopwareUnreachableException extends \Exception
 {
-    public function __construct()
+    public function __construct(\Throwable $previous = null)
     {
-        parent::__construct('Shop is unreachable', 500);
+        parent::__construct('Shop is unreachable', 500, $previous);
     }
 }
