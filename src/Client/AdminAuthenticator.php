@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Vin\ShopwareSdk\Client;
 
-use GuzzleHttp\Exception\BadResponseException;
-use Psr\Http\Client\NetworkExceptionInterface;
 use Vin\ShopwareSdk\Client\GrantType\ClientCredentialsGrantType;
 use Vin\ShopwareSdk\Client\GrantType\GrantType;
 use Vin\ShopwareSdk\Client\GrantType\PasswordGrantType;
@@ -60,22 +58,22 @@ class AdminAuthenticator
                 'headers' => self::$headers,
                 'form_params' => $formParams
             ]);
+        } catch (ShopwareUnreachableException $exception) {
+            throw new AuthorizationFailedException($exception->getMessage(), $exception->getCode(), $exception);
         } catch (ShopwareResponseException $exception) {
             throw new AuthorizationFailedException(
-                $exception->getMessage(),
+                $exception->getResponse()['errors'][0]['title'] ?? 'Shop request failed',
                 $exception->getCode(),
                 $exception
             );
-        } catch (NetworkExceptionInterface) {
-            throw new ShopwareUnreachableException();
         }
 
         if ($response->getStatusCode() === 400) {
-            $response = $response->getBody()->getContents();
-            $response = \json_decode($response, true) ?? [];
-            $message = $response['errors'][0]['title'] ?? 'Invalid credentials';
+            $jsonContent = $response->getBody()->getContents();
+            $content = \json_decode($jsonContent, true) ?? [];
+            $message = $content['errors'][0]['title'] ?? 'Invalid credentials';
 
-            throw new AuthorizationFailedException($message, 401);
+            throw new AuthorizationFailedException($message, 401, new ShopwareResponseException($jsonContent, $response->getStatusCode()));
         }
 
         $response = $response->getBody()->getContents();

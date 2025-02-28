@@ -187,7 +187,7 @@ class Client implements ClientInterface
     private static function handleException(\Throwable $exception): \Throwable
     {
         if ($exception instanceof NetworkExceptionInterface) {
-            return new ShopwareUnreachableException();
+            return new ShopwareUnreachableException($exception);
         }
 
         if ($exception instanceof ClientException || $exception instanceof ServerException) {

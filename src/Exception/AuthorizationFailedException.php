@@ -2,6 +2,6 @@
 
 namespace Vin\ShopwareSdk\Exception;
 
-class AuthorizationFailedException extends ShopwareResponseException
+class AuthorizationFailedException extends \Exception
 {
 }
