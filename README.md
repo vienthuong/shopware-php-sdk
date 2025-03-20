@@ -2,8 +2,6 @@
 
 ![php](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white) 
 
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/vinle)
-
 [![GitHub Release](https://img.shields.io/github/v/release/vienthuong/shopware-php-sdk.svg?style=flat)]()
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
@@ -19,7 +17,7 @@ Or sending notification from external server
 
 | SDK version | SW schema |
 |-------------|:---------:|
-| 2.x         |    6.5    |
+| 2.x         |    >=6.5    |
 | 1.x         |    6.4    |
 
 You can use 1.x to connect to a sw 6.5 but for up-to-date schema and new 6.5 features, you should use 2.x version instead.
