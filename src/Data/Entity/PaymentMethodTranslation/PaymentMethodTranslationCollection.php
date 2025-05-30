@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\PaymentMethodTranslation;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(PaymentMethodTranslationEntity $entity)
- * @method void set(PaymentMethodTranslationEntity $entity)
+ * @method void set(string $key, PaymentMethodTranslationEntity $entity)
  * @method PaymentMethodTranslationEntity[] getIterator()
  * @method PaymentMethodTranslationEntity[] getElements()
  * @method PaymentMethodTranslationEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class PaymentMethodTranslationCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return PaymentMethodTranslationEntity::class;
     }

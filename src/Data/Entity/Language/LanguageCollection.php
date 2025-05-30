@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\Language;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(LanguageEntity $entity)
- * @method void set(LanguageEntity $entity)
+ * @method void set(string $key, LanguageEntity $entity)
  * @method LanguageEntity[] getIterator()
  * @method LanguageEntity[] getElements()
  * @method LanguageEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class LanguageCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return LanguageEntity::class;
     }

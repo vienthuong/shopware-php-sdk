@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\CurrencyTranslation;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(CurrencyTranslationEntity $entity)
- * @method void set(CurrencyTranslationEntity $entity)
+ * @method void set(string $key, CurrencyTranslationEntity $entity)
  * @method CurrencyTranslationEntity[] getIterator()
  * @method CurrencyTranslationEntity[] getElements()
  * @method CurrencyTranslationEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class CurrencyTranslationCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return CurrencyTranslationEntity::class;
     }

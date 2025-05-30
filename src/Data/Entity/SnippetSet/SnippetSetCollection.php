@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\SnippetSet;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(SnippetSetEntity $entity)
- * @method void set(SnippetSetEntity $entity)
+ * @method void set(string $key, SnippetSetEntity $entity)
  * @method SnippetSetEntity[] getIterator()
  * @method SnippetSetEntity[] getElements()
  * @method SnippetSetEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class SnippetSetCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return SnippetSetEntity::class;
     }

@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\UserConfig;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(UserConfigEntity $entity)
- * @method void set(UserConfigEntity $entity)
+ * @method void set(string $key, UserConfigEntity $entity)
  * @method UserConfigEntity[] getIterator()
  * @method UserConfigEntity[] getElements()
  * @method UserConfigEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class UserConfigCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return UserConfigEntity::class;
     }

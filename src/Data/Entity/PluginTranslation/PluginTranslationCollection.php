@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\PluginTranslation;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(PluginTranslationEntity $entity)
- * @method void set(PluginTranslationEntity $entity)
+ * @method void set(string $key, PluginTranslationEntity $entity)
  * @method PluginTranslationEntity[] getIterator()
  * @method PluginTranslationEntity[] getElements()
  * @method PluginTranslationEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class PluginTranslationCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return PluginTranslationEntity::class;
     }

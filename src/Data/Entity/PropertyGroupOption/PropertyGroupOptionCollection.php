@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\PropertyGroupOption;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(PropertyGroupOptionEntity $entity)
- * @method void set(PropertyGroupOptionEntity $entity)
+ * @method void set(string $key, PropertyGroupOptionEntity $entity)
  * @method PropertyGroupOptionEntity[] getIterator()
  * @method PropertyGroupOptionEntity[] getElements()
  * @method PropertyGroupOptionEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class PropertyGroupOptionCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return PropertyGroupOptionEntity::class;
     }

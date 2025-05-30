@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\CountryState;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(CountryStateEntity $entity)
- * @method void set(CountryStateEntity $entity)
+ * @method void set(string $key, CountryStateEntity $entity)
  * @method CountryStateEntity[] getIterator()
  * @method CountryStateEntity[] getElements()
  * @method CountryStateEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class CountryStateCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return CountryStateEntity::class;
     }

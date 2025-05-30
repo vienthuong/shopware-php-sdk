@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\AppShippingMethod;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(AppShippingMethodEntity $entity)
- * @method void set(AppShippingMethodEntity $entity)
+ * @method void set(string $key, AppShippingMethodEntity $entity)
  * @method AppShippingMethodEntity[] getIterator()
  * @method AppShippingMethodEntity[] getElements()
  * @method AppShippingMethodEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class AppShippingMethodCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return AppShippingMethodEntity::class;
     }

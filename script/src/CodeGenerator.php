@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Vin\Script;
 
@@ -105,7 +107,7 @@ class CodeGenerator
         );
 
         $foo->setName($entityName . 'Entity')
-            ->setNamespaceName($entityNamespace . "\\". $entityName)
+            ->setNamespaceName($entityNamespace . "\\" . $entityName)
             ->setDocblock($docblock)
             ->addProperties($properties);
         $foo->addUse(Entity::class);
@@ -129,7 +131,7 @@ class CodeGenerator
 
         $docblock->setTags([
             new MethodTag(null, 'void', sprintf('add(%s $%s)', $entityClass, 'entity')),
-            new MethodTag(null, 'void', sprintf('set(%s $%s)', $entityClass, 'entity')),
+            new MethodTag(null, 'void', sprintf('set(string $key, %s $%s)', $entityClass, 'entity')),
             new MethodTag('getIterator', $entityClass . '[]'),
             new MethodTag('getElements', $entityClass . '[]'),
             new MethodTag(null, $entityClass . '|null', 'get(string $key)'),
@@ -186,13 +188,14 @@ class CodeGenerator
                     $valueFlag = "'$valueFlag'";
                 } elseif (is_array($valueFlag)) {
                     if ($keyFlag === 'read_protected' || $keyFlag === 'write_protected') {
-                        $valueFlag = array_map(function ($item) { return "'$item'"; }, array_merge(...$valueFlag));
+                        $valueFlag = array_map(function ($item) {
+                            return "'$item'";
+                        }, array_merge(...$valueFlag));
                         $valueFlag = "[[" . implode(", ", $valueFlag) . "]]";
                     } else {
                         $valueFlag = serialize($valueFlag);
 
                         $valueFlag = "unserialize('$valueFlag')";
-
                     }
                 }
 
@@ -236,10 +239,11 @@ class CodeGenerator
         return '<?php declare(strict_types=1);' . PHP_EOL . $foo->generate();
     }
 
-    private static function escapeJson(array $input) {
-        $escapedData = json_encode($input, JSON_HEX_QUOT|JSON_HEX_APOS );
-//        $escapedData = str_replace('"', '\\"', $escapedData );
-//        $escapedData = str_replace("'", "\\'",  $escapedData );
+    private static function escapeJson(array $input)
+    {
+        $escapedData = json_encode($input, JSON_HEX_QUOT | JSON_HEX_APOS);
+        //        $escapedData = str_replace('"', '\\"', $escapedData );
+        //        $escapedData = str_replace("'", "\\'",  $escapedData );
         return $escapedData;
     }
 
@@ -252,10 +256,10 @@ class CodeGenerator
 
         $prefix = '?';
 
-//        $flags = $property->flags;
-//        if ($flags->has('required') && $flags->get('required')->value) {
-//            $prefix = '';
-//        }
+        //        $flags = $property->flags;
+        //        if ($flags->has('required') && $flags->get('required')->value) {
+        //            $prefix = '';
+        //        }
 
         if ($property->isStringField()) {
             return $prefix . 'string';
@@ -291,17 +295,17 @@ class CodeGenerator
             case 'bool':
             case 'float':
             case 'int': {
-                return $prefix . $property->type;
-            }
+                    return $prefix . $property->type;
+                }
             case 'boolean': {
-                return $prefix . 'bool';
-            }
+                    return $prefix . 'bool';
+                }
             case 'date': {
-                return $prefix . \DateTimeInterface::class;
-            }
+                    return $prefix . \DateTimeInterface::class;
+                }
             default: {
-                return null;
-            }
+                    return null;
+                }
         }
     }
 }

@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\AppCmsBlock;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(AppCmsBlockEntity $entity)
- * @method void set(AppCmsBlockEntity $entity)
+ * @method void set(string $key, AppCmsBlockEntity $entity)
  * @method AppCmsBlockEntity[] getIterator()
  * @method AppCmsBlockEntity[] getElements()
  * @method AppCmsBlockEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class AppCmsBlockCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return AppCmsBlockEntity::class;
     }

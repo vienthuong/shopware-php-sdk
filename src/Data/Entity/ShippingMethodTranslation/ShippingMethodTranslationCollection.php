@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\ShippingMethodTranslation;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(ShippingMethodTranslationEntity $entity)
- * @method void set(ShippingMethodTranslationEntity $entity)
+ * @method void set(string $key, ShippingMethodTranslationEntity $entity)
  * @method ShippingMethodTranslationEntity[] getIterator()
  * @method ShippingMethodTranslationEntity[] getElements()
  * @method ShippingMethodTranslationEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class ShippingMethodTranslationCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return ShippingMethodTranslationEntity::class;
     }

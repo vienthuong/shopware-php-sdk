@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\ProductCrossSellingTranslation;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(ProductCrossSellingTranslationEntity $entity)
- * @method void set(ProductCrossSellingTranslationEntity $entity)
+ * @method void set(string $key, ProductCrossSellingTranslationEntity $entity)
  * @method ProductCrossSellingTranslationEntity[] getIterator()
  * @method ProductCrossSellingTranslationEntity[] getElements()
  * @method ProductCrossSellingTranslationEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class ProductCrossSellingTranslationCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return ProductCrossSellingTranslationEntity::class;
     }

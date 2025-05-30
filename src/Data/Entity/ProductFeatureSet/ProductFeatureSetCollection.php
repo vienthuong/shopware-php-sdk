@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\ProductFeatureSet;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(ProductFeatureSetEntity $entity)
- * @method void set(ProductFeatureSetEntity $entity)
+ * @method void set(string $key, ProductFeatureSetEntity $entity)
  * @method ProductFeatureSetEntity[] getIterator()
  * @method ProductFeatureSetEntity[] getElements()
  * @method ProductFeatureSetEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class ProductFeatureSetCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return ProductFeatureSetEntity::class;
     }

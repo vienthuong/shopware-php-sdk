@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\MainCategory;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(MainCategoryEntity $entity)
- * @method void set(MainCategoryEntity $entity)
+ * @method void set(string $key, MainCategoryEntity $entity)
  * @method MainCategoryEntity[] getIterator()
  * @method MainCategoryEntity[] getElements()
  * @method MainCategoryEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class MainCategoryCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return MainCategoryEntity::class;
     }

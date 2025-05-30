@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\ProductManufacturer;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(ProductManufacturerEntity $entity)
- * @method void set(ProductManufacturerEntity $entity)
+ * @method void set(string $key, ProductManufacturerEntity $entity)
  * @method ProductManufacturerEntity[] getIterator()
  * @method ProductManufacturerEntity[] getElements()
  * @method ProductManufacturerEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class ProductManufacturerCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return ProductManufacturerEntity::class;
     }

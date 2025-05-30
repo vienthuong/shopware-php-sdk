@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\OrderAddress;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(OrderAddressEntity $entity)
- * @method void set(OrderAddressEntity $entity)
+ * @method void set(string $key, OrderAddressEntity $entity)
  * @method OrderAddressEntity[] getIterator()
  * @method OrderAddressEntity[] getElements()
  * @method OrderAddressEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class OrderAddressCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return OrderAddressEntity::class;
     }

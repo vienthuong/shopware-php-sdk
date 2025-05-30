@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\AppFlowEvent;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(AppFlowEventEntity $entity)
- * @method void set(AppFlowEventEntity $entity)
+ * @method void set(string $key, AppFlowEventEntity $entity)
  * @method AppFlowEventEntity[] getIterator()
  * @method AppFlowEventEntity[] getElements()
  * @method AppFlowEventEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class AppFlowEventCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return AppFlowEventEntity::class;
     }

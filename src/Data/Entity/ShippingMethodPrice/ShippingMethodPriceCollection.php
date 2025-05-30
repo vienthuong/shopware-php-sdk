@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\ShippingMethodPrice;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(ShippingMethodPriceEntity $entity)
- * @method void set(ShippingMethodPriceEntity $entity)
+ * @method void set(string $key, ShippingMethodPriceEntity $entity)
  * @method ShippingMethodPriceEntity[] getIterator()
  * @method ShippingMethodPriceEntity[] getElements()
  * @method ShippingMethodPriceEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class ShippingMethodPriceCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return ShippingMethodPriceEntity::class;
     }

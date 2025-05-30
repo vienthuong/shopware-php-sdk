@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\CustomerWishlist;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(CustomerWishlistEntity $entity)
- * @method void set(CustomerWishlistEntity $entity)
+ * @method void set(string $key, CustomerWishlistEntity $entity)
  * @method CustomerWishlistEntity[] getIterator()
  * @method CustomerWishlistEntity[] getElements()
  * @method CustomerWishlistEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class CustomerWishlistCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return CustomerWishlistEntity::class;
     }

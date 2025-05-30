@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\LogEntry;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(LogEntryEntity $entity)
- * @method void set(LogEntryEntity $entity)
+ * @method void set(string $key, LogEntryEntity $entity)
  * @method LogEntryEntity[] getIterator()
  * @method LogEntryEntity[] getElements()
  * @method LogEntryEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class LogEntryCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return LogEntryEntity::class;
     }

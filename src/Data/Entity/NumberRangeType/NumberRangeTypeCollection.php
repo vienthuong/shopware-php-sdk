@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\NumberRangeType;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(NumberRangeTypeEntity $entity)
- * @method void set(NumberRangeTypeEntity $entity)
+ * @method void set(string $key, NumberRangeTypeEntity $entity)
  * @method NumberRangeTypeEntity[] getIterator()
  * @method NumberRangeTypeEntity[] getElements()
  * @method NumberRangeTypeEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class NumberRangeTypeCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return NumberRangeTypeEntity::class;
     }
