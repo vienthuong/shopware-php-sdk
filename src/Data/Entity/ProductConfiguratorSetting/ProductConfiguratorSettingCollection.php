@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\ProductConfiguratorSetting;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(ProductConfiguratorSettingEntity $entity)
- * @method void set(ProductConfiguratorSettingEntity $entity)
+ * @method void set(string $key, ProductConfiguratorSettingEntity $entity)
  * @method ProductConfiguratorSettingEntity[] getIterator()
  * @method ProductConfiguratorSettingEntity[] getElements()
  * @method ProductConfiguratorSettingEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class ProductConfiguratorSettingCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return ProductConfiguratorSettingEntity::class;
     }

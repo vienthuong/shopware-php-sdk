@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\OrderCustomer;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(OrderCustomerEntity $entity)
- * @method void set(OrderCustomerEntity $entity)
+ * @method void set(string $key, OrderCustomerEntity $entity)
  * @method OrderCustomerEntity[] getIterator()
  * @method OrderCustomerEntity[] getElements()
  * @method OrderCustomerEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class OrderCustomerCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return OrderCustomerEntity::class;
     }

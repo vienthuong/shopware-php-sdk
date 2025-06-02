@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\PromotionPersonaCustomer;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(PromotionPersonaCustomerEntity $entity)
- * @method void set(PromotionPersonaCustomerEntity $entity)
+ * @method void set(string $key, PromotionPersonaCustomerEntity $entity)
  * @method PromotionPersonaCustomerEntity[] getIterator()
  * @method PromotionPersonaCustomerEntity[] getElements()
  * @method PromotionPersonaCustomerEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class PromotionPersonaCustomerCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return PromotionPersonaCustomerEntity::class;
     }

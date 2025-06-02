@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\ProductStreamFilter;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(ProductStreamFilterEntity $entity)
- * @method void set(ProductStreamFilterEntity $entity)
+ * @method void set(string $key, ProductStreamFilterEntity $entity)
  * @method ProductStreamFilterEntity[] getIterator()
  * @method ProductStreamFilterEntity[] getElements()
  * @method ProductStreamFilterEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class ProductStreamFilterCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return ProductStreamFilterEntity::class;
     }

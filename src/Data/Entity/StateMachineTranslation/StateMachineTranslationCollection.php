@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\StateMachineTranslation;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(StateMachineTranslationEntity $entity)
- * @method void set(StateMachineTranslationEntity $entity)
+ * @method void set(string $key, StateMachineTranslationEntity $entity)
  * @method StateMachineTranslationEntity[] getIterator()
  * @method StateMachineTranslationEntity[] getElements()
  * @method StateMachineTranslationEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class StateMachineTranslationCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return StateMachineTranslationEntity::class;
     }

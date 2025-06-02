@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\AppActionButtonTranslation;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(AppActionButtonTranslationEntity $entity)
- * @method void set(AppActionButtonTranslationEntity $entity)
+ * @method void set(string $key, AppActionButtonTranslationEntity $entity)
  * @method AppActionButtonTranslationEntity[] getIterator()
  * @method AppActionButtonTranslationEntity[] getElements()
  * @method AppActionButtonTranslationEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class AppActionButtonTranslationCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return AppActionButtonTranslationEntity::class;
     }

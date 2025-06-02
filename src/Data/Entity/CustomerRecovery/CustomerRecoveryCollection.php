@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\CustomerRecovery;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(CustomerRecoveryEntity $entity)
- * @method void set(CustomerRecoveryEntity $entity)
+ * @method void set(string $key, CustomerRecoveryEntity $entity)
  * @method CustomerRecoveryEntity[] getIterator()
  * @method CustomerRecoveryEntity[] getElements()
  * @method CustomerRecoveryEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class CustomerRecoveryCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return CustomerRecoveryEntity::class;
     }

@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\CurrencyCountryRounding;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(CurrencyCountryRoundingEntity $entity)
- * @method void set(CurrencyCountryRoundingEntity $entity)
+ * @method void set(string $key, CurrencyCountryRoundingEntity $entity)
  * @method CurrencyCountryRoundingEntity[] getIterator()
  * @method CurrencyCountryRoundingEntity[] getElements()
  * @method CurrencyCountryRoundingEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class CurrencyCountryRoundingCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return CurrencyCountryRoundingEntity::class;
     }

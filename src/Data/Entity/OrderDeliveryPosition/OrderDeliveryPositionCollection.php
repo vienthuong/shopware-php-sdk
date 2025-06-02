@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\OrderDeliveryPosition;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(OrderDeliveryPositionEntity $entity)
- * @method void set(OrderDeliveryPositionEntity $entity)
+ * @method void set(string $key, OrderDeliveryPositionEntity $entity)
  * @method OrderDeliveryPositionEntity[] getIterator()
  * @method OrderDeliveryPositionEntity[] getElements()
  * @method OrderDeliveryPositionEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class OrderDeliveryPositionCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return OrderDeliveryPositionEntity::class;
     }

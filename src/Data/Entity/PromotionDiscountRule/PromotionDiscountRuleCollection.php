@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\PromotionDiscountRule;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(PromotionDiscountRuleEntity $entity)
- * @method void set(PromotionDiscountRuleEntity $entity)
+ * @method void set(string $key, PromotionDiscountRuleEntity $entity)
  * @method PromotionDiscountRuleEntity[] getIterator()
  * @method PromotionDiscountRuleEntity[] getElements()
  * @method PromotionDiscountRuleEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class PromotionDiscountRuleCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return PromotionDiscountRuleEntity::class;
     }

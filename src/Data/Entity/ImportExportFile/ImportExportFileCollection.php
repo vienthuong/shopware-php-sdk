@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\ImportExportFile;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(ImportExportFileEntity $entity)
- * @method void set(ImportExportFileEntity $entity)
+ * @method void set(string $key, ImportExportFileEntity $entity)
  * @method ImportExportFileEntity[] getIterator()
  * @method ImportExportFileEntity[] getElements()
  * @method ImportExportFileEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class ImportExportFileCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return ImportExportFileEntity::class;
     }

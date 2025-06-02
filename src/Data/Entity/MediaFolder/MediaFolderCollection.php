@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\MediaFolder;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(MediaFolderEntity $entity)
- * @method void set(MediaFolderEntity $entity)
+ * @method void set(string $key, MediaFolderEntity $entity)
  * @method MediaFolderEntity[] getIterator()
  * @method MediaFolderEntity[] getElements()
  * @method MediaFolderEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class MediaFolderCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return MediaFolderEntity::class;
     }

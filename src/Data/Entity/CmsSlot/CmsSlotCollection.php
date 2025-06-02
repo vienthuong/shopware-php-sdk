@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\CmsSlot;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(CmsSlotEntity $entity)
- * @method void set(CmsSlotEntity $entity)
+ * @method void set(string $key, CmsSlotEntity $entity)
  * @method CmsSlotEntity[] getIterator()
  * @method CmsSlotEntity[] getElements()
  * @method CmsSlotEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class CmsSlotCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return CmsSlotEntity::class;
     }

@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\PromotionOrderRule;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(PromotionOrderRuleEntity $entity)
- * @method void set(PromotionOrderRuleEntity $entity)
+ * @method void set(string $key, PromotionOrderRuleEntity $entity)
  * @method PromotionOrderRuleEntity[] getIterator()
  * @method PromotionOrderRuleEntity[] getElements()
  * @method PromotionOrderRuleEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class PromotionOrderRuleCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return PromotionOrderRuleEntity::class;
     }

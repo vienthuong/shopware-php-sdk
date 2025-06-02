@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\ProductCustomFieldSet;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(ProductCustomFieldSetEntity $entity)
- * @method void set(ProductCustomFieldSetEntity $entity)
+ * @method void set(string $key, ProductCustomFieldSetEntity $entity)
  * @method ProductCustomFieldSetEntity[] getIterator()
  * @method ProductCustomFieldSetEntity[] getElements()
  * @method ProductCustomFieldSetEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class ProductCustomFieldSetCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return ProductCustomFieldSetEntity::class;
     }

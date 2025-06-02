@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\WebhookEventLog;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(WebhookEventLogEntity $entity)
- * @method void set(WebhookEventLogEntity $entity)
+ * @method void set(string $key, WebhookEventLogEntity $entity)
  * @method WebhookEventLogEntity[] getIterator()
  * @method WebhookEventLogEntity[] getElements()
  * @method WebhookEventLogEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class WebhookEventLogCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return WebhookEventLogEntity::class;
     }

@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\RuleCondition;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(RuleConditionEntity $entity)
- * @method void set(RuleConditionEntity $entity)
+ * @method void set(string $key, RuleConditionEntity $entity)
  * @method RuleConditionEntity[] getIterator()
  * @method RuleConditionEntity[] getElements()
  * @method RuleConditionEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class RuleConditionCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return RuleConditionEntity::class;
     }

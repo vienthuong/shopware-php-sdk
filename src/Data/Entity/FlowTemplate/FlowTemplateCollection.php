@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\FlowTemplate;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(FlowTemplateEntity $entity)
- * @method void set(FlowTemplateEntity $entity)
+ * @method void set(string $key, FlowTemplateEntity $entity)
  * @method FlowTemplateEntity[] getIterator()
  * @method FlowTemplateEntity[] getElements()
  * @method FlowTemplateEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class FlowTemplateCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return FlowTemplateEntity::class;
     }

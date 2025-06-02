@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\TaxRule;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(TaxRuleEntity $entity)
- * @method void set(TaxRuleEntity $entity)
+ * @method void set(string $key, TaxRuleEntity $entity)
  * @method TaxRuleEntity[] getIterator()
  * @method TaxRuleEntity[] getElements()
  * @method TaxRuleEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class TaxRuleCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return TaxRuleEntity::class;
     }

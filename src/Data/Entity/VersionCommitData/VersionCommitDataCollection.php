@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\VersionCommitData;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(VersionCommitDataEntity $entity)
- * @method void set(VersionCommitDataEntity $entity)
+ * @method void set(string $key, VersionCommitDataEntity $entity)
  * @method VersionCommitDataEntity[] getIterator()
  * @method VersionCommitDataEntity[] getElements()
  * @method VersionCommitDataEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class VersionCommitDataCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return VersionCommitDataEntity::class;
     }

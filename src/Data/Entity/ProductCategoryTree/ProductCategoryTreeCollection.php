@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\ProductCategoryTree;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(ProductCategoryTreeEntity $entity)
- * @method void set(ProductCategoryTreeEntity $entity)
+ * @method void set(string $key, ProductCategoryTreeEntity $entity)
  * @method ProductCategoryTreeEntity[] getIterator()
  * @method ProductCategoryTreeEntity[] getElements()
  * @method ProductCategoryTreeEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class ProductCategoryTreeCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return ProductCategoryTreeEntity::class;
     }

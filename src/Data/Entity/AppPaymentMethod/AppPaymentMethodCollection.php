@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\AppPaymentMethod;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(AppPaymentMethodEntity $entity)
- * @method void set(AppPaymentMethodEntity $entity)
+ * @method void set(string $key, AppPaymentMethodEntity $entity)
  * @method AppPaymentMethodEntity[] getIterator()
  * @method AppPaymentMethodEntity[] getElements()
  * @method AppPaymentMethodEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class AppPaymentMethodCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return AppPaymentMethodEntity::class;
     }

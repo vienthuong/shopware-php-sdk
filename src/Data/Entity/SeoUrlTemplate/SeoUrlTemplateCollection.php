@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\SeoUrlTemplate;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(SeoUrlTemplateEntity $entity)
- * @method void set(SeoUrlTemplateEntity $entity)
+ * @method void set(string $key, SeoUrlTemplateEntity $entity)
  * @method SeoUrlTemplateEntity[] getIterator()
  * @method SeoUrlTemplateEntity[] getElements()
  * @method SeoUrlTemplateEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class SeoUrlTemplateCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return SeoUrlTemplateEntity::class;
     }

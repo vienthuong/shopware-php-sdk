@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\CustomerTag;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(CustomerTagEntity $entity)
- * @method void set(CustomerTagEntity $entity)
+ * @method void set(string $key, CustomerTagEntity $entity)
  * @method CustomerTagEntity[] getIterator()
  * @method CustomerTagEntity[] getElements()
  * @method CustomerTagEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class CustomerTagCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return CustomerTagEntity::class;
     }

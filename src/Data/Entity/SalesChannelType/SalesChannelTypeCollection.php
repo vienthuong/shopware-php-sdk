@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\SalesChannelType;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(SalesChannelTypeEntity $entity)
- * @method void set(SalesChannelTypeEntity $entity)
+ * @method void set(string $key, SalesChannelTypeEntity $entity)
  * @method SalesChannelTypeEntity[] getIterator()
  * @method SalesChannelTypeEntity[] getElements()
  * @method SalesChannelTypeEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class SalesChannelTypeCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return SalesChannelTypeEntity::class;
     }

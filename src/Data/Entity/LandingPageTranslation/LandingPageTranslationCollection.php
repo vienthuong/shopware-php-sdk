@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\LandingPageTranslation;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(LandingPageTranslationEntity $entity)
- * @method void set(LandingPageTranslationEntity $entity)
+ * @method void set(string $key, LandingPageTranslationEntity $entity)
  * @method LandingPageTranslationEntity[] getIterator()
  * @method LandingPageTranslationEntity[] getElements()
  * @method LandingPageTranslationEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class LandingPageTranslationCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return LandingPageTranslationEntity::class;
     }

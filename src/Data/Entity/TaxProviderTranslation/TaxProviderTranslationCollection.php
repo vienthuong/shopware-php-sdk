@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\TaxProviderTranslation;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(TaxProviderTranslationEntity $entity)
- * @method void set(TaxProviderTranslationEntity $entity)
+ * @method void set(string $key, TaxProviderTranslationEntity $entity)
  * @method TaxProviderTranslationEntity[] getIterator()
  * @method TaxProviderTranslationEntity[] getElements()
  * @method TaxProviderTranslationEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class TaxProviderTranslationCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return TaxProviderTranslationEntity::class;
     }

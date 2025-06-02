@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\LandingPageSalesChannel;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(LandingPageSalesChannelEntity $entity)
- * @method void set(LandingPageSalesChannelEntity $entity)
+ * @method void set(string $key, LandingPageSalesChannelEntity $entity)
  * @method LandingPageSalesChannelEntity[] getIterator()
  * @method LandingPageSalesChannelEntity[] getElements()
  * @method LandingPageSalesChannelEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class LandingPageSalesChannelCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return LandingPageSalesChannelEntity::class;
     }

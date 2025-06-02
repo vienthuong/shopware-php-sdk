@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Vin\ShopwareSdk\Data\Entity\ProductSortingTranslation;
 
 use Vin\ShopwareSdk\Data\Entity\EntityCollection;
@@ -9,7 +12,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  * This class is generated dynamically following SW entities schema
  *
  * @method void add(ProductSortingTranslationEntity $entity)
- * @method void set(ProductSortingTranslationEntity $entity)
+ * @method void set(string $key, ProductSortingTranslationEntity $entity)
  * @method ProductSortingTranslationEntity[] getIterator()
  * @method ProductSortingTranslationEntity[] getElements()
  * @method ProductSortingTranslationEntity|null get(string $key)
@@ -18,7 +21,7 @@ use Vin\ShopwareSdk\Data\Entity\EntityCollection;
  */
 class ProductSortingTranslationCollection extends EntityCollection
 {
-    public function getExpectedClass() : string
+    public function getExpectedClass(): string
     {
         return ProductSortingTranslationEntity::class;
     }
