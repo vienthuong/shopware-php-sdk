@@ -408,12 +408,12 @@ class Criteria implements ParseAware
         return $params;
     }
 
-    public function getPage(): int
+    public function getPage(): ?int
     {
         return $this->page;
     }
 
-    public function setPage(int $page): void
+    public function setPage(?int $page): void
     {
         $this->page = $page;
     }
