@@ -2,25 +2,35 @@
 
 namespace Vin\ShopwareSdk\Data;
 
+/**
+ * @property string $languageId
+ * @property string $currencyId
+ * @property string $versionId
+ * @property bool $compatibility
+ * @property bool $inheritance
+ * @property AccessToken $accessToken
+ * @property string $apiEndpoint
+ * @property array $additionalHeaders
+ */
 class Context
 {
     use EndPointTrait;
 
-    public string $languageId = Defaults::LANGUAGE_SYSTEM;
+    private string $languageId = Defaults::LANGUAGE_SYSTEM;
 
-    public string $currencyId = Defaults::CURRENCY;
+    private string $currencyId = Defaults::CURRENCY;
 
-    public string $versionId = Defaults::LIVE_VERSION;
+    private string $versionId = Defaults::LIVE_VERSION;
 
-    public bool $compatibility = true;
+    private bool $compatibility = true;
 
-    public bool $inheritance = true;
+    private bool $inheritance = true;
 
-    public AccessToken $accessToken;
+    private AccessToken $accessToken;
 
-    public string $apiEndpoint;
+    private string $apiEndpoint;
     
-    public array $additionalHeaders;
+    private array $additionalHeaders;
 
     public function __construct(
         string $apiEndpoint,
@@ -40,5 +50,13 @@ class Context
         $this->accessToken = $accessToken;
         $this->apiEndpoint = $this->removeLastSlashes($apiEndpoint);
         $this->additionalHeaders = $additionalHeaders;
+    }
+
+    function __get(string $name){
+        if(!isset($this->{$name})){
+            throw new \Exception("Unknown property '{$name}' not found");
+        }
+
+        return $this->{$name};
     }
 }
