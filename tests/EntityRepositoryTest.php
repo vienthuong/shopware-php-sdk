@@ -76,6 +76,19 @@ class EntityRepositoryTest extends TestCase
         static::assertEquals('Gorgeous Timo Thiago Perfomancer', $product->getTranslated()['name']);
     }
 
+    public function testBuildHeadersSendsBooleanFlagsAsStrings(): void
+    {
+        $productId = '6bfa486a2c4c4e0db32c6a252baf6b3a';
+        $this->mock->append(new Response(200, [], file_get_contents(__DIR__ . '/stubs/' . $productId . '.json')));
+
+        $this->productRepository->get($productId, new Criteria(), $this->context);
+
+        $request = $this->mock->getLastRequest();
+        static::assertNotNull($request);
+        static::assertSame('1', $request->getHeaderLine('sw-inheritance'));
+        static::assertSame('1', $request->getHeaderLine('sw-api-compatibility'));
+    }
+
     public function testSearch(): void
     {
         $this->mock->append(new Response(200, [], file_get_contents(__DIR__ . '/stubs/products.json')));

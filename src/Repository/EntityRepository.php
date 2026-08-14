@@ -286,8 +286,8 @@ class EntityRepository implements RepositoryInterface
             'sw-language-id' => $context->languageId,
             'sw-currency-id' => $context->currencyId,
             'sw-version-id' => $context->versionId,
-            'sw-inheritance' => $context->inheritance,
-            'sw-api-compatibility' => $context->compatibility,
+            'sw-inheritance' => $context->inheritance ? '1' : '0',
+            'sw-api-compatibility' => $context->compatibility ? '1' : '0',
         ], $additionalHeaders, $context->additionalHeaders);
 
         return array_filter($headers);
